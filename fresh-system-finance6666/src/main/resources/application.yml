@@ -43,7 +43,8 @@ mybatis:
 logging:
   level:
     com:
-      sxx:
-        mapper: trace
+      aaa:
+        fresh:
+          mapper: trace
 
 
