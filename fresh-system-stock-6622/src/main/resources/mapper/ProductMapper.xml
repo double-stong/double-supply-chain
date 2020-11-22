@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.ProductMapper">
+    <resultMap id="productDataMap" type="ProductData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="origin" jdbcType="VARCHAR" property="origin" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="brand" jdbcType="VARCHAR" property="brand" />
+        <result column="picture" jdbcType="VARCHAR" property="picture" />
+        <result column="measure_unit" jdbcType="VARCHAR" property="measureUnit" />
+        <result column="last_update_time" jdbcType="DATE" property="lastUpdateTime" />
+        <result column="merchant" jdbcType="VARCHAR" property="merchant" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <association column="measureUnit" property="measureUnitData" javaType="MeasureUnitData" >
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+        </association>
+    </resultMap>
+
+    <sql id="sel">
+        <if test="id != null">
+            and ID = #{id}
+        </if>
+        <if test="name != null">
+            and name = #{name}
+        </if>
+        <if test="description != null">
+            and description = #{description}
+        </if>
+        <if test="origin != null">
+            and origin = #{origin}
+        </if>
+        <if test="remark != null">
+            and remark = #{remark}
+        </if>
+        <if test="brand != null">
+            and brand = #{brand}
+        </if>
+        <if test="measureUnit != null">
+            and MEASURE_UNIT = #{measureUnit}
+        </if>
+    </sql>
+    <!--查询总条数-->
+    <select id="getTotal" resultType="Long" parameterType="ProductData">
+        SELECT COUNT(*) FROM spplychain.product_data
+        <where>
+            <include refid="sel"/>
+        </where>
+    </select>
+    <!--查询商品-->
+    <select id="selAllProduct" parameterType="ProductData" resultMap="productDataMap">
+        SELECT a.ID, a.NAME, a.DESCRIPTION, a.ORIGIN, a.REMARK, a.BRAND, a.PICTURE, b.NAME, a.LAST_UPDATE_TIME,  a.PLATFORM, a.VERSION
+        FROM spplychain.product_data a,supplychain.measure_unit_data b
+        where a.MEASURE_UNIT = b.ID
+        <include refid="sel"/>
+        limit #{page},#{size}
+    </select>
+    <!--添加商品-->
+    <insert id="addProduct" parameterType="productData" >
+        INSERT INTO spplychain.product_data
+        (ID, NAME, DESCRIPTION, ORIGIN, REMARK, BRAND, PICTURE, MEASURE_UNIT, LAST_UPDATE_TIME,  PLATFORM, VERSION)
+        VALUES(#{id}, #{name}, #{description}, #{origin}, #{remark}, #{brand}, #{picture}, #{measureUnit}, now(), #{PLATFORM}, 1);
+    </insert>
+    <!--删除商品-->
+    <delete id="delProduct" parameterType="String">
+        DELETE FROM supplychain.product_data
+        WHERE ID = #{id}
+    </delete>
+    <!--修改商品-->
+    <update id="updProduct" parameterType="ProductData">
+        UPDATE supplychain.product_data
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="origin != null">
+                origin = #{origin},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="brand != null">
+                brand = #{brand},
+            </if>
+            <if test="measureUnit != null">
+                MEASURE_UNIT = #{measureUnit},
+            </if>
+            <if test="picture != null">
+                picture = #{picture}
+            </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+    <!--查询单个商品信息-->
+    <select id="selOneProduct" parameterType="String" resultMap="productDataMap">
+        SELECT a.ID, a.NAME, a.DESCRIPTION, a.ORIGIN, a.REMARK, a.BRAND, a.PICTURE, b.NAME, a.LAST_UPDATE_TIME,  a.PLATFORM, a.VERSION
+        FROM spplychain.product_data a,supplychain.measure_unit_data b
+        where a.MEASURE_UNIT = b.ID and a.ID = #{id}
+    </select>
+</mapper>

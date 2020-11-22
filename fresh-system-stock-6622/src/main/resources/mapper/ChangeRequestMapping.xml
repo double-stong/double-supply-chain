@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.ChangeRequestMapper">
+    <resultMap id="changeRequestDataMap" type="ChangeRequestData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="remote_ip" jdbcType="VARCHAR" property="remoteIp" />
+        <result column="request_type" jdbcType="VARCHAR" property="requestType" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+
+    <sql id="sel">
+        <if test="id != null">
+            and ID = #{id}
+        </if>
+        <if test="name != null">
+            and NAME = #{name}
+        </if>
+        <if test="requestType != null">
+            and REQUEST_TYPE = #{requestType}
+        </if>
+    </sql>
+    <!--查询总条数-->
+    <select id="getTotal" parameterType="ChangeRequestData" resultType="Long">
+        SELECT COUNT(*) FROM spplychain.change_request_data
+        <where>
+            <include refid="sel"/>
+        </where>
+    </select>
+
+    <!--查询所有-->
+    <select id="selAllChangeRequest" parameterType="ChangeRequestData" resultMap="changeRequestDataMap">
+        SELECT ID, NAME, CREATE_TIME, REQUEST_TYPE, PLATFORM, VERSION
+        FROM spplychain.change_request_data a,
+             spplychain.change_request_type_data b
+        WHERE A.REQUEST_TYPE = B.ID
+        <include refid="sel"/>
+        limit #{page},#{size}
+    </select>
+
+    <!--添加-->
+    <insert id="addChangeRequest" parameterType="ChangeRequestData">
+        INSERT INTO spplychain.change_request_data
+            (ID, NAME, CREATE_TIME, REQUEST_TYPE,  VERSION)
+        VALUES(#{id}, #{name}, NOW(), #{requestType},   1)
+    </insert>
+
+    <!--删除-->
+    <delete id="delChangeRequest" parameterType="String">
+        DELETE FROM spplychain.change_request_data
+        WHERE ID=#{id}
+    </delete>
+
+    <!--查询单个-->
+    <select id="selOneChangeRequest" parameterType="String" resultMap="changeRequestDataMap">
+        SELECT ID, NAME, CREATE_TIME, REMOTE_IP, REQUEST_TYPE, PLATFORM, VERSION
+        FROM spplychain.change_request_data
+    </select>
+
+    <!--修改-->
+    <update id="updChangeRequest" parameterType="ChangeRequestData">
+        UPDATE spplychain.change_request_data
+        <set>
+            <if test="name != null">
+                NAME = #{name},
+            </if>
+            <if test="requestType != null">
+                REQUEST_TYPE = #{requestType},
+            </if>
+        </set>
+        WHERE ID=#{id}
+    </update>
+
+
+    <!--查询请求类型-->
+    <resultMap id="changeRequestTypeDataMap" type="ChangeRequestTypeData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="icon" jdbcType="VARCHAR" property="icon" />
+        <result column="display_order" jdbcType="INTEGER" property="displayOrder" />
+        <result column="bind_types" jdbcType="VARCHAR" property="bindTypes" />
+        <result column="step_configuration" jdbcType="VARCHAR" property="stepConfiguration" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+
+    <select id="selChangeRequestData" resultMap="changeRequestTypeDataMap">
+        SELECT ID, NAME, CODE, ICON, DISPLAY_ORDER, BIND_TYPES, STEP_CONFIGURATION, PLATFORM, CREATE_TIME, VERSION
+        FROM spplychain.change_request_type_data
+    </select>
+
+
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.StockRecordMapper">
+    <resultMap id="stockTakingDataMap" type="StockTakingData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="warehouse" jdbcType="VARCHAR" property="warehouse" />
+        <result column="stock_taking_time" jdbcType="DATE" property="stockTakingTime" />
+        <result column="operator" jdbcType="VARCHAR" property="operator" />
+        <result column="stock_taking_status" jdbcType="VARCHAR" property="stockTakingStatus" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="last_update_time" jdbcType="DATE" property="lastUpdateTime" />
+        <result column="owner" jdbcType="VARCHAR" property="owner" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+
+    <sql id="sel">
+        <if test="id != null">
+            and ID = #{id}
+        </if>
+        <if test="name != null">
+            and NAME = #{name}
+        </if>
+        <if test="warehouse != null">
+            and warehouse = #{warehouse}
+        </if>
+        <if test="operator != null">
+            and operator = #{operator}
+        </if>
+        <if test="stockTakingStatus != null">
+            STOCK_TAKING_STATUS = #{stockTakingStatus}
+        </if>
+    </sql>
+    <!--查询数量-->
+    <select id="getTotal" parameterType="StockTakingData" resultType="Long">
+        SELECT count(*) FROM spplychain.stock_taking_data
+        <where>
+            <include refid="sel"/>
+        </where>
+    </select>
+
+    <!--查询所有-->
+    <select id="selAllStockTaking" parameterType="StockTakingData" resultMap="stockTakingDataMap">
+        SELECT a.ID, a.NAME, c.NAME warehouse, a.STOCK_TAKING_TIME, a.OPERATOR, b.NAME stock_taking_status, a.CREATE_TIME, a.LAST_UPDATE_TIME, a.OWNER, a.VERSION
+        FROM spplychain.stock_taking_data a,
+        spplychain.stock_taking_status_data b,
+        spplychain.merchant_warehouse_data c
+        WHERE a.STOCK_TAKING_STATUS = b.ID
+        AND a.WAREHOUSE = c.ID
+        <include refid="sel"/>
+        limit #{page},#{size}
+    </select>
+
+    <!--添加-->
+    <insert id="addStockTaking" parameterType="StockTakingData">
+        INSERT INTO spplychain.stock_taking_data
+        (ID, NAME, WAREHOUSE, STOCK_TAKING_TIME, OPERATOR, STOCK_TAKING_STATUS, CREATE_TIME, LAST_UPDATE_TIME,  VERSION)
+        VALUES(#{id}, #{name}, #{warehouse}, #{stockTakingTime}, #{operator}, #{stockTakingStatus}, NOW(), NOW(), 1)
+    </insert>
+
+    <!--删除-->
+    <delete id="delStockTaking" parameterType="String">
+        DELETE FROM spplychain.stock_taking_data
+        WHERE ID=#{id}
+    </delete>
+
+    <!--查询单个-->
+    <select id="selOneStockTaking" parameterType="String" resultMap="stockTakingDataMap">
+        SELECT a.ID, a.NAME, c.NAME warehouse, a.STOCK_TAKING_TIME, a.OPERATOR, b.NAME stock_taking_status, a.CREATE_TIME, a.LAST_UPDATE_TIME, a.OWNER, a.VERSION
+        FROM spplychain.stock_taking_data a,
+             spplychain.stock_taking_status_data b,
+             spplychain.merchant_warehouse_data c
+        WHERE a.STOCK_TAKING_STATUS = b.ID
+          AND a.WAREHOUSE = c.ID
+          AND A.ID = #{ID}
+    </select>
+
+    <!--修改-->
+    <update id="updStockTaking" parameterType="StockTakingData">
+        UPDATE spplychain.stock_taking_data
+        <set>
+            <if test="name != null">
+                NAME = #{name},
+            </if>
+            <if test="stockTakingTime != null">
+                STOCK_TAKING_TIME = #{stockTakingTime},
+            </if>
+            <if test="warehouse != null">
+                WAREHOUSE = #{warehouse},
+            </if>
+            <if test="operator != null">
+                OPERATOR = #{operator},
+            </if>
+            <if test="stockTakingStatus != null">
+                STOCK_TAKING_STATUS = #{stockTakingStatus},
+            </if>
+        </set>
+        WHERE ID = #{id};
+    </update>
+    
+    <!--查询盘点结果-->
+    <resultMap id="stockTakingResultDataMap" type="StockTakingResultData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <select id="selAllStockTakingResult" resultMap="stockTakingResultDataMap">
+        SELECT ID, NAME, CODE, PLATFORM, VERSION
+        FROM spplychain.stock_taking_result_data
+    </select>
+    
+    <!--查询盘点状态-->
+    <resultMap id="stockTakingStatusDataMap" type="StockTakingStatusData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <select id="selStockTakingStauts" resultMap="stockTakingStatusDataMap">
+        SELECT ID, NAME, CODE, PLATFORM, VERSION
+        FROM spplychain.stock_taking_status_data
+    </select>
+
+
+</mapper>

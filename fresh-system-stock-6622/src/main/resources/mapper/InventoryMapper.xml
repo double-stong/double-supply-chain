@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.InventoryMapper">
+    <resultMap id="inventoryDataMap" type="InventoryData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="quantity" jdbcType="INTEGER" property="quantity" />
+        <result column="product" jdbcType="VARCHAR" property="product" />
+        <result column="stock_lot_number" jdbcType="VARCHAR" property="stockLotNumber" />
+        <result column="warehouse" jdbcType="VARCHAR" property="warehouse" />
+        <result column="merchant" jdbcType="VARCHAR" property="merchant" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="last_update_time" jdbcType="DATE" property="lastUpdateTime" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+
+    <!--查询总条数-->
+    <select id="getTotal" parameterType="InventoryData" resultType="Long">
+        select count(*) from inventory_data
+        <where>
+            <if test="id != null">
+                and id  = #{id}
+            </if>
+            <if test="product != null">
+                and product = #{product}
+            </if>
+            <if test="warehouse != null">
+                and warehouse = #{warehouse}
+            </if>
+        </where>
+    </select>
+    <!--查询所有  查询产品，仓库-->
+    <select id="selAllInventory" parameterType="InventoryData" resultMap="inventoryDataMap">
+        SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse, a.last_update_time
+        FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
+        WHERE a.WAREHOUSE = b.ID AND a.PRODUCT = c.ID
+        <if test="id != null">
+            and a.ID = #{id}
+        </if>
+        <if test="product != null">
+            and a.PRODUCT = #{product}
+        </if>
+        <if test="warehouse != null">
+            and a.WAREHOUSE = #{warehouse}
+        </if>
+        LIMIT #{page},#{size}
+    </select>
+
+    <!--删除库存-->
+    <delete id="delInventory" parameterType="String">
+        DELETE FROM spplychain.inventory_data
+        WHERE ID=#{id};
+    </delete>
+
+    <!--修改库存-->
+    <update id="updInventory" parameterType="InventoryData">
+        UPDATE spplychain.inventory_data
+        SET 
+            <if test="quantity != null">
+                QUANTITY = #{quantity},
+            </if>
+            <if test="product != null">
+                PRODUCT = #{product},
+            </if>
+            <if test="warehouse">
+                WAREHOUSE = #{warehouse},
+            </if>
+                LAST_UPDATE_TIME=NOW()
+        WHERE ID=#{id}
+    </update>
+
+    <!--添加库存-->
+    <insert id="addInventory" parameterType="InventoryData">
+        INSERT INTO spplychain.inventory_data
+        (ID, QUANTITY, PRODUCT,  WAREHOUSE,  CREATE_TIME, LAST_UPDATE_TIME, VERSION)
+        VALUES(#{id}, #{quantity}, #{product}, #{warehouse},  now(), now(), 1)
+    </insert>
+
+    <!--查询单个库存信息-->
+    <select id="selOneInventory" parameterType="String" resultType="InventoryData">
+        SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse, a.last_update_time
+        FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
+        WHERE
+              a.WAREHOUSE = b.ID
+          AND a.PRODUCT = c.ID
+          AND a.ID = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.TakeStockMapper">
+    <resultMap id="stockTakingRecordDataMap" type="StockTakingRecordData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="produce" jdbcType="VARCHAR" property="produce" />
+        <result column="stock_lot_number" jdbcType="VARCHAR" property="stockLotNumber" />
+        <result column="measure_unit" jdbcType="VARCHAR" property="measureUnit" />
+        <result column="inventory" jdbcType="VARCHAR" property="inventory" />
+        <result column="inventory_quantity" jdbcType="INTEGER" property="inventoryQuantity" />
+        <result column="stock_taking_quantity" jdbcType="INTEGER" property="stockTakingQuantity" />
+        <result column="stock_taking_diff" jdbcType="INTEGER" property="stockTakingDiff" />
+        <result column="stock_taking_result" jdbcType="VARCHAR" property="stockTakingResult" />
+        <result column="operator" jdbcType="VARCHAR" property="operator" />
+        <result column="comment" jdbcType="VARCHAR" property="comment" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="stock_taking" jdbcType="VARCHAR" property="stockTaking" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+
+    <sql id="sel">
+        <if test="id != null">
+            and ID = #{id}
+        </if>
+        <if test="name != null">
+            and NAME = #{name}
+        </if>
+        <if test="produce != null">
+            and PRODUCE = #{produce}
+        </if>
+        <if test="measureUnit != null">
+            and MEASURE_UNIT = #{measureUnit}
+        </if>
+        <if test="inventory != null">
+            and INVENTORY = #{inventory}
+        </if>
+        <if test="stockTakingResult != null">
+            and STOCK_TAKING_RESULT = #{stockTakingResult}
+        </if>
+        <if test="operator != null">
+            and OPERATOR = #{operator}
+        </if>
+        <if test="">
+            and COMMENT = #{comment}
+        </if>
+    </sql>
+    <!--//分页查询-->
+    <select id="getTotal" parameterType="StockTakingRecordData">
+        SELECT COUNT(*) FROM spplychain.stock_taking_record_data
+        <where>
+            <include refid="sel"/>
+        </where>
+    </select>
+
+    <!--查询所有 产品  计量单位  库存  实物盘点结果  查询根据商品信息查询出库存编号以及库存-->
+    <select id="selAllTakeStock" parameterType="StockTakingRecordData" resultMap="stockTakingRecordDataMap">
+        SELECT a.ID, a.NAME, b.NAME PRODUCE,  c.NAME MEASURE_UNIT, d.ID INVENTORY, d.QUANTITY INVENTORY_QUANTITY, a.STOCK_TAKING_QUANTITY, a.STOCK_TAKING_DIFF, e.NAME STOCK_TAKING_RESULT, a.OPERATOR, a.COMMENT, a.CREATE_TIME, a.STOCK_TAKING
+        FROM spplychain.stock_taking_record_data a,
+             spplychain.product_data b,
+             spplychain.measure_unit_data c,
+             spplychain.inventory_data d,
+             spplychain.stock_taking_result_data e
+        WHERE a.PRODUCE = b.ID AND
+              a.MEASURE_UNIT = c.ID AND
+              b.ID = d.PRODUCT AND
+              a.STOCK_TAKING_RESULT = e.ID
+            <include refid="sel"/>
+            limit #{page},#{size}
+
+    </select>
+
+    <!--查询单个-->
+    <select id="selOneTakeStock" resultMap="stockTakingRecordDataMap" parameterType="String">
+        SELECT a.ID, a.NAME, b.NAME PRODUCE,  c.NAME MEASURE_UNIT, d.ID INVENTORY, d.QUANTITY INVENTORY_QUANTITY, a.STOCK_TAKING_QUANTITY, a.STOCK_TAKING_DIFF, e.NAME STOCK_TAKING_RESULT, a.OPERATOR, a.COMMENT, a.CREATE_TIME, a.STOCK_TAKING
+        FROM spplychain.stock_taking_record_data a,
+             spplychain.product_data b,
+             spplychain.measure_unit_data c,
+             spplychain.inventory_data d,
+             spplychain.stock_taking_result_data e
+        WHERE a.PRODUCE = b.ID AND
+            a.MEASURE_UNIT = c.ID AND
+            a.INVENTORY = d.ID AND
+            a.STOCK_TAKING_RESULT = e.ID AND
+              a.ID = #{id}
+    </select>
+
+    <!--删除-->
+    <delete id="deleteTakeStock" parameterType="String">
+        DELETE FROM spplychain.stock_taking_record_data
+        WHERE ID = #{id}
+    </delete>
+
+    <!--修改 可修改： 名称  产品  计量单位  库存  实物盘点结果  操作员  实物盘点计划 备注-->
+    <update id="updTakeStock" parameterType="StockTakingRecordData">
+        UPDATE spplychain.stock_taking_record_data
+        <set>
+            <if test="name != null">
+                NAME = #{name},
+            </if>
+            <if test="produce != null">
+                PRODUCE = #{produce},
+            </if>
+            <if test="measureUnit != null">
+                MEASURE_UNIT = #{measureUnit},
+            </if>
+            <if test="inventory != null">
+                INVENTORY = #{inventory},
+            </if>
+            <if test="stockTakingQuantity != null">
+                STOCK_TAKING_QUANTITY = #{stockTakingQuantity},
+            </if>
+            <if test="stockTakingDiff != null">
+                STOCK_TAKING_DIFF = #{stockTakingDiff},
+            </if>
+            <if test="stockTakingResult != null">
+                STOCK_TAKING_RESULT = #{stockTakingResult},
+            </if>
+            <if test="operator != null">
+                OPERATOR = #{operator},
+            </if>
+            <if test="comment != null">
+                COMMENT = #{comment},
+            </if>
+            <if test="stockTaking != null">
+                STOCK_TAKING = #{stockTaking},
+            </if>
+        </set>
+        WHERE ID=#{id}
+    </update>
+
+    <!--添加  只需添加一个商品的信息，就可以添加一个库存编号，以及库存-->
+    <insert id="addTakeStock" parameterType="StockTakingRecordData">
+        INSERT INTO spplychain.stock_taking_record_data
+        (ID, NAME, PRODUCE,  MEASURE_UNIT, INVENTORY, INVENTORY_QUANTITY, STOCK_TAKING_QUANTITY, STOCK_TAKING_DIFF, STOCK_TAKING_RESULT, OPERATOR, COMMENT, CREATE_TIME, STOCK_TAKING, VERSION)
+        VALUES(#{id}, #{name}, #{product},  #{measureUnit}, #{inventory}, #{inventoryQuantity}, #{stockTakingQuantity}, #{stockTakingDiff}, #{stockTakingResult}, #{operator}, #{comment}, #{createTime}, #{stockTaking}, 1)
+    </insert>
+</mapper>

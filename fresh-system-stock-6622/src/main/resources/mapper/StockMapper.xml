@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.StockMapper">
+<!--仓库管理-->
+    <resultMap id="Warehouse1" type="MerchantWarehouseData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="merchant" jdbcType="VARCHAR" property="merchant" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="last_update_time" jdbcType="DATE" property="lastUpdateTime" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <!--查询总条数-->
+    <select id="getTotal" resultType="Long" parameterType="MerchantWarehouseData">
+        select count(*) from merchant_warehouse_data
+        <where>
+            <if test="name != null">
+                and NAME = #{name}
+            </if>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+        </where>
+    </select>
+<!--    //查询所有的-->
+    <select id="selAllWarehouse" resultMap="Warehouse1" parameterType="MerchantWarehouseData">
+        SELECT ID, NAME, ADDRESS, MERCHANT, CREATE_TIME, LAST_UPDATE_TIME, version
+        FROM spplychain.merchant_warehouse_data
+        <where>
+            <if test="id != null">
+              and ID = #{id}
+            </if>
+            <if test="name != null">
+                and NAME = #{name}
+            </if>
+            <if test="address != null">
+                and ADDRESS = #{address}
+            </if>
+        </where>
+        LIMIT #{page},#{size}
+    </select>
+    <!--添加仓库-->
+    <insert id="addWarehouse" parameterType="MerchantWarehouseData">
+        INSERT INTO spplychain.merchant_warehouse_data
+            (ID, NAME, ADDRESS, MERCHANT, CREATE_TIME, LAST_UPDATE_TIME, version)
+        VALUES(#{id}, #{name}, #{address}, #{merchant}, #{createTime}, #{lastUpdateTime}, 1)
+    </insert>
+    <!--修改仓库信息-->
+    <update id="updWarehouse" parameterType="MerchantWarehouseData">
+        UPDATE spplychain.merchant_warehouse_data
+        SET NAME=#{name}, ADDRESS=#{address}, MERCHANT=#{merchant}, CREATE_TIME=#{createTime}, LAST_UPDATE_TIME=#{lastUpdateTime}
+        WHERE ID=#{id}
+    </update>
+    <!--删除仓库信息-->
+    <delete id="delWareHouse" parameterType="String">
+        DELETE FROM spplychain.merchant_warehouse_data
+        WHERE ID=#{id}
+    </delete>
+
+    <!--查询计量单位-->
+    <resultMap id="measure1" type="MeasureUnitData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <select id="selMeasure" resultMap="measure1">
+        SELECT ID, NAME, CODE, PLATFORM, VERSION
+        FROM spplychain.measure_unit_data
+    </select>
+
+</mapper>
