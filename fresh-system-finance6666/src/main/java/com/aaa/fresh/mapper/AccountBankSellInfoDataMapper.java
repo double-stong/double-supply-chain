@@ -1,0 +1,16 @@
+package com.aaa.fresh.mapper;
+
+import com.aaa.fresh.pojo.AccountBankSellInfoData;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+
+@Mapper
+@Component
+public interface AccountBankSellInfoDataMapper {
+    //查询一个进账详细信息
+    AccountBankSellInfoData selectByPrimaryKey_BSI(String id);
+    //添加进账详细信息
+    int insert_BSI(AccountBankSellInfoData record);
+    //修改进账详细信息
+    int updateByPrimaryKey_BSI(AccountBankSellInfoData record);
+}

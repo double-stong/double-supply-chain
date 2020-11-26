@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.AccountBankProcurementInfoDataMapper">
+  <resultMap id="BaseResultMap" type="com.aaa.fresh.pojo.AccountBankProcurementInfoData">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="changeDate" jdbcType="TIMESTAMP" property="changedate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="bankId" jdbcType="VARCHAR" property="bankid" />
+    <result column="poid" jdbcType="VARCHAR" property="poid" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+  </resultMap>
+  <!--<resultMap id="BPI_All_Info" type="com.aaa.fresh.pojo.">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <association property=""></association>
+    <collection property=""></collection>
+  </resultMap>-->
+  <sql id="Base_Column_List">
+    ID, changeDate, remarks, bankId, poid, VERSION
+  </sql>
+
+  <select id="selectAll_BPI" resultType="com.aaa.fresh.pojo.AccountBankProcurementInfoData">
+    select bpi.*,ab.*,pr.*,pi.*
+    from account_bank_procurement_info_data bpi,
+         account_bank_data ab,
+         procurement_requirement_data pr,
+         procurement_item_data pi
+    where bpi.bankId = ab.ID
+        and bpi.poid = pr.ID
+        and pi.PROCUREMENT_REQUIREMENT = pr.ID
+  </select>
+
+  <select id="selectByPrimaryKey_BPI" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from account_bank_procurement_info_data
+    where ID = #{id}
+  </select>
+
+  <insert id="insert_BPI" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.AccountBankProcurementInfoData" useGeneratedKeys="true">
+    insert into account_bank_procurement_info_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="changedate != null">
+        changeDate,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="bankid != null">
+        bankId,
+      </if>
+      <if test="poid != null">
+        poid,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="changedate != null">
+        #{changedate},
+      </if>
+      <if test="remarks != null">
+        #{remarks},
+      </if>
+      <if test="bankid != null">
+        #{bankid},
+      </if>
+      <if test="poid != null">
+        #{poid},
+      </if>
+      <if test="version != null">
+        #{version},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey_BPI" parameterType="com.aaa.fresh.pojo.AccountBankProcurementInfoData">
+    update account_bank_procurement_info_data
+    <set>
+      <if test="changedate != null">
+        changeDate = #{changedate},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks},
+      </if>
+      <if test="bankid != null">
+        bankId = #{bankid},
+      </if>
+      <if test="poid != null">
+        poid = #{poid},
+      </if>
+      <if test="version != null">
+        VERSION = #{version},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+
+</mapper>
