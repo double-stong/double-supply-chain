@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.ProcurementItemDataMapper">
+
+    <resultMap id="procurementItemDataMap" type="com.aaa.fresh.pojo.ProcurementItemData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="product" jdbcType="VARCHAR" property="product" />
+        <result column="quatity" jdbcType="BIGINT" property="quatity" />
+        <result column="procurement_requirement" jdbcType="VARCHAR" property="procurementRequirement" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="version" jdbcType="BIGINT" property="version" />
+        <result column="eid" jdbcType="VARCHAR" property="eid" />
+    </resultMap>
+
+    <!--查询总条数-->
+    <select id="allTotal" resultType="Long" parameterType="com.aaa.fresh.pojo.ProcurementItemData">
+        select count(*) from procurement_item_data
+        <where>
+            <if test="name != null">
+                and NAME = #{name}
+            </if>
+            <if test="product != null">
+                and product = #{product}
+            </if>
+            <if test="quatity != null">
+                and quatity = #{quatity}
+            </if>
+            <if test="procurementRequirement != null">
+                and procurement_requirement = #{procurementRequirement}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+            <if test="eid != null">
+                and eid = #{eid}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAll" resultMap="procurementItemDataMap" parameterType="com.aaa.fresh.pojo.ProcurementItemData">
+        select id,name,product,quatity,procurement_requirement,status,version,eid
+        from procurement_item_data
+        <where>
+            <if test="name != null">
+                and NAME = #{name}
+            </if>
+            <if test="product != null">
+                and product = #{product}
+            </if>
+            <if test="quatity != null">
+                and quatity = #{quatity}
+            </if>
+            <if test="procurementRequirement != null">
+                and procurement_requirement = #{procurementRequirement}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+            <if test="eid != null">
+                and eid = #{eid}
+            </if>
+        </where>
+        LIMIT #{page},#{size}
+    </select>
+
+<!--   <insert id="insert" parameterType="com.aaa.fresh.pojo.ProcurementItemData">-->
+<!--        insert into procurement_item_data (id,name,product,quatity,procurement_requirement,status,version,eid)-->
+<!--        values (#{id},#{name},#{product},#{quatity},#{procurement_requirement},#{status}#{version},#{eid})-->
+<!--   </insert>-->
+
+    <insert id="insert"   parameterType="java.util.List">
+        insert into procurement_item_data (id,name,product,quatity,procurement_requirement,status,version,eid)
+        values
+        <foreach collection="list" item="item" index= "index" separator =",">
+            (#{item.id},#{item.name},#{item.product},#{item.quatity},#{item.procurementRequirement},#{item.status}
+            ,#{item.version},#{item.eid})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.aaa.fresh.pojo.ProcurementItemData">
+        update procurement_item_data set name = #{name},product = #{product},quatity = #{quatity},
+        procurement_requirement=#{procurement_requirement},status=#{status},version=#{version},eid=#{eid}
+        where id = #{id}
+    </update>
+
+</mapper>
