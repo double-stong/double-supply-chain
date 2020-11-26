@@ -9,6 +9,41 @@
     <result column="poid" jdbcType="VARCHAR" property="poid" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
   </resultMap>
+
+  <resultMap id="DAP_All_Info" type="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <association property="prd" javaType="com.aaa.fresh.pojo.ProcurementRequirementData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+    </association>
+  </resultMap>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*) from accounting_document_auditing_procurement_data
+    <trim prefix=" where " prefixOverrides="and">
+      <if test="who != null">
+        and WHO = #{who,jdbcType=VARCHAR}
+      </if>
+      <if test="comments != null">
+        and COMMENTS = #{comments,jdbcType=VARCHAR}
+      </if>
+      <if test="makeDate != null">
+        and MAKE_DATE = #{makeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="poid != null">
+        and poid = #{poid,jdbcType=VARCHAR}
+      </if>
+      <if test="version != null">
+        and VERSION = #{version,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </select>
+  <select id="selectAll_DAP" resultMap="DAP_All_Info">
+    select dap.*,pr.*
+    from accounting_document_auditing_procurement_data dap,
+    procurement_requirement_data pr
+    where dap.poid = pr.ID
+    limit #{page},#{size}
+  </select>
+
   <sql id="Base_Column_List">
     ID, WHO, COMMENTS, MAKE_DATE, poid, VERSION
   </sql>
@@ -18,6 +53,7 @@
     from accounting_document_auditing_procurement_data
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+
   <insert id="insert_DAP" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData" useGeneratedKeys="true">
     insert into accounting_document_auditing_procurement_data
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -61,6 +97,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="update_DAP" parameterType="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData">
     update accounting_document_auditing_procurement_data
     <set>
@@ -82,4 +119,5 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
 </mapper>

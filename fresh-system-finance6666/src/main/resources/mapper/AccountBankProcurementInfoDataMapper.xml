@@ -9,26 +9,54 @@
     <result column="poid" jdbcType="VARCHAR" property="poid" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
   </resultMap>
-  <!--<resultMap id="BPI_All_Info" type="com.aaa.fresh.pojo.">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <association property=""></association>
-    <collection property=""></collection>
-  </resultMap>-->
-  <sql id="Base_Column_List">
-    ID, changeDate, remarks, bankId, poid, VERSION
-  </sql>
 
-  <select id="selectAll_BPI" resultType="com.aaa.fresh.pojo.AccountBankProcurementInfoData">
-    select bpi.*,ab.*,pr.*,pi.*
+  <resultMap id="BPI_All_Info" type="com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <association property="abd" javaType="com.aaa.fresh.pojo.AccountBankData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+    </association>
+    <association property="prd" javaType="com.aaa.fresh.pojo.ProcurementRequirementData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+    </association>
+    <association property="adapd" javaType="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+    </association>
+  </resultMap>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*) from account_bank_procurement_info_data
+    <trim prefix=" where " prefixOverrides="and">
+      <if test="changedate != null">
+        and changeDate = #{changedate}
+      </if>
+      <if test="remarks != null">
+        and remarks = #{remarks}
+      </if>
+      <if test="bankid != null">
+        and bankId = #{bankid}
+      </if>
+      <if test="poid != null">
+        and poid = #{poid}
+      </if>
+      <if test="version != null">
+        and VERSION = #{version}
+      </if>
+    </trim>
+  </select>
+  <select id="selectAll_BPI" resultMap="BPI_All_Info" parameterType="com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo">
+    select bpi.*,ab.*,pr.*,dap.*
     from account_bank_procurement_info_data bpi,
          account_bank_data ab,
          procurement_requirement_data pr,
-         procurement_item_data pi
+         accounting_document_auditing_procurement_data dap
     where bpi.bankId = ab.ID
-        and bpi.poid = pr.ID
-        and pi.PROCUREMENT_REQUIREMENT = pr.ID
+      and bpi.poid = pr.ID
+      and dap.poid = pr.ID
+    limit #{page},#{size}
   </select>
 
+  <sql id="Base_Column_List">
+    ID, changeDate, remarks, bankId, poid, VERSION
+  </sql>
   <select id="selectByPrimaryKey_BPI" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

@@ -3,10 +3,13 @@ package com.aaa.fresh.service.impl;
 import com.aaa.fresh.mapper.AccountingDocumentAuditingProcurementDataMapper;
 import com.aaa.fresh.mapper.AccountingDocumentAuditingSellDataMapper;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
+import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData;
 import com.aaa.fresh.service.AuditingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuditingServiceImpl implements AuditingService {
@@ -44,4 +47,16 @@ public class AuditingServiceImpl implements AuditingService {
     public int update_DAS(AccountingDocumentAuditingSellData record) {
         return accountingDocumentAuditingSellDataMapper.update_DAS(record);
     }
+
+    @Override
+    public Long getTotal(AccountingDocumentAuditingProcurementData_vo adapdv) {
+        return accountingDocumentAuditingProcurementDataMapper.getTotal(adapdv);
+    }
+
+    @Override
+    public List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {
+        return accountingDocumentAuditingProcurementDataMapper.selectAll_DAP(adapdv);
+    }
+
+
 }

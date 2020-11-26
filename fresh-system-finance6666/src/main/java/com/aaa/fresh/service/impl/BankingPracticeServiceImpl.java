@@ -5,6 +5,7 @@ import com.aaa.fresh.mapper.AccountBankProcurementInfoDataMapper;
 import com.aaa.fresh.mapper.AccountBankSellInfoDataMapper;
 import com.aaa.fresh.pojo.AccountBankData;
 import com.aaa.fresh.pojo.AccountBankProcurementInfoData;
+import com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo;
 import com.aaa.fresh.pojo.AccountBankSellInfoData;
 import com.aaa.fresh.service.BankingPracticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,12 @@ public class BankingPracticeServiceImpl implements BankingPracticeService {
     }
 
     @Override
-    public List<AccountBankProcurementInfoData> selectAll_BPI() {
-        return accountBankProcurementInfoDataMapper.selectAll_BPI();
+    public Long getTotal(AccountBankProcurementInfoData_vo abpidv) {
+        return accountBankProcurementInfoDataMapper.getTotal(abpidv);
+    }
+
+    @Override
+    public List<AccountBankProcurementInfoData_vo> selectAll_BPI(AccountBankProcurementInfoData_vo abpidv) {
+        return accountBankProcurementInfoDataMapper.selectAll_BPI(abpidv);
     }
 }
