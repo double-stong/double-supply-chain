@@ -1,7 +1,10 @@
 package com.aaa.fresh.service;
 
 import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
+import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData;
+
+import java.util.List;
 
 public interface AuditingService {
     //查询一个 采购审核信息
@@ -17,4 +20,9 @@ public interface AuditingService {
     int insert_DAS(AccountingDocumentAuditingSellData record);
     //修改 进账审核状态
     int update_DAS(AccountingDocumentAuditingSellData record);
+
+    //查询总条数  分页
+    Long getTotal(AccountingDocumentAuditingProcurementData_vo adapdv);
+    //查询所有 采购状态信息
+    List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
 }

@@ -1,10 +1,7 @@
 package com.aaa.fresh.controller;
 
 import com.aaa.fresh.config.BaseController;
-import com.aaa.fresh.pojo.AccountBankData;
-import com.aaa.fresh.pojo.AccountBankProcurementInfoData;
-import com.aaa.fresh.pojo.AccountBankSellInfoData;
-import com.aaa.fresh.pojo.CommonResult;
+import com.aaa.fresh.pojo.*;
 
 import com.aaa.fresh.service.BankingPracticeService;
 
@@ -126,13 +123,21 @@ public class BankInfoController extends BaseController {
     }
 
     /*
-     *   查询一个 进账详细信息
+     *   查询所有 进账详细信息
      * */
-    @GetMapping("/selectBSI/{id}")
-    public CommonResult selectBSI(){
-        List<AccountBankProcurementInfoData> bsi  = bankingPracticeService.selectAll_BPI();
-        if (bsi!=null){
-            return new CommonResult(200,"成功",bsi,null);
+    @GetMapping("/selectAllBPI")
+    public CommonResult selectAllBPI(AccountBankProcurementInfoData_vo abpi){
+        //查询总条数
+        if (abpi.getPage()!=null
+                && abpi.getSize()!=null){
+            abpi.setPage((abpi.getPage()-1)*
+                    abpi.getSize());
+        }
+        Long total = bankingPracticeService.getTotal(abpi);
+
+        List<AccountBankProcurementInfoData_vo> bpi  = bankingPracticeService.selectAll_BPI(abpi);
+        if (bpi!=null){
+            return new CommonResult(200,"成功",bpi,total);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
