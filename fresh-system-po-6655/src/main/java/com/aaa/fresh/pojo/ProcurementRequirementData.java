@@ -15,10 +15,13 @@ public class ProcurementRequirementData {
   private String name;
   private String buyer;
   private String requirementStatus;
-  private Date createTime;
-  private Date endTime;
-  //private String approvalstatus;
+  private Date   createTime;
+  private Date   endTime;
+
+  private Double totalprice;
+  private String approvalstatus;
   private Integer version;
+
   private Integer page; //页码
   private Integer size; //大小
 

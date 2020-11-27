@@ -37,7 +37,7 @@
 
 
     <select id="selectAll" resultMap="procurementRequirementDataMap" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
-        SELECT id,name,buyer,requirement_status,create_time,end_time,version
+        SELECT id,name,buyer,requirement_status,create_time,end_time,totalprice,approvalstatus,version
         FROM procurement_requirement_data
         <where>
             <if test="name != null">
@@ -55,6 +55,12 @@
             <if test="endTime != null">
                 and end_time = #{endTime}
             </if>
+            <if test="totalprice != null">
+                and totalprice = #{totalprice}
+            </if>
+            <if test="approvalstatus != null">
+                and approvalstatus = #{approvalstatus}
+            </if>
             <if test="version != null">
                 and version = #{version}
             </if>
@@ -64,12 +70,13 @@
 
     <insert id="insert" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
     insert into procurement_requirement_data (id,name,buyer,requirement_status,
-    create_time,version)
-    values (#{id},#{name},#{buyer},#{requirementStatus},#{createTime},#{version})
+    create_time,totalprice,approvalstatus,version)
+    values (#{id},#{name},#{buyer},#{requirementStatus},#{createTime},#{totalprice},#{approvalstatus},#{version})
   </insert>
     <update id="update" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
     update procurement_requirement_data set name = #{name},buyer = #{buyer},
-    requirement_status = #{requirementStatus},create_time=#{createTime},end_time=#{endTime},version=#{version}
+    requirement_status = #{requirementStatus},create_time=#{createTime},end_time=#{endTime},totalprice=#{totalprice},
+    approvalstatus=#{approvalstatus},version=#{version}
     where id = #{id}
   </update>
 

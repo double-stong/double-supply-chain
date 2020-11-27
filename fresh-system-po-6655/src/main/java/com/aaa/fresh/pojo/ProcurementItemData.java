@@ -12,7 +12,10 @@ public class ProcurementItemData {
   private String id;
   private String name;
   private String product;
+  //数量
   private Integer quatity;
+  //单价
+  private Double unitprice;
   private String procurementRequirement;
   private String status;
   private Integer version;

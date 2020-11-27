@@ -22,7 +22,7 @@ public class ProcurementItemDataController {
 
 
     @GetMapping("/po/items")
-    public CommonResult prs(ProcurementItemData item){
+    public CommonResult seleItems(ProcurementItemData item){
         if (item.getPage()!=null && item.getSize()!=null){
             item.setPage((item.getPage()-1) * item.getSize());
         }
@@ -40,13 +40,11 @@ public class ProcurementItemDataController {
     };
 
     @PostMapping("/po/insitems")
-    public CommonResult addWarehouse(){
+    public CommonResult addItems(){
         //List<ProcurementItemData> items
         List<ProcurementItemData> items=new ArrayList<>();
-        System.out.println(items);
-
-        items.add(new ProcurementItemData("5","t1","t1",10,"1000003","进行中",1,null,null,null));
-        items.add(new ProcurementItemData("6","t2","t2",100,"1000003","进行中",1,null,null,null));
+        items.add(new ProcurementItemData("5","t1","t1",10,100.00,"1000003","进行中",1,null,null,null));
+        items.add(new ProcurementItemData("6","t2","t2",100,100.00,"1000003","进行中",1,null,null,null));
         System.out.println(items);
         int i = procurementItemDataService.insert(items);
         if (i>0){
@@ -57,7 +55,7 @@ public class ProcurementItemDataController {
     }
 
     @PutMapping("/po/upditem")
-    public CommonResult updWarehouse(ProcurementItemData item){
+    public CommonResult updItem(ProcurementItemData item){
         SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
 
         int i = procurementItemDataService.update(item);
