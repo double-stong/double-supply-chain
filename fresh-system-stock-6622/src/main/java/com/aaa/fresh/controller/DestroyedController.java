@@ -1,5 +1,6 @@
 package com.aaa.fresh.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.DestroyedRegistrationData;
 import com.aaa.fresh.service.DestoryService;
@@ -14,11 +15,10 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/destroy")
+@RequestMapping("/stock")
 public class DestroyedController {
     @Autowired
     private DestoryService destoryService;
-
     /**
      * 查询所有的损耗登记
      * @param destData
@@ -27,7 +27,7 @@ public class DestroyedController {
     @GetMapping("/selAllDestroy")
     public CommonResult selAllDestroy(DestroyedRegistrationData destData){
         //查询总条数
-
+        System.out.println("获取到的数据"+destData);
         if (destData.getPage()!=null
                 && destData.getSize()!=null){
             destData.setPage((destData.getPage()-1)*
@@ -52,6 +52,7 @@ public class DestroyedController {
      */
     @PostMapping("/addDestroy")
     public CommonResult addDestroy(DestroyedRegistrationData destData){
+        destData.setId(IdUtil.objectId());
         int res = destoryService.addDestroy(destData);
         if (res>0){
             return new CommonResult(200,"成功",res,null);

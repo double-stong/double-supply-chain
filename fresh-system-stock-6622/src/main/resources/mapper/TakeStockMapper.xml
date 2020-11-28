@@ -20,33 +20,33 @@
     </resultMap>
 
     <sql id="sel">
-        <if test="id != null">
+        <if test="id != null and id != ''">
             and ID = #{id}
         </if>
-        <if test="name != null">
+        <if test="name != null and name != ''">
             and NAME = #{name}
         </if>
-        <if test="produce != null">
+        <if test="produce != null and produce != ''">
             and PRODUCE = #{produce}
         </if>
-        <if test="measureUnit != null">
+        <if test="measureUnit != null and measureUnit != ''">
             and MEASURE_UNIT = #{measureUnit}
         </if>
-        <if test="inventory != null">
+        <if test="inventory != null and inventory != ''">
             and INVENTORY = #{inventory}
         </if>
-        <if test="stockTakingResult != null">
+        <if test="stockTakingResult != null and stockTakingResult != ''">
             and STOCK_TAKING_RESULT = #{stockTakingResult}
         </if>
-        <if test="operator != null">
+        <if test="operator != null and operator != ''">
             and OPERATOR = #{operator}
         </if>
-        <if test="">
+        <if test="comment != null and comment != ''">
             and COMMENT = #{comment}
         </if>
     </sql>
     <!--//分页查询-->
-    <select id="getTotal" parameterType="StockTakingRecordData">
+    <select id="getTotal" parameterType="StockTakingRecordData" resultType="java.lang.Long">
         SELECT COUNT(*) FROM spplychain.stock_taking_record_data
         <where>
             <include refid="sel"/>
@@ -55,18 +55,21 @@
 
     <!--查询所有 产品  计量单位  库存  实物盘点结果  查询根据商品信息查询出库存编号以及库存-->
     <select id="selAllTakeStock" parameterType="StockTakingRecordData" resultMap="stockTakingRecordDataMap">
-        SELECT a.ID, a.NAME, b.NAME PRODUCE,  c.NAME MEASURE_UNIT, d.ID INVENTORY, d.QUANTITY INVENTORY_QUANTITY, a.STOCK_TAKING_QUANTITY, a.STOCK_TAKING_DIFF, e.NAME STOCK_TAKING_RESULT, a.OPERATOR, a.COMMENT, a.CREATE_TIME, a.STOCK_TAKING
-        FROM spplychain.stock_taking_record_data a,
-             spplychain.product_data b,
-             spplychain.measure_unit_data c,
-             spplychain.inventory_data d,
-             spplychain.stock_taking_result_data e
-        WHERE a.PRODUCE = b.ID AND
-              a.MEASURE_UNIT = c.ID AND
-              b.ID = d.PRODUCT AND
-              a.STOCK_TAKING_RESULT = e.ID
+        SELECT a.ID, a.NAME, b.NAME PRODUCE,  c.NAME MEASURE_UNIT,  INVENTORY, INVENTORY_QUANTITY, a.STOCK_TAKING_QUANTITY, a.STOCK_TAKING_DIFF, e.NAME STOCK_TAKING_RESULT, a.OPERATOR, a.COMMENT, a.CREATE_TIME, f.NAME STOCK_TAKING
+            FROM spplychain.stock_taking_record_data a,
+            spplychain.product_data b,
+            spplychain.measure_unit_data c,
+            spplychain.stock_taking_result_data e,
+            spplychain.stock_taking_data f
+            WHERE a.PRODUCE = b.ID AND
+            a.MEASURE_UNIT = c.ID AND
+            a.STOCK_TAKING_RESULT = e.ID and
+            f.ID = a.STOCK_TAKING and
+            a.STOCK_TAKING = #{stockTaking}
             <include refid="sel"/>
-            limit #{page},#{size}
+            <if test="page != null and size != null">
+                limit #{page},#{size}
+            </if>
 
     </select>
 
@@ -95,34 +98,34 @@
     <update id="updTakeStock" parameterType="StockTakingRecordData">
         UPDATE spplychain.stock_taking_record_data
         <set>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 NAME = #{name},
             </if>
-            <if test="produce != null">
+            <if test="produce != null and produce != ''">
                 PRODUCE = #{produce},
             </if>
-            <if test="measureUnit != null">
+            <if test="measureUnit != null and measureUnit != ''">
                 MEASURE_UNIT = #{measureUnit},
             </if>
-            <if test="inventory != null">
+            <if test="inventory != null and inventory != ''">
                 INVENTORY = #{inventory},
             </if>
-            <if test="stockTakingQuantity != null">
+            <if test="stockTakingQuantity != null stockTakingQuantity != ''">
                 STOCK_TAKING_QUANTITY = #{stockTakingQuantity},
             </if>
-            <if test="stockTakingDiff != null">
+            <if test="stockTakingDiff != null and stockTakingDiff != ''">
                 STOCK_TAKING_DIFF = #{stockTakingDiff},
             </if>
-            <if test="stockTakingResult != null">
+            <if test="stockTakingResult != null and stockTakingResult != ''">
                 STOCK_TAKING_RESULT = #{stockTakingResult},
             </if>
-            <if test="operator != null">
+            <if test="operator != null and operator != ''">
                 OPERATOR = #{operator},
             </if>
-            <if test="comment != null">
+            <if test="comment != null and comment != ''">
                 COMMENT = #{comment},
             </if>
-            <if test="stockTaking != null">
+            <if test="stockTaking != null and stockTaking != ''">
                 STOCK_TAKING = #{stockTaking},
             </if>
         </set>
@@ -133,6 +136,7 @@
     <insert id="addTakeStock" parameterType="StockTakingRecordData">
         INSERT INTO spplychain.stock_taking_record_data
         (ID, NAME, PRODUCE,  MEASURE_UNIT, INVENTORY, INVENTORY_QUANTITY, STOCK_TAKING_QUANTITY, STOCK_TAKING_DIFF, STOCK_TAKING_RESULT, OPERATOR, COMMENT, CREATE_TIME, STOCK_TAKING, VERSION)
-        VALUES(#{id}, #{name}, #{product},  #{measureUnit}, #{inventory}, #{inventoryQuantity}, #{stockTakingQuantity}, #{stockTakingDiff}, #{stockTakingResult}, #{operator}, #{comment}, #{createTime}, #{stockTaking}, 1)
+        VALUES(#{id}, #{name}, #{produce},  #{measureUnit}, #{inventory}, #{inventoryQuantity}, #{stockTakingQuantity}, #{stockTakingDiff}, #{stockTakingResult}, #{operator}, #{comment}, NOW(), #{stockTaking}, 1)
     </insert>
+
 </mapper>

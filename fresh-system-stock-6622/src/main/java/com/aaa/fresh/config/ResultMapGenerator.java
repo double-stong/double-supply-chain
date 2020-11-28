@@ -1,5 +1,7 @@
 package com.aaa.fresh.config;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.mapper.DestroyedMapper;
 import com.aaa.fresh.pojo.*;
 
@@ -85,8 +87,15 @@ public class ResultMapGenerator {
     }
 
     public static void main(String[] args) {
-        String resultMap = ResultMapGenerator.generate(ChangeRequestTypeData.class);
-        System.out.println(resultMap);
+//        String resultMap = ResultMapGenerator.generate(ProductData.class);
+//        System.out.println(resultMap);
+        //参数1为终端ID
+        //参数2为数据中心ID
+        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+        long id = snowflake.nextId();
+        String id2 = IdUtil.objectId();
+        System.out.println(id);
+
 
     }
 }

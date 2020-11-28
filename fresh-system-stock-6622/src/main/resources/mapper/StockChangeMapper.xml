@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.StockChangeMapper">
+    <resultMap id="stockChangeDataMap" type="StockChangeData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="stock_change_direction" jdbcType="VARCHAR" property="stockChangeDirection" />
+        <result column="stock_change_type" jdbcType="VARCHAR" property="stockChangeType" />
+        <result column="warehouse" jdbcType="VARCHAR" property="warehouse" />
+        <result column="operator" jdbcType="VARCHAR" property="operator" />
+        <result column="reference_id" jdbcType="VARCHAR" property="referenceId" />
+        <result column="check_in_time" jdbcType="DATE" property="checkInTime" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="owner" jdbcType="VARCHAR" property="owner" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <!--获取所有的条数-->
+
+    <sql id="sel">
+        <if test="id != null and id != ''">
+            AND a.ID = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            AND a.NAME = #{name}
+        </if>
+        <if test="warehouse != null and warehouse != ''">
+            AND a.WAREHOUSE = #{warehouse}
+        </if>
+        <if test="operator != null and operator != ''">
+            AND a.OPERATOR = #{operator}
+        </if>
+        <if test="stockChangeDirection != null and stockChangeDirection != ''">
+            AND a.STOCK_CHANGE_DIRECTION = #{stockChangeDirection}
+        </if>
+        <if test="stockChangeType != null and stockChangeType != ''">
+            AND a.STOCK_CHANGE_TYPE = #{stockChangeType}
+        </if>
+    </sql>
+    <select id="getTotal" parameterType="StockChangeData" resultType="Long">
+        SELECT COUNT(*) FROM spplychain.stock_change_data a
+        <where>
+            <include refid="sel"/>
+        </where>
+    </select>
+
+    <!--查询所有的-->
+    <select id="selAllStockChange" parameterType="StockChangeData" resultMap="stockChangeDataMap">
+        SELECT a.ID, a.NAME, c.NAME STOCK_CHANGE_DIRECTION, b.NAME STOCK_CHANGE_TYPE, a.WAREHOUSE, a.OPERATOR, a.REFERENCE_ID, a.CHECK_IN_TIME, a.CREATE_TIME, a.OWNER, a.VERSION
+        FROM spplychain.stock_change_data a,
+             spplychain.stock_change_type_data b,
+             spplychain.stock_change_direction_data c
+        WHERE a.STOCK_CHANGE_DIRECTION = c.ID AND
+              a.STOCK_CHANGE_TYPE = b.ID
+            <include refid="sel"/>
+        <if test="page != null and size != null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--查询单个-->
+    <select id="selOneStockChange" parameterType="String" resultMap="stockChangeDataMap">
+        SELECT ID, NAME, STOCK_CHANGE_DIRECTION, STOCK_CHANGE_TYPE, WAREHOUSE, OPERATOR, REFERENCE_ID, CHECK_IN_TIME, CREATE_TIME, OWNER, VERSION
+        FROM spplychain.stock_change_data
+        WHERE ID = #{id}
+    </select>
+
+    <!--修改-->
+    <update id="updStockChange" parameterType="StockChangeData">
+        UPDATE spplychain.stock_change_data
+        <set>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="stockChangeDirection != null and stockChangeDirection != ''">
+                STOCK_CHANGE_DIRECTION = #{stockChangeDirection},
+            </if>
+            <if test="stockChangeType != null and stockChangeType != ''">
+                STOCK_CHANGE_TYPE = #{stockChangeType},
+            </if>
+            <if test="warehouse != null and warehouse != ''">
+                WAREHOUSE = #{warehouse},
+            </if>
+            <if test="operator != null and operator != ''">
+                OPERATOR = #{operator},
+            </if>
+            <if test="referenceId != null and referenceId != ''">
+                REFERENCE_ID = #{referenceId},
+            </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!--添加-->
+    <insert id="addStockChange" parameterType="StockChangeData">
+        INSERT INTO spplychain.stock_change_data
+        (ID, NAME, STOCK_CHANGE_DIRECTION, STOCK_CHANGE_TYPE, WAREHOUSE, OPERATOR, CHECK_IN_TIME, CREATE_TIME,  VERSION)
+        VALUES(#{id}, #{name}, #{stockChangeDirection}, #{stockChangeType}, #{warehouse}, #{operator},  NOW(), NOW(),  1)
+
+    </insert>
+    
+    <!--删除-->
+    <delete id="delStockChange" parameterType="String">
+        DELETE FROM spplychain.stock_change_data
+        WHERE ID = #{id}
+    </delete>
+
+    <!--查询查询库存变化的方向-->
+    <resultMap id="stockChangeDirectionDataMap" type="StockChangeDirectionData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <select id="selAllDirectinon" resultMap="stockChangeDirectionDataMap">
+        SELECT ID, NAME, CODE, PLATFORM, VERSION
+        FROM spplychain.stock_change_direction_data
+    </select>
+
+    <!--库存变化类型-->
+    <resultMap id="stockChangeTypeDataMap" type="StockChangeTypeData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <select id="selAllChangeType" resultMap="stockChangeTypeDataMap">
+        SELECT ID, NAME, CODE, PLATFORM, VERSION
+        FROM spplychain.stock_change_type_data
+    </select>
+</mapper>

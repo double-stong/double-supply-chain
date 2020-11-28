@@ -1,5 +1,6 @@
 package com.aaa.fresh.service.impl;
 
+import com.aaa.fresh.mapper.TakeStockMapper;
 import com.aaa.fresh.pojo.StockTakingRecordData;
 import com.aaa.fresh.service.TakeStockService;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 public class TakeStockServiceImpl implements TakeStockService {
 
     @Resource
-    private TakeStockService takeStockService;
+    private TakeStockMapper takeStockService;
 
     @Override
     public Long getTotal(StockTakingRecordData stockTakingRecordData) {

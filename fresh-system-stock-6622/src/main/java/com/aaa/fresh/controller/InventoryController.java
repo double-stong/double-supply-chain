@@ -1,5 +1,6 @@
 package com.aaa.fresh.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.InventoryData;
 import com.aaa.fresh.service.InventoryService;
@@ -12,7 +13,7 @@ import java.util.List;
  * 库存管理controller
  */
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/stock")
 public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
@@ -50,6 +51,7 @@ public class InventoryController {
      */
     @PostMapping("/addInventory")
     public CommonResult addInventory(InventoryData inventoryData){
+        inventoryData.setId(IdUtil.objectId());
         int res = inventoryService.addInventory(inventoryData);
         if (res>0){
             return new CommonResult(200,"成功",res,null);
@@ -65,6 +67,7 @@ public class InventoryController {
      */
     @PutMapping("/updInventory")
     public CommonResult updInventory(InventoryData inventoryData){
+        System.out.println(inventoryData);
         int res = inventoryService.updInventory(inventoryData);
         if (res>0){
             return new CommonResult(200,"成功",res,null);

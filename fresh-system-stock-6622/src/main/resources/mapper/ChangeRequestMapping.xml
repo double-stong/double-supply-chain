@@ -12,13 +12,13 @@
     </resultMap>
 
     <sql id="sel">
-        <if test="id != null">
+        <if test="id != null and id != ''">
             and ID = #{id}
         </if>
-        <if test="name != null">
+        <if test="name != null and name != ''">
             and NAME = #{name}
         </if>
-        <if test="requestType != null">
+        <if test="requestType != null and requestType != ''">
             and REQUEST_TYPE = #{requestType}
         </if>
     </sql>
@@ -63,10 +63,10 @@
     <update id="updChangeRequest" parameterType="ChangeRequestData">
         UPDATE spplychain.change_request_data
         <set>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 NAME = #{name},
             </if>
-            <if test="requestType != null">
+            <if test="requestType != null and requestType != ''">
                 REQUEST_TYPE = #{requestType},
             </if>
         </set>

@@ -1,19 +1,12 @@
-package com.aaa.fresh.mapper;
+package com.aaa.fresh.service;
 
 import com.aaa.fresh.pojo.StockChangeData;
 import com.aaa.fresh.pojo.StockChangeDirectionData;
 import com.aaa.fresh.pojo.StockChangeTypeData;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * 库存变化；；
- */
-@Mapper
-@Component
-public interface StockChangeMapper {
+public interface StockChangeService {
     /*===========================库存变化===========================*/
     //分页查询
     Long getTotal(StockChangeData stockChangeData);
