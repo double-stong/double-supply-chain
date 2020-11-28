@@ -13,7 +13,7 @@ import java.util.List;
  * 商品管理控制层
  */
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/stock")
 public class ProductController {
     @Resource
     private ProductService productService;

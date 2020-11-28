@@ -1,7 +1,6 @@
 package com.aaa.fresh.mapper;
 
 import com.aaa.fresh.pojo.StockTakingData;
-import com.aaa.fresh.pojo.StockTakingRecordData;
 import com.aaa.fresh.pojo.StockTakingResultData;
 import com.aaa.fresh.pojo.StockTakingStatusData;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 实物盘点记录表
+ */
 @Mapper
 @Component
 public interface StockRecordMapper {
