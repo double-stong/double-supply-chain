@@ -3,10 +3,7 @@ package com.aaa.fresh.service.impl;
 import com.aaa.fresh.mapper.AccountBankDataMapper;
 import com.aaa.fresh.mapper.AccountBankProcurementInfoDataMapper;
 import com.aaa.fresh.mapper.AccountBankSellInfoDataMapper;
-import com.aaa.fresh.pojo.AccountBankData;
-import com.aaa.fresh.pojo.AccountBankProcurementInfoData;
-import com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo;
-import com.aaa.fresh.pojo.AccountBankSellInfoData;
+import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.BankingPracticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,12 +60,22 @@ public class BankingPracticeServiceImpl implements BankingPracticeService {
     }
 
     @Override
-    public Long getTotal(AccountBankProcurementInfoData_vo abpidv) {
-        return accountBankProcurementInfoDataMapper.getTotal(abpidv);
+    public Long getTotal_BPI(AccountBankProcurementInfoData_vo abpidv) {
+        return accountBankProcurementInfoDataMapper.getTotal_BPI(abpidv);
     }
 
     @Override
     public List<AccountBankProcurementInfoData_vo> selectAll_BPI(AccountBankProcurementInfoData_vo abpidv) {
         return accountBankProcurementInfoDataMapper.selectAll_BPI(abpidv);
+    }
+
+    @Override
+    public Long getTotal_BSI(AccountBankSellInfoData_vo abpidv) {
+        return accountBankSellInfoDataMapper.getTotal_BSI(abpidv);
+    }
+
+    @Override
+    public List<AccountBankSellInfoData_vo> selectAll_BSI(AccountBankSellInfoData_vo absid) {
+        return accountBankSellInfoDataMapper.selectAll_BSI(absid);
     }
 }

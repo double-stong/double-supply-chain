@@ -9,6 +9,34 @@
     <result column="soid" jdbcType="VARCHAR" property="soid" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
   </resultMap>
+
+  <resultMap id="DAS_All_Info" type="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData_vo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+  </resultMap>
+  <select id="getTotal_DAS" resultType="java.lang.Long">
+    select count(*) from accounting_document_auditing_sell_data
+    <trim prefix=" where " prefixOverrides="and">
+      <if test="who != null">
+        and WHO = #{who,jdbcType=VARCHAR}
+      </if>
+      <if test="comments != null">
+        and COMMENTS = #{comments,jdbcType=VARCHAR}
+      </if>
+      <if test="makeDate != null">
+        and MAKE_DATE = #{makeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="soid != null">
+        and soid = #{soid,jdbcType=VARCHAR}
+      </if>
+      <if test="version != null">
+        and VERSION = #{version,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </select>
+  <select id="selectAll_DAS" resultType="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData_vo">
+
+  </select>
+
   <sql id="Base_Column_List">
     ID, WHO, COMMENTS, MAKE_DATE, soid, VERSION
   </sql>
@@ -18,6 +46,7 @@
     from accounting_document_auditing_sell_data
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+
   <insert id="insert_DAS" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData" useGeneratedKeys="true">
     insert into accounting_document_auditing_sell_data
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -61,6 +90,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="update_DAS" parameterType="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData">
     update accounting_document_auditing_sell_data
     <set>
@@ -82,4 +112,5 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
 </mapper>

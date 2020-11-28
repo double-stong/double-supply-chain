@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/bankInfoController")
+@RequestMapping("/bankInfoController")//出帐入账详情
 public class BankInfoController extends BaseController {
     @Autowired
     BankingPracticeService bankingPracticeService;
@@ -123,7 +123,7 @@ public class BankInfoController extends BaseController {
     }
 
     /*
-     *   查询所有 进账详细信息
+     *   查询所有 采购转账消费详细信息
      * */
     @GetMapping("/selectAllBPI")
     public CommonResult selectAllBPI(AccountBankProcurementInfoData_vo abpi){
@@ -133,11 +133,32 @@ public class BankInfoController extends BaseController {
             abpi.setPage((abpi.getPage()-1)*
                     abpi.getSize());
         }
-        Long total = bankingPracticeService.getTotal(abpi);
+        Long total = bankingPracticeService.getTotal_BPI(abpi);
 
         List<AccountBankProcurementInfoData_vo> bpi  = bankingPracticeService.selectAll_BPI(abpi);
         if (bpi!=null){
             return new CommonResult(200,"成功",bpi,total);
+        }else {
+            return new CommonResult(444,"失败",null,null);
+        }
+    }
+
+    /*
+     *   查询所有 销售入账详细信息
+     * */
+    @GetMapping("/selectAllBSI")
+    public CommonResult selectAllBSI(AccountBankSellInfoData_vo absi){
+        //查询总条数
+        if (absi.getPage()!=null
+                && absi.getSize()!=null){
+            absi.setPage((absi.getPage()-1)*
+                    absi.getSize());
+        }
+        Long total = bankingPracticeService.getTotal_BSI(absi);
+
+        List<AccountBankSellInfoData_vo> bsi  = bankingPracticeService.selectAll_BSI(absi);
+        if (bsi!=null){
+            return new CommonResult(200,"成功",bsi,total);
         }else {
             return new CommonResult(444,"失败",null,null);
         }

@@ -16,7 +16,7 @@
       <id column="ID" jdbcType="VARCHAR" property="id" />
     </association>
   </resultMap>
-  <select id="getTotal" resultType="java.lang.Long">
+  <select id="getTotal_DAP" resultType="java.lang.Long">
     select count(*) from accounting_document_auditing_procurement_data
     <trim prefix=" where " prefixOverrides="and">
       <if test="who != null">

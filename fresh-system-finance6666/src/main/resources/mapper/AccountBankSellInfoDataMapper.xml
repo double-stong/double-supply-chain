@@ -9,6 +9,35 @@
     <result column="soid" jdbcType="VARCHAR" property="soid" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
   </resultMap>
+
+  <resultMap id="BSI_All_Info" type="com.aaa.fresh.pojo.AccountBankSellInfoData_vo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+
+  </resultMap>
+  <select id="getTotal_BSI" resultType="java.lang.Long">
+    select count(*) from account_bank_sell_info_data
+    <trim prefix=" where " prefixOverrides="and">
+      <if test="changedate != null">
+        and changeDate = #{changedate}
+      </if>
+      <if test="remarks != null">
+        and remarks = #{remarks}
+      </if>
+      <if test="bankid != null">
+        and bankId = #{bankid}
+      </if>
+      <if test="soid != null">
+        and soid = #{soid}
+      </if>
+      <if test="version != null">
+        and VERSION = #{version}
+      </if>
+    </trim>
+  </select>
+  <select id="selectAll_BSI" resultType="com.aaa.fresh.pojo.AccountBankSellInfoData_vo">
+
+  </select>
+
   <sql id="Base_Column_List">
     ID, changeDate, remarks, bankId, soid, VERSION
   </sql>
@@ -18,6 +47,7 @@
     from account_bank_sell_info_data
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+
   <insert id="insert_BSI" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.AccountBankSellInfoData" useGeneratedKeys="true">
     insert into account_bank_sell_info_data
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -61,6 +91,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKey_BSI" parameterType="com.aaa.fresh.pojo.AccountBankSellInfoData">
     update account_bank_sell_info_data
     <set>
@@ -82,4 +113,5 @@
     </set>
     where ID = #{id}
   </update>
+
 </mapper>
