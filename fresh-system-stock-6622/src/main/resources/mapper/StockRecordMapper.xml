@@ -12,28 +12,29 @@
         <result column="last_update_time" jdbcType="DATE" property="lastUpdateTime" />
         <result column="owner" jdbcType="VARCHAR" property="owner" />
         <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="stockTakingStatus" jdbcType="VARCHAR" property="stockTakingStatus" />
     </resultMap>
 
     <sql id="sel">
-        <if test="id != null">
-            and ID = #{id}
+        <if test="id != null and id != ''">
+            and a.ID = #{id}
         </if>
-        <if test="name != null">
-            and NAME = #{name}
+        <if test="name != null and name != ''">
+            and a.NAME = #{name}
         </if>
-        <if test="warehouse != null">
-            and warehouse = #{warehouse}
+        <if test="warehouse != null and warehouse != ''">
+            and a.warehouse = #{warehouse}
         </if>
-        <if test="operator != null">
-            and operator = #{operator}
+        <if test="operator != null and operator != ''">
+            and a.operator = #{operator}
         </if>
-        <if test="stockTakingStatus != null">
-            STOCK_TAKING_STATUS = #{stockTakingStatus}
+        <if test="stockTakingStatus != null and stockTakingStatus != ''">
+            and a.STOCK_TAKING_STATUS = #{stockTakingStatus}
         </if>
     </sql>
     <!--查询数量-->
     <select id="getTotal" parameterType="StockTakingData" resultType="Long">
-        SELECT count(*) FROM spplychain.stock_taking_data
+        SELECT count(*) FROM spplychain.stock_taking_data a
         <where>
             <include refid="sel"/>
         </where>
@@ -41,14 +42,16 @@
 
     <!--查询所有-->
     <select id="selAllStockTaking" parameterType="StockTakingData" resultMap="stockTakingDataMap">
-        SELECT a.ID, a.NAME, c.NAME warehouse, a.STOCK_TAKING_TIME, a.OPERATOR, b.NAME stock_taking_status, a.CREATE_TIME, a.LAST_UPDATE_TIME, a.OWNER, a.VERSION
+        SELECT a.ID, a.NAME, c.NAME warehouse, a.STOCK_TAKING_TIME, a.OPERATOR, b.NAME stockTakingStatus, a.CREATE_TIME, a.LAST_UPDATE_TIME, a.OWNER, a.VERSION
         FROM spplychain.stock_taking_data a,
         spplychain.stock_taking_status_data b,
         spplychain.merchant_warehouse_data c
         WHERE a.STOCK_TAKING_STATUS = b.ID
         AND a.WAREHOUSE = c.ID
         <include refid="sel"/>
-        limit #{page},#{size}
+        <if test="page != null and size != null">
+            limit #{page},#{size}
+        </if>
     </select>
 
     <!--添加-->
@@ -79,19 +82,19 @@
     <update id="updStockTaking" parameterType="StockTakingData">
         UPDATE spplychain.stock_taking_data
         <set>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 NAME = #{name},
             </if>
-            <if test="stockTakingTime != null">
+            <if test="stockTakingTime != null and stockTakingTime != ''">
                 STOCK_TAKING_TIME = #{stockTakingTime},
             </if>
-            <if test="warehouse != null">
+            <if test="warehouse != null and warehouse != ''">
                 WAREHOUSE = #{warehouse},
             </if>
-            <if test="operator != null">
+            <if test="operator != null and operator != ''">
                 OPERATOR = #{operator},
             </if>
-            <if test="stockTakingStatus != null">
+            <if test="stockTakingStatus != null and stockTakingStatus != ''">
                 STOCK_TAKING_STATUS = #{stockTakingStatus},
             </if>
         </set>

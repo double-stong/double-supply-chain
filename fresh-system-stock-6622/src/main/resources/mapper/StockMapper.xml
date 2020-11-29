@@ -28,28 +28,38 @@
         SELECT ID, NAME, ADDRESS, MERCHANT, CREATE_TIME, LAST_UPDATE_TIME, version
         FROM spplychain.merchant_warehouse_data
         <where>
-            <if test="id != null">
+            <if test="id != null and id != ''">
               and ID = #{id}
             </if>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 and NAME = #{name}
             </if>
-            <if test="address != null">
+            <if test="address != null and address != ''">
                 and ADDRESS = #{address}
             </if>
         </where>
-        LIMIT #{page},#{size}
+        <if test="page!=null and size != null">
+            LIMIT #{page},#{size}
+        </if>
     </select>
     <!--添加仓库-->
     <insert id="addWarehouse" parameterType="MerchantWarehouseData">
         INSERT INTO spplychain.merchant_warehouse_data
-            (ID, NAME, ADDRESS, MERCHANT, CREATE_TIME, LAST_UPDATE_TIME, version)
-        VALUES(#{id}, #{name}, #{address}, #{merchant}, #{createTime}, #{lastUpdateTime}, 1)
+            (ID, NAME, ADDRESS,  CREATE_TIME, LAST_UPDATE_TIME, version)
+        VALUES(#{id}, #{name}, #{address}, NOW(), NOW(), 1)
     </insert>
     <!--修改仓库信息-->
     <update id="updWarehouse" parameterType="MerchantWarehouseData">
         UPDATE spplychain.merchant_warehouse_data
-        SET NAME=#{name}, ADDRESS=#{address}, MERCHANT=#{merchant}, CREATE_TIME=#{createTime}, LAST_UPDATE_TIME=#{lastUpdateTime}
+        <set>
+            <if test="name != null and name != ''">
+                NAME=#{name},
+            </if>
+            <if test="address != null and address != ''">
+                ADDRESS=#{address},
+            </if>
+            LAST_UPDATE_TIME = NOW(),
+        </set>
         WHERE ID=#{id}
     </update>
     <!--删除仓库信息-->
@@ -57,6 +67,12 @@
         DELETE FROM spplychain.merchant_warehouse_data
         WHERE ID=#{id}
     </delete>
+    <!--查询单个仓库信息-->
+    <select id="selOneWareHouse" parameterType="String" resultMap="Warehouse1">
+        SELECT ID, NAME, ADDRESS, MERCHANT, CREATE_TIME, LAST_UPDATE_TIME, version
+        FROM spplychain.merchant_warehouse_data
+        WHERE ID = #{id}
+    </select>
 
     <!--查询计量单位-->
     <resultMap id="measure1" type="MeasureUnitData">

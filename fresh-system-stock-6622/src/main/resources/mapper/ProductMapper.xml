@@ -20,31 +20,31 @@
     </resultMap>
 
     <sql id="sel">
-        <if test="id != null">
-            and ID = #{id}
+        <if test="id != null and id != null">
+            and a.ID = #{id}
         </if>
-        <if test="name != null">
-            and name = #{name}
+        <if test="name != null and name != ''">
+            and a.name = #{name}
         </if>
-        <if test="description != null">
-            and description = #{description}
+        <if test="description != null and description != ''">
+            and a.description = #{description}
         </if>
-        <if test="origin != null">
-            and origin = #{origin}
+        <if test="origin != null and origin != ''">
+            and a.origin = #{origin}
         </if>
-        <if test="remark != null">
-            and remark = #{remark}
+        <if test="remark != null and remark != ''">
+            and a.remark = #{remark}
         </if>
-        <if test="brand != null">
-            and brand = #{brand}
+        <if test="brand != null and brand != ''">
+            and a.brand = #{brand}
         </if>
-        <if test="measureUnit != null">
-            and MEASURE_UNIT = #{measureUnit}
+        <if test="measureUnit != null and measureUnit != ''">
+            and a.MEASURE_UNIT = #{measureUnit}
         </if>
     </sql>
     <!--查询总条数-->
     <select id="getTotal" resultType="Long" parameterType="ProductData">
-        SELECT COUNT(*) FROM spplychain.product_data
+        SELECT COUNT(*) FROM spplychain.product_data a
         <where>
             <include refid="sel"/>
         </where>
@@ -52,45 +52,47 @@
     <!--查询商品-->
     <select id="selAllProduct" parameterType="ProductData" resultMap="productDataMap">
         SELECT a.ID, a.NAME, a.DESCRIPTION, a.ORIGIN, a.REMARK, a.BRAND, a.PICTURE, b.NAME, a.LAST_UPDATE_TIME,  a.PLATFORM, a.VERSION
-        FROM spplychain.product_data a,supplychain.measure_unit_data b
+        FROM spplychain.product_data a,spplychain.measure_unit_data b
         where a.MEASURE_UNIT = b.ID
         <include refid="sel"/>
-        limit #{page},#{size}
+        <if test="page != null and size != null">
+            limit #{page},#{size}
+        </if>
     </select>
     <!--添加商品-->
     <insert id="addProduct" parameterType="productData" >
         INSERT INTO spplychain.product_data
-        (ID, NAME, DESCRIPTION, ORIGIN, REMARK, BRAND, PICTURE, MEASURE_UNIT, LAST_UPDATE_TIME,  PLATFORM, VERSION)
-        VALUES(#{id}, #{name}, #{description}, #{origin}, #{remark}, #{brand}, #{picture}, #{measureUnit}, now(), #{PLATFORM}, 1);
+        (ID, NAME, DESCRIPTION, ORIGIN, REMARK, BRAND, PICTURE, MEASURE_UNIT, LAST_UPDATE_TIME,   VERSION)
+        VALUES(#{id}, #{name}, #{description}, #{origin}, #{remark}, #{brand}, #{picture}, #{measureUnit}, now(),  1);
     </insert>
     <!--删除商品-->
     <delete id="delProduct" parameterType="String">
-        DELETE FROM supplychain.product_data
+        DELETE FROM spplychain.product_data
         WHERE ID = #{id}
     </delete>
     <!--修改商品-->
     <update id="updProduct" parameterType="ProductData">
-        UPDATE supplychain.product_data
+        UPDATE spplychain.product_data
         <set>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 name = #{name},
             </if>
-            <if test="description != null">
+            <if test="description != null and description != ''">
                 description = #{description},
             </if>
-            <if test="origin != null">
+            <if test="origin != null and origin != ''">
                 origin = #{origin},
             </if>
-            <if test="remark != null">
+            <if test="remark != null and remark != ''">
                 remark = #{remark},
             </if>
-            <if test="brand != null">
+            <if test="brand != null and brand != ''">
                 brand = #{brand},
             </if>
-            <if test="measureUnit != null">
+            <if test="measureUnit != null and measureUnit != ''">
                 MEASURE_UNIT = #{measureUnit},
             </if>
-            <if test="picture != null">
+            <if test="picture != null and picture != ''">
                 picture = #{picture}
             </if>
         </set>
@@ -99,7 +101,9 @@
     <!--查询单个商品信息-->
     <select id="selOneProduct" parameterType="String" resultMap="productDataMap">
         SELECT a.ID, a.NAME, a.DESCRIPTION, a.ORIGIN, a.REMARK, a.BRAND, a.PICTURE, b.NAME, a.LAST_UPDATE_TIME,  a.PLATFORM, a.VERSION
-        FROM spplychain.product_data a,supplychain.measure_unit_data b
+        FROM spplychain.product_data a,spplychain.measure_unit_data b
         where a.MEASURE_UNIT = b.ID and a.ID = #{id}
     </select>
+
+
 </mapper>

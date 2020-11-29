@@ -1,5 +1,6 @@
 package com.aaa.fresh.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.MeasureUnitData;
@@ -48,6 +49,7 @@ public class StockController extends BaseController {
      */
     @PostMapping("/addWarehouse")
     public CommonResult addWarehouse(MerchantWarehouseData merchantWarehouseData){
+        merchantWarehouseData.setId(IdUtil.objectId());
         int res = stockService.addWarehouse(merchantWarehouseData);
         if (res>0){
             return new CommonResult(200,"添加成功",res,null);
@@ -62,12 +64,12 @@ public class StockController extends BaseController {
      * @return
      */
     @PutMapping("/updWarehouse")
-    public CommonResult updWarehouse(MerchantWarehouseData merchantWarehouseData){
+    public CommonResult<Integer> updWarehouse(MerchantWarehouseData merchantWarehouseData){
         int res = stockService.updWarehouse(merchantWarehouseData);
         if (res>0){
-            return new CommonResult(200,"修改成功",res,null);
+            return new CommonResult<>(200,"修改成功",res,null);
         }else {
-            return new CommonResult(444,"修改失败",null,null);
+            return new CommonResult<>(444,"修改失败",null,null);
         }
     }
 
@@ -100,6 +102,12 @@ public class StockController extends BaseController {
             return new CommonResult(444,"计量单位查询失败",null,null);
         }
     }
+
+    /**
+     * 查询单个仓库信息
+     * @param Id
+     * @return
+     */
     @GetMapping("/selOneWareHouse/{Id}")
     public CommonResult selOneWareHouse(@PathVariable("Id") String Id){
         MerchantWarehouseData res = stockService.selOneWareHouse(Id);

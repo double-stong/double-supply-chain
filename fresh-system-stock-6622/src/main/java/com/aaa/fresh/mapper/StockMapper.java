@@ -2,6 +2,7 @@ package com.aaa.fresh.mapper;
 
 import com.aaa.fresh.pojo.MeasureUnitData;
 import com.aaa.fresh.pojo.MerchantWarehouseData;
+import com.aaa.fresh.pojo.ProductData;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -25,12 +26,11 @@ public interface StockMapper {
     int delWareHouse(String Id);
     //查询单个仓库信息
     MerchantWarehouseData selOneWareHouse(String Id);
-    //删除仓库之前判断仓库中是否还有货物
-
-    //提交审批，审批完成；直接删除；
-
     //查询计量单位
     List<MeasureUnitData> selMeasure();
+
+    //根据仓库详细信息查询这个仓库中储存的货物信息；
+    List<ProductData> selProductByStock(String Id);
 
 
 

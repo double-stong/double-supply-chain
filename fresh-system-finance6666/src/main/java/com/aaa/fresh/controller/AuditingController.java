@@ -1,10 +1,7 @@
 package com.aaa.fresh.controller;
 
 import com.aaa.fresh.config.BaseController;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData;
-import com.aaa.fresh.pojo.CommonResult;
+import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.AuditingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/auditingController")
+@RequestMapping("/auditingController")//审批出入账
 public class AuditingController extends BaseController {
     @Autowired
     AuditingService auditingService;
@@ -98,7 +95,7 @@ public class AuditingController extends BaseController {
     }
 
     /*
-     *   查询所有 进账审批信息
+     *   查询所有 采购审批状态信息
      * */
     @GetMapping("/selectAllDAP")
     public CommonResult selectAllDAP(AccountingDocumentAuditingProcurementData_vo adapdv){
@@ -108,9 +105,30 @@ public class AuditingController extends BaseController {
             adapdv.setPage((adapdv.getPage()-1)*
                     adapdv.getSize());
         }
-        Long total = auditingService.getTotal(adapdv);
+        Long total = auditingService.getTotal_DAP(adapdv);
 
-        List<AccountingDocumentAuditingProcurementData_vo> das = auditingService.selectAll_DAP(adapdv);
+        List<AccountingDocumentAuditingProcurementData_vo> dap = auditingService.selectAll_DAP(adapdv);
+        if (dap!=null){
+            return new CommonResult(200,"成功",dap,null);
+        }else {
+            return new CommonResult(444,"失败",null,null);
+        }
+    }
+
+    /*
+     *   查询所有 采购状态信息
+     * */
+    @GetMapping("/selectAllDAS")
+    public CommonResult selectAllDAS(AccountingDocumentAuditingSellData_vo adasd){
+        //查询总条数
+        if (adasd.getPage()!=null
+                && adasd.getSize()!=null){
+            adasd.setPage((adasd.getPage()-1)*
+                    adasd.getSize());
+        }
+        Long total = auditingService.getTotal_DAS(adasd);
+
+        List<AccountingDocumentAuditingSellData_vo> das = auditingService.selectAll_DAS(adasd);
         if (das!=null){
             return new CommonResult(200,"成功",das,null);
         }else {

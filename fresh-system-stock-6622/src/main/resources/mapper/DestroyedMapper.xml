@@ -16,29 +16,29 @@
     </resultMap>
 
     <sql id="sel">
-        <if test="id != null">
-            and id = #{id}
+        <if test="id != null and id != ''">
+            and a.id = #{id}
         </if>
-        <if test="name != null">
-            and name = #{name}
+        <if test="name != null and name != ''">
+            and a.name = #{name}
         </if>
-        <if test="product != null">
-            and product = #{product}
+        <if test="product != null and product != ''">
+            and a.product = #{product}
         </if>
-        <if test="registrationComment != null">
-            and registration_comment = #{registrationComment}
+        <if test="registrationComment != null and registrationComment != ''">
+            and a.registration_comment = #{registrationComment}
         </if>
-        <if test="warehouse != null">
-            and warehouse = #{warehouse}
+        <if test="warehouse != null and warehouse != ''">
+            and a.warehouse = #{warehouse}
         </if>
-        <if test="booker != null">
-            and booker = #{booker}
+        <if test="booker != null and booker != ''">
+            and a.booker = #{booker}
         </if>
     </sql>
 
     <!--查询条数  根据id 名称  产品  评论  仓库  登记人进行查询-->
     <select id="getTotal" parameterType="DestroyedRegistrationData" resultType="Long">
-        SELECT  COUNT(*) FROM spplychain.destroyed_registration_data
+        SELECT  COUNT(*) FROM spplychain.destroyed_registration_data a
         <where>
             <include refid="sel"/>
         </where>
@@ -46,20 +46,22 @@
 
     <!--查询所有的-->
     <select id="selAllDestroy" parameterType="DestroyedRegistrationData" resultMap="destroyedRegistrationDataMap">
-        SELECT a.ID, a.NAME, b.NAME, a.QUANTITY, a.DESTROYED_VALUE, a.REGISTRATION_COMMENT, a.REGISTERED_TIME, c.NAME, a.MERCHANT, a.BOOKER, a.VERSION
+        SELECT a.ID, a.NAME, b.NAME product, a.QUANTITY, a.DESTROYED_VALUE, a.REGISTRATION_COMMENT, a.REGISTERED_TIME, c.NAME warehouse, a.MERCHANT, a.BOOKER, a.VERSION
         FROM spplychain.destroyed_registration_data a,
              spplychain.product_data b,
              spplychain.merchant_warehouse_data c
         where a.PRODUCT = b.ID and a.WAREHOUSE = c.ID
         <include refid="sel"/>
-        limit #{page},#{size}
+        <if test="page != null and size != null">
+            limit #{page},#{size}
+        </if>
     </select>
 
     <!--添加损耗记录-->
     <insert id="addDestroy" parameterType="DestroyedRegistrationData">
         INSERT INTO spplychain.destroyed_registration_data
-        (ID, NAME, PRODUCT, QUANTITY, DESTROYED_VALUE, REGISTRATION_COMMENT, REGISTERED_TIME, WAREHOUSE, MERCHANT, BOOKER, VERSION)
-        VALUES(#{id}, #{name}, #{product}, #{quantity}, #{destroyedValue}, #{registrationComment}, now(), #{warehouse}, #{merchant}, #{booker},#{version})
+        (ID, NAME, PRODUCT, QUANTITY, DESTROYED_VALUE, REGISTRATION_COMMENT, REGISTERED_TIME, WAREHOUSE,  BOOKER, VERSION)
+        VALUES(#{id}, #{name}, #{product}, #{quantity}, #{destroyedValue}, #{registrationComment}, now(), #{warehouse}, #{booker},1)
     </insert>
 
     <!--查询单个损耗-->
@@ -73,30 +75,28 @@
     <update id="updDestroy" parameterType="DestroyedRegistrationData">
         UPDATE spplychain.destroyed_registration_data
         <set>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 NAME = #{name},
             </if>
-            <if test="product != null">
+            <if test="product != null and product != ''">
                 PRODUCT = #{product},
             </if>
-            <if test="quantity != null">
+            <if test="quantity != null and quantity != ''">
                 QUANTITY = #{quantity},
             </if>
-            <if test="destroyedValue != null">
+            <if test="destroyedValue != null and destroyedValue != ''">
                 DESTROYED_VALUE = #{destroyedValue},
             </if>
-            <if test="registrationComment != null">
+            <if test="registrationComment != null and registrationComment != ''">
                 REGISTRATION_COMMENT = #{registrationComment},
             </if>
-            <if test="registeredTime != null">
-                REGISTERED_TIME = #{registeredTime},
-            </if>
-            <if test="warehouse != null">
+            <if test="warehouse != null and warehouse != ''">
                 WAREHOUSE = #{warehouse},
             </if>
-            <if test="booker != null">
+            <if test="booker != null and booker != ''">
                 BOOKER = #{booker},
             </if>
+            REGISTERED_TIME = NOW(),
         </set>
         WHERE ID= #{id}
     </update>

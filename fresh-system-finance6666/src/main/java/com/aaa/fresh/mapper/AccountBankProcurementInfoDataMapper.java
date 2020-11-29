@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public interface AccountBankProcurementInfoDataMapper {
     //查询总条数  分页
-    Long getTotal(AccountBankProcurementInfoData_vo abpidv);
+    Long getTotal_BPI(AccountBankProcurementInfoData_vo abpidv);
     //查询所有 采购转账消费详细信息
     List<AccountBankProcurementInfoData_vo> selectAll_BPI(AccountBankProcurementInfoData_vo abpidv);
 

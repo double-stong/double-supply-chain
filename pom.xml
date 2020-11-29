@@ -15,6 +15,7 @@
     <module>fresh-system-po-6655</module>
     <module>fresh-system-finance-6666</module>
     <module>fresh-system-finance6666</module>
+      <module>fresh-api-commons</module>
   </modules>
 
   <name>Maven</name>

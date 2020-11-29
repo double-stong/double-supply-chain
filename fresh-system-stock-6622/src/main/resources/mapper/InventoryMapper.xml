@@ -11,19 +11,21 @@
         <result column="create_time" jdbcType="DATE" property="createTime" />
         <result column="last_update_time" jdbcType="DATE" property="lastUpdateTime" />
         <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="productId" jdbcType="VARCHAR" property="productId"/>
+        <result column="warehouseId" jdbcType="VARCHAR" property="warehouseId"/>
     </resultMap>
 
     <!--查询总条数-->
     <select id="getTotal" parameterType="InventoryData" resultType="Long">
         select count(*) from inventory_data
         <where>
-            <if test="id != null">
+            <if test="id != null and id != ''">
                 and id  = #{id}
             </if>
-            <if test="product != null">
+            <if test="product != null and product != ''">
                 and product = #{product}
             </if>
-            <if test="warehouse != null">
+            <if test="warehouse != null and warehouse != ''">
                 and warehouse = #{warehouse}
             </if>
         </where>
@@ -33,16 +35,18 @@
         SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse, a.last_update_time
         FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
         WHERE a.WAREHOUSE = b.ID AND a.PRODUCT = c.ID
-        <if test="id != null">
+        <if test="id != null and id != ''">
             and a.ID = #{id}
         </if>
-        <if test="product != null">
+        <if test="product != null and product != ''">
             and a.PRODUCT = #{product}
         </if>
-        <if test="warehouse != null">
+        <if test="warehouse != null and warehouse != ''">
             and a.WAREHOUSE = #{warehouse}
         </if>
-        LIMIT #{page},#{size}
+        <if test="page != null and size != null">
+            LIMIT #{page},#{size}
+        </if>
     </select>
 
     <!--删除库存-->
@@ -54,17 +58,18 @@
     <!--修改库存-->
     <update id="updInventory" parameterType="InventoryData">
         UPDATE spplychain.inventory_data
-        SET 
-            <if test="quantity != null">
+        <set>
+            <if test="quantity != null and quantity != ''">
                 QUANTITY = #{quantity},
             </if>
-            <if test="product != null">
+            <if test="product != null and product != ''">
                 PRODUCT = #{product},
             </if>
-            <if test="warehouse">
+            <if test="warehouse != null and warehouse != ''">
                 WAREHOUSE = #{warehouse},
             </if>
-                LAST_UPDATE_TIME=NOW()
+            LAST_UPDATE_TIME=NOW(),
+        </set>
         WHERE ID=#{id}
     </update>
 
@@ -76,13 +81,47 @@
     </insert>
 
     <!--查询单个库存信息-->
-    <select id="selOneInventory" parameterType="String" resultType="InventoryData">
-        SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse, a.last_update_time
+    <select id="selOneInventory" parameterType="String" resultMap="inventoryDataMap">
+        SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse,
+               a.last_update_time, c.ID productId,b.ID warehouseId
         FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
         WHERE
               a.WAREHOUSE = b.ID
           AND a.PRODUCT = c.ID
           AND a.ID = #{id}
     </select>
+
+    <!--根据仓库id查询商品库存信息-->
+    <select id="selProductByInvent" parameterType="InventoryData" resultMap="inventoryDataMap">
+        SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION,
+               b.NAME warehouse, a.last_update_time, c.ID productId,b.ID warehouseId
+        FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
+        WHERE a.WAREHOUSE = b.ID AND a.PRODUCT = c.ID AND c.ID = #{productId} and b.ID &lt;&gt; #{warehouseId}
+    </select>
+
+    <!--仓库调拨，根据商品的编号，仓库名称，来修改相应的库存信息  减少库存-->
+    <update id="updInventByIds" parameterType="InventoryData" >
+        UPDATE spplychain.inventory_data
+        <set>
+            <if test="quantity != null and quantity != ''">
+                QUANTITY = QUANTITY-#{quantity},
+            </if>
+            LAST_UPDATE_TIME=NOW(),
+        </set>
+        WHERE  WAREHOUSE = #{warehouse}
+            AND PRODUCT = #{product}
+    </update>
+    <!--添加库存-->
+    <update id="addUpdInventByIds" parameterType="InventoryData">
+        UPDATE spplychain.inventory_data
+        <set>
+            <if test="quantity != null and quantity != ''">
+                QUANTITY = QUANTITY+#{quantity},
+            </if>
+            LAST_UPDATE_TIME=NOW(),
+        </set>
+        WHERE WAREHOUSE = #{warehouse}
+        AND PRODUCT = #{product}
+    </update>
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.aaa.fresh.controller;
 
+import cn.hutool.core.util.IdUtil;
+import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.StockRecordService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +12,8 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/StockRecord")
-public class StockRecordController {
+@RequestMapping("/stock")
+public class StockRecordController extends BaseController {
 
     @Resource
     private StockRecordService stockRecordService;
@@ -23,9 +25,9 @@ public class StockRecordController {
      * @return
      */
     @GetMapping("/selAllStockTaking")
-    public CommonResult<List<StockTakingData>> selAllStockTaking(StockTakingData stockTakingData){
+    public CommonResult<List<StockTakingData>> selAllStockTaking( StockTakingData stockTakingData){
         //查询总条数
-
+        System.out.println("接收的数据"+stockTakingData);
         if (stockTakingData.getPage()!=null
                 && stockTakingData.getSize()!=null){
             stockTakingData.setPage((stockTakingData.getPage()-1)*
@@ -50,6 +52,8 @@ public class StockRecordController {
      */
     @PostMapping("/addStockTaking")
     public CommonResult addStockTaking(StockTakingData stockTakingData){
+        stockTakingData.setId(IdUtil.objectId());
+        log.info(stockTakingData.toString());
         int res = stockRecordService.addStockTaking(stockTakingData);
         if (res>0){
             return new CommonResult(200,"成功",res,null);

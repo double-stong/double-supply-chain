@@ -1,4 +1,4 @@
-#开启端口号
+#开启端号
 server:
   port: 6666
 
@@ -42,7 +42,8 @@ mybatis:
 logging:
   level:
     com:
-      sxx:
-        mapper: trace
+      aaa:
+        fresh:
+          mapper: trace
 
 

@@ -1,5 +1,6 @@
 package com.aaa.fresh.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.InventoryData;
 import com.aaa.fresh.service.InventoryService;
@@ -12,7 +13,7 @@ import java.util.List;
  * 库存管理controller
  */
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/stock")
 public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
@@ -23,7 +24,7 @@ public class InventoryController {
      * @return
      */
     @GetMapping("/selAllInventory")
-    public CommonResult selAllInventory(InventoryData inventoryData){
+    public CommonResult<List<InventoryData>> selAllInventory(InventoryData inventoryData){
         //查询总条数
 
         if (inventoryData.getPage()!=null
@@ -36,9 +37,9 @@ public class InventoryController {
         List<InventoryData> inventoryData1 = inventoryService.selAllInventory(inventoryData);
 
         if (inventoryData1!=null){
-            return new CommonResult(200,"查询库存成功",inventoryData1,total);
+            return new CommonResult<>(200,"查询库存成功",inventoryData1,total);
         }else {
-            return new CommonResult(444,"查询库存失败",null,null);
+            return new CommonResult<>(444,"查询库存失败",null,null);
 
         }
     }
@@ -49,12 +50,13 @@ public class InventoryController {
      * @return
      */
     @PostMapping("/addInventory")
-    public CommonResult addInventory(InventoryData inventoryData){
+    public CommonResult<Integer> addInventory(InventoryData inventoryData){
+        inventoryData.setId(IdUtil.objectId());
         int res = inventoryService.addInventory(inventoryData);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -64,12 +66,13 @@ public class InventoryController {
      * @return
      */
     @PutMapping("/updInventory")
-    public CommonResult updInventory(InventoryData inventoryData){
+    public CommonResult<Integer> updInventory(InventoryData inventoryData){
+        System.out.println(inventoryData);
         int res = inventoryService.updInventory(inventoryData);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -79,12 +82,12 @@ public class InventoryController {
      * @return
      */
     @DeleteMapping("/delInventory/{Id}")
-    public CommonResult delInventory(@PathVariable("Id") String Id){
+    public CommonResult<Integer> delInventory(@PathVariable("Id") String Id){
         int res = inventoryService.delInventory(Id);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -94,12 +97,59 @@ public class InventoryController {
      * @return
      */
     @GetMapping("/selOneInventory/{Id}")
-    public CommonResult selOneInventory(@PathVariable("Id") String Id){
+    public CommonResult<InventoryData> selOneInventory(@PathVariable("Id") String Id){
         InventoryData inventoryData = inventoryService.selOneInventory(Id);
         if (inventoryData!= null){
-            return new CommonResult(200,"查询成功",inventoryData,null);
+            return new CommonResult<>(200,"查询成功",inventoryData,null);
         }else {
-            return new CommonResult(200,"查询成功",null,null);
+            return new CommonResult<>(200,"查询成功",null,null);
+        }
+    }
+
+    /**
+     * 根据商品的id和仓库的id查询商品单个信息
+     * @param inventoryData
+     * @return
+     */
+    @GetMapping("/selProductByInvent")
+    public CommonResult<List<InventoryData>> selProductByInvent(InventoryData inventoryData){
+        List<InventoryData> res = inventoryService.selProductByInvent(inventoryData);
+
+        if (res != null){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(444,"失败",null,null);
+        }
+    }
+
+    /**
+     * 仓库调拨，根据商品的编号，仓库名称，来修改相应的库存信息
+     * 减少调拨的库存
+     * @param inventoryData
+     * @return
+     */
+    @PutMapping("/updInventByIds")
+    public CommonResult<Integer> updInventByIds(InventoryData inventoryData){
+        int res = inventoryService.updInventByIds(inventoryData);
+        if (res>0){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(200,"成功",null,null);
+        }
+    }
+
+    /**
+     * 添加调拨的库存
+     * @param inventoryData
+     * @return
+     */
+    @PutMapping("/addUpdInventByIds")
+    public CommonResult<Integer> addUpdInventByIds(InventoryData inventoryData){
+        int res = inventoryService.addUpdInventByIds(inventoryData);
+        if (res>0){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(200,"成功",null,null);
         }
     }
 
