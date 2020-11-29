@@ -24,6 +24,8 @@ public class InventoryData {
   private Date createTime;
   private Date lastUpdateTime;
   private Integer version;
+  private String productId;
+  private String warehouseId;
 
   //添加分页
   private Integer page;

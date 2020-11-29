@@ -23,6 +23,7 @@ public interface ProductMapper {
     int delProduct(String Id);
     //修改商品
     int updProduct(ProductData productData);
-    //根据商品的id查询商品单个信息
+    //根据商品的id和仓库的id查询商品单个信息
     ProductData selOneProduct(String Id);
+
 }

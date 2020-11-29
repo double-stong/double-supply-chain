@@ -106,4 +106,51 @@ public class InventoryController {
         }
     }
 
+    /**
+     * 根据商品的id和仓库的id查询商品单个信息
+     * @param inventoryData
+     * @return
+     */
+    @GetMapping("/selProductByInvent")
+    public CommonResult<List<InventoryData>> selProductByInvent(InventoryData inventoryData){
+        List<InventoryData> res = inventoryService.selProductByInvent(inventoryData);
+
+        if (res != null){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(444,"失败",null,null);
+        }
+    }
+
+    /**
+     * 仓库调拨，根据商品的编号，仓库名称，来修改相应的库存信息
+     * 减少调拨的库存
+     * @param inventoryData
+     * @return
+     */
+    @PutMapping("/updInventByIds")
+    public CommonResult<Integer> updInventByIds(InventoryData inventoryData){
+        int res = inventoryService.updInventByIds(inventoryData);
+        if (res>0){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(200,"成功",null,null);
+        }
+    }
+
+    /**
+     * 添加调拨的库存
+     * @param inventoryData
+     * @return
+     */
+    @PutMapping("/addUpdInventByIds")
+    public CommonResult<Integer> addUpdInventByIds(InventoryData inventoryData){
+        int res = inventoryService.addUpdInventByIds(inventoryData);
+        if (res>0){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(200,"成功",null,null);
+        }
+    }
+
 }

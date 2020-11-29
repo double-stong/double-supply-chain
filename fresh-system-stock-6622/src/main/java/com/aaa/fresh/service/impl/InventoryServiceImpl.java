@@ -42,4 +42,19 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryData selOneInventory(String Id) {
         return inventoryMapper.selOneInventory(Id);
     }
+
+    @Override
+    public List<InventoryData> selProductByInvent(InventoryData inventoryData) {
+        return inventoryMapper.selProductByInvent(inventoryData);
+    }
+
+    @Override
+    public int updInventByIds(InventoryData inventoryData) {
+        return inventoryMapper.updInventByIds(inventoryData);
+    }
+
+    @Override
+    public int addUpdInventByIds(InventoryData inventoryData) {
+        return inventoryMapper.addUpdInventByIds(inventoryData);
+    }
 }
