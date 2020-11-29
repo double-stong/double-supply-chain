@@ -3,7 +3,6 @@ package com.aaa.fresh.service.impl;
 import com.aaa.fresh.mapper.InventoryMapper;
 import com.aaa.fresh.pojo.InventoryData;
 import com.aaa.fresh.service.InventoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

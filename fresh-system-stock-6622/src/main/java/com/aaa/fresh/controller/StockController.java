@@ -1,6 +1,5 @@
 package com.aaa.fresh.controller;
 
-import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.CommonResult;

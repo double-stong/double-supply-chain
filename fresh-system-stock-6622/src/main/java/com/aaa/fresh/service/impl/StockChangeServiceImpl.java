@@ -5,7 +5,6 @@ import com.aaa.fresh.pojo.StockChangeData;
 import com.aaa.fresh.pojo.StockChangeDirectionData;
 import com.aaa.fresh.pojo.StockChangeTypeData;
 import com.aaa.fresh.service.StockChangeService;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

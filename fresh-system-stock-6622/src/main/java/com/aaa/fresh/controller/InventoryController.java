@@ -24,7 +24,7 @@ public class InventoryController {
      * @return
      */
     @GetMapping("/selAllInventory")
-    public CommonResult selAllInventory(InventoryData inventoryData){
+    public CommonResult<List<InventoryData>> selAllInventory(InventoryData inventoryData){
         //查询总条数
 
         if (inventoryData.getPage()!=null
@@ -37,9 +37,9 @@ public class InventoryController {
         List<InventoryData> inventoryData1 = inventoryService.selAllInventory(inventoryData);
 
         if (inventoryData1!=null){
-            return new CommonResult(200,"查询库存成功",inventoryData1,total);
+            return new CommonResult<>(200,"查询库存成功",inventoryData1,total);
         }else {
-            return new CommonResult(444,"查询库存失败",null,null);
+            return new CommonResult<>(444,"查询库存失败",null,null);
 
         }
     }
@@ -50,13 +50,13 @@ public class InventoryController {
      * @return
      */
     @PostMapping("/addInventory")
-    public CommonResult addInventory(InventoryData inventoryData){
+    public CommonResult<Integer> addInventory(InventoryData inventoryData){
         inventoryData.setId(IdUtil.objectId());
         int res = inventoryService.addInventory(inventoryData);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -66,13 +66,13 @@ public class InventoryController {
      * @return
      */
     @PutMapping("/updInventory")
-    public CommonResult updInventory(InventoryData inventoryData){
+    public CommonResult<Integer> updInventory(InventoryData inventoryData){
         System.out.println(inventoryData);
         int res = inventoryService.updInventory(inventoryData);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -82,12 +82,12 @@ public class InventoryController {
      * @return
      */
     @DeleteMapping("/delInventory/{Id}")
-    public CommonResult delInventory(@PathVariable("Id") String Id){
+    public CommonResult<Integer> delInventory(@PathVariable("Id") String Id){
         int res = inventoryService.delInventory(Id);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -97,12 +97,12 @@ public class InventoryController {
      * @return
      */
     @GetMapping("/selOneInventory/{Id}")
-    public CommonResult selOneInventory(@PathVariable("Id") String Id){
+    public CommonResult<InventoryData> selOneInventory(@PathVariable("Id") String Id){
         InventoryData inventoryData = inventoryService.selOneInventory(Id);
         if (inventoryData!= null){
-            return new CommonResult(200,"查询成功",inventoryData,null);
+            return new CommonResult<>(200,"查询成功",inventoryData,null);
         }else {
-            return new CommonResult(200,"查询成功",null,null);
+            return new CommonResult<>(200,"查询成功",null,null);
         }
     }
 

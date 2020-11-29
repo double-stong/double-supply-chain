@@ -3,7 +3,6 @@ package com.aaa.fresh.mapper;
 import com.aaa.fresh.pojo.InventoryData;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
