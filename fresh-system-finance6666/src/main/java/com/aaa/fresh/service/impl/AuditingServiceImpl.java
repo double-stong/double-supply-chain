@@ -22,19 +22,15 @@ public class AuditingServiceImpl implements AuditingService {
     }
 
     @Override
+    public int update_PRD(ProcurementRequirementData prd) {
+        return accountingDocumentAuditingProcurementDataMapper.update_PRD(prd);
+    }
+
+    @Override
     public int insert_DAP(AccountingDocumentAuditingProcurementData record) {
         return accountingDocumentAuditingProcurementDataMapper.insert_DAP(record);
     }
 
-    @Override
-    public int update_DAP(AccountingDocumentAuditingProcurementData record) {
-        return accountingDocumentAuditingProcurementDataMapper.update_DAP(record);
-    }
-
-    @Override
-    public int update_PRD(ProcurementRequirementData prd) {
-        return accountingDocumentAuditingProcurementDataMapper.update_PRD(prd);
-    }
 
     @Override
     public AccountingDocumentAuditingSellData selectByPrimaryKey_DAS(String id) {

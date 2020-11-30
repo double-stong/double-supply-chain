@@ -47,18 +47,6 @@ public class AuditingController extends BaseController {
         return new CommonResult(444,"失败",null,null);
     }
 
-    /*
-     *   修改 采购审批 状态
-     * */
-    @PostMapping("/updateDAP")
-    public CommonResult updateDAP(AccountingDocumentAuditingProcurementData record){
-        int res = auditingService.update_DAP(record);
-        if (res>0){
-            return new CommonResult(0,"成功",res,null);
-        }else {
-            return new CommonResult(444,"失败",null,null);
-        }
-    }
 
     /*
      *   查询一个 进账审批信息

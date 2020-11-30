@@ -101,7 +101,6 @@
 
         //表头的添加操作
         table.on('toolbar(demo)',function(obj){
-
             var checkStatus = table.checkStatus(obj.config.id);
             var layEvent = obj.event;
             var rows = checkStatus.data;//获取选中行的数据
@@ -112,7 +111,6 @@
 
         //每行的操作
         table.on('tool(demo)',function(obj){//tool是工具条事件，demo是table的lay-filter对应的值
-
             var row = obj.data;//获取每行的数据
             var layEvent =obj.event;//获取事件
             if(layEvent == "detail"){
@@ -251,7 +249,7 @@
         }
 
         //普通图片上传
-        var uploadInst = upload.render({
+        /*var uploadInst = upload.render({
             elem: '#test1'
             ,url: '[[@{/bs/doUpload}]]' //改成您自己的上传接口
             ,before: function(obj){
@@ -277,7 +275,7 @@
                     uploadInst.upload();
                 });
             }
-        });
+        });*/
 
         //刷新多条件查询
         function refresh(){
