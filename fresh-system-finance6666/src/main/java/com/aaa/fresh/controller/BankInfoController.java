@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/bankInfoController")//出帐入账详情
+@RequestMapping("/bankInfoController")//出帐入账 详情
 public class BankInfoController extends BaseController {
     @Autowired
     BankingPracticeService bankingPracticeService;
@@ -25,7 +25,7 @@ public class BankInfoController extends BaseController {
     public CommonResult selectBank(@PathVariable("id")String id){
         AccountBankData accountBankData = bankingPracticeService.selectByPrimaryKey_Bank(id);
         if (accountBankData!=null){
-            return new CommonResult(200,"成功",accountBankData,null);
+            return new CommonResult(0,"成功",accountBankData,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -38,7 +38,7 @@ public class BankInfoController extends BaseController {
     public CommonResult updateBank(AccountBankData record){
         int res = bankingPracticeService.updateByPrimaryKey_Bank(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -51,7 +51,7 @@ public class BankInfoController extends BaseController {
     public CommonResult selectBPI(@PathVariable("id")String id){
         AccountBankProcurementInfoData bpi  = bankingPracticeService.selectByPrimaryKey_BPI(id);
         if (bpi!=null){
-            return new CommonResult(200,"成功",bpi,null);
+            return new CommonResult(0,"成功",bpi,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -64,7 +64,7 @@ public class BankInfoController extends BaseController {
     public CommonResult insertBPI(AccountBankProcurementInfoData record){
         int res = bankingPracticeService.insert_BPI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -77,7 +77,7 @@ public class BankInfoController extends BaseController {
     public CommonResult updateBPI(AccountBankProcurementInfoData record){
         int res = bankingPracticeService.updateByPrimaryKey_BPI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -90,7 +90,7 @@ public class BankInfoController extends BaseController {
     public CommonResult selectBSI(@PathVariable("id")String id){
         AccountBankSellInfoData bsi  = bankingPracticeService.selectByPrimaryKey_BSI(id);
         if (bsi!=null){
-            return new CommonResult(200,"成功",bsi,null);
+            return new CommonResult(0,"成功",bsi,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -103,7 +103,7 @@ public class BankInfoController extends BaseController {
     public CommonResult insertBSI(AccountBankSellInfoData record){
         int res = bankingPracticeService.insert_BSI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -116,7 +116,7 @@ public class BankInfoController extends BaseController {
     public CommonResult updateBSI(AccountBankSellInfoData record){
         int res = bankingPracticeService.updateByPrimaryKey_BSI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -137,7 +137,7 @@ public class BankInfoController extends BaseController {
 
         List<AccountBankProcurementInfoData_vo> bpi  = bankingPracticeService.selectAll_BPI(abpi);
         if (bpi!=null){
-            return new CommonResult(200,"成功",bpi,total);
+            return new CommonResult(0,"成功",bpi,total);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -158,7 +158,7 @@ public class BankInfoController extends BaseController {
 
         List<AccountBankSellInfoData_vo> bsi  = bankingPracticeService.selectAll_BSI(absi);
         if (bsi!=null){
-            return new CommonResult(200,"成功",bsi,total);
+            return new CommonResult(0,"成功",bsi,total);
         }else {
             return new CommonResult(444,"失败",null,null);
         }

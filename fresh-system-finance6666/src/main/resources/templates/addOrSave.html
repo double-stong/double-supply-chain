@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加或修改</title>
+</head>
+<body>
+<!--添加或者修改的弹出层start-->
+<div style="display: none;padding: 20px;" id="saveOrUpdateDiv" th:fragment="addOrUpdate">
+    <form class="layui-form"  id="dataFrm" lay-filter="dataFrm" type="post">
+        <div class="layui-form-item" style="display: none;" id="fid">
+            <label class="layui-form-label">图书编号</label>
+            <div class="layui-input-block">
+                <input id="bookId" type="text" name="bookId" required   readonly placeholder="图书编号" autocomplete="off" class="layui-input" th:value="${book != null} ? *{bookId}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图书名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="bookName" name="bookName" required  lay-verify="required" placeholder="请输入员工名称" autocomplete="off" class="layui-input" th:value="${book!=null} ? *{bookName}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出版日期</label>
+            <div class="layui-input-block">
+                <input type="text" id="createDate" name="createDate" required  lay-verify="required" placeholder="请选择日期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出版社</label>
+            <div class="layui-input-block">
+                <select name="publishId" lay-filter="publishId" id="publishId">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-upload">
+            <label class="layui-form-label">上传头像</label>
+            <input type="hidden" name="pic" id="pic"/>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">上传图片</button>
+                <div class="layui-upload-list" style="padding-left: 120px;">
+                    <img class="layui-upload-img" id="demo1" style="width:50px;height:50px;border-radius: 25px; text-align: center;">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" id="bt1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="bt2">重置</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<!--添加或者修改的弹出层end-->
+</body>
+</html>

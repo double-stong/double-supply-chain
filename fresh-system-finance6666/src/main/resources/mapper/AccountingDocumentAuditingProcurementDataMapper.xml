@@ -120,4 +120,22 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
+  <resultMap id="procurementItemDataMap" type="com.aaa.fresh.pojo.ProcurementItemData">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="product" jdbcType="VARCHAR" property="product" />
+    <result column="quatity" jdbcType="INTEGER" property="quatity" />
+    <result column="unitprice" jdbcType="DOUBLE" property="unitprice" />
+    <result column="procurement_requirement" jdbcType="VARCHAR" property="procurementRequirement" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="eid" jdbcType="VARCHAR" property="eid" />
+  </resultMap>
+  <update id="update_PRD">
+    update procurement_item_data
+    set name = #{name},product = #{product},quatity = #{quatity},unitprice=#{unitprice}
+        procurement_requirement=#{procurement_requirement},status=#{status},version=#{version},eid=#{eid}
+    where id = #{id}
+  </update>
+
 </mapper>

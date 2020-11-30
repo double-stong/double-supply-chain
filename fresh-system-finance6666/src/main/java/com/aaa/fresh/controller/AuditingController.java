@@ -1,6 +1,7 @@
 package com.aaa.fresh.controller;
 
 import com.aaa.fresh.config.BaseController;
+import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
 import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.AuditingService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/auditingController")//审批出入账
+@RequestMapping("/auditingController")//审批 出入账
 public class AuditingController extends BaseController {
     @Autowired
     AuditingService auditingService;
@@ -23,23 +24,27 @@ public class AuditingController extends BaseController {
     public CommonResult selectDAP(@PathVariable("id")String id){
         AccountingDocumentAuditingProcurementData dap= auditingService.selectByPrimaryKey_DAP(id);
         if (dap!=null){
-            return new CommonResult(200,"成功",dap,null);
+            return new CommonResult(0,"成功",dap,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
     }
 
     /*
-     *   添加 采购审批信息
+     * 修改采购订单状态 同时  添加 采购审批信息
      * */
     @PutMapping("/insertDAP")
-    public CommonResult insertDAP(AccountingDocumentAuditingProcurementData record){
-        int res = auditingService.insert_DAP(record);
-        if (res>0){
-            return new CommonResult(200,"成功",res,null);
-        }else {
-            return new CommonResult(444,"失败",null,null);
+    public CommonResult insertDAP(ProcurementRequirementData prd,AccountingDocumentAuditingProcurementData record){
+        int result = auditingService.update_PRD(prd);
+        if(result>0){
+            int res = auditingService.insert_DAP(record);
+            if (res>0){
+                return new CommonResult(0,"成功",res,null);
+            }else {
+                return new CommonResult(444,"失败",null,null);
+            }
         }
+        return new CommonResult(444,"失败",null,null);
     }
 
     /*
@@ -49,7 +54,7 @@ public class AuditingController extends BaseController {
     public CommonResult updateDAP(AccountingDocumentAuditingProcurementData record){
         int res = auditingService.update_DAP(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -62,7 +67,7 @@ public class AuditingController extends BaseController {
     public CommonResult selectDAS(@PathVariable("id")String id){
         AccountingDocumentAuditingSellData das = auditingService.selectByPrimaryKey_DAS(id);
         if (das!=null){
-            return new CommonResult(200,"成功",das,null);
+            return new CommonResult(0,"成功",das,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -75,7 +80,7 @@ public class AuditingController extends BaseController {
     public CommonResult insertDAS(AccountingDocumentAuditingSellData record){
         int res = auditingService.insert_DAS(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -88,7 +93,7 @@ public class AuditingController extends BaseController {
     public CommonResult updateDAS(AccountingDocumentAuditingSellData record){
         int res = auditingService.update_DAS(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -109,14 +114,14 @@ public class AuditingController extends BaseController {
 
         List<AccountingDocumentAuditingProcurementData_vo> dap = auditingService.selectAll_DAP(adapdv);
         if (dap!=null){
-            return new CommonResult(200,"成功",dap,null);
+            return new CommonResult(0,"成功",dap,total);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
     }
 
     /*
-     *   查询所有 采购状态信息
+     *   查询所有 销售审批状态信息
      * */
     @GetMapping("/selectAllDAS")
     public CommonResult selectAllDAS(AccountingDocumentAuditingSellData_vo adasd){
@@ -130,7 +135,7 @@ public class AuditingController extends BaseController {
 
         List<AccountingDocumentAuditingSellData_vo> das = auditingService.selectAll_DAS(adasd);
         if (das!=null){
-            return new CommonResult(200,"成功",das,null);
+            return new CommonResult(0,"成功",das,total);
         }else {
             return new CommonResult(444,"失败",null,null);
         }

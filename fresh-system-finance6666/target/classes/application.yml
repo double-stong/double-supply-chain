@@ -23,8 +23,32 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: org.gjt.mm.mysql.Driver
     url: jdbc:mysql://47.94.100.43:3306/supplychain?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    #url: jdbc:mysql://localhost:3306/supplychain?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
+    initialSize: 5  # 初始化连接数
+    minIdle: 5  # 最小连接数
+    maxActive: 20  # 最大连接数
+    maxWait: 60000  # 等待连接的时间，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000  # 连接保持空闲而不被驱逐的最小时间
+    validationQuery: SELECT 1 FROM DUAL  # 用来检测连接是否有效的sql，要求是一个查询语句
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j
+    logSlowSql: true
+  thymeleaf:
+    cache: false
+    suffix: .html
+  jackson:
+    # 如果使用字符串星表示用这行格式
+    date-format: yyyy-MM-dd
+    # 设置为东八区时间
+    timezone: GMT+8
+    # 想要值为2016-01-01
+    serialization:
+      write-dates-as-timestamps: false
 
 management:
   endpoints:
@@ -45,5 +69,11 @@ logging:
       aaa:
         fresh:
           mapper: trace
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 
 

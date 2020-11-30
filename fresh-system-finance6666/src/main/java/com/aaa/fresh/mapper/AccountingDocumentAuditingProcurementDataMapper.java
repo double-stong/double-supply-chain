@@ -2,6 +2,7 @@ package com.aaa.fresh.mapper;
 
 import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo;
+import com.aaa.fresh.pojo.ProcurementRequirementData;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +22,8 @@ public interface AccountingDocumentAuditingProcurementDataMapper {
     int insert_DAP(AccountingDocumentAuditingProcurementData record);
     //修改 采购审核状态
     int update_DAP(AccountingDocumentAuditingProcurementData record);
+    //修改 采购订单审核状态
+    int update_PRD(ProcurementRequirementData prd);
+
 
 }
