@@ -4,9 +4,12 @@ import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
 import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.AuditingService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -92,19 +95,27 @@ public class AuditingController extends BaseController {
      * */
     @GetMapping("/selectAllDAP")
     public CommonResult selectAllDAP(AccountingDocumentAuditingProcurementData_vo adapdv){
-        //查询总条数
-        if (adapdv.getPage()!=null
-                && adapdv.getSize()!=null){
-            adapdv.setPage((adapdv.getPage()-1)*
-                    adapdv.getSize());
-        }
-        Long total = auditingService.getTotal_DAP(adapdv);
+
+        //当前那一页
+        int currentPage = adapdv.getPage() == null ? 1:adapdv.getPage();
+        //当前页显示几条
+        int pageSize = adapdv.getLimit() == null ? 3:adapdv.getLimit();
+        //当前页  条数
+        PageHelper.startPage(currentPage,pageSize);
 
         List<AccountingDocumentAuditingProcurementData_vo> dap = auditingService.selectAll_DAP(adapdv);
+
+        //把查询的所有数据 放到这个里面  自动分页
+        PageInfo<AccountingDocumentAuditingProcurementData_vo> pageinfo = new PageInfo<AccountingDocumentAuditingProcurementData_vo>(dap);
+        //总条数
+        Long total = Long.valueOf(pageinfo.getTotal()+"");
+        //获取当前页的数据
+        List<AccountingDocumentAuditingProcurementData_vo> list = pageinfo.getList();
+
         if (dap!=null){
-            return new CommonResult(0,"成功",dap,total);
+            return new CommonResult(0,"",list,total);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult(0,"",null,null);
         }
     }
 
@@ -113,20 +124,28 @@ public class AuditingController extends BaseController {
      * */
     @GetMapping("/selectAllDAS")
     public CommonResult selectAllDAS(AccountingDocumentAuditingSellData_vo adasd){
-        //查询总条数
-        if (adasd.getPage()!=null
-                && adasd.getSize()!=null){
-            adasd.setPage((adasd.getPage()-1)*
-                    adasd.getSize());
-        }
-        Long total = auditingService.getTotal_DAS(adasd);
+        //当前那一页
+        int currentPage = adasd.getPage() == null ? 1:adasd.getPage();
+        //当前页显示几条
+        int pageSize = adasd.getLimit() == null ? 3:adasd.getLimit();
+        //当前页  条数
+        PageHelper.startPage(currentPage,pageSize);
 
         List<AccountingDocumentAuditingSellData_vo> das = auditingService.selectAll_DAS(adasd);
+        //把查询的所有数据 放到这个里面  自动分页
+        PageInfo<AccountingDocumentAuditingSellData_vo> pageinfo = new PageInfo<AccountingDocumentAuditingSellData_vo>(das);
+
+        //总条数
+        Long total = Long.valueOf(pageinfo.getTotal()+"");
+        //获取当前页的数据
+        List<AccountingDocumentAuditingSellData_vo> list = pageinfo.getList();
+
         if (das!=null){
-            return new CommonResult(0,"成功",das,total);
+            return new CommonResult(0,"",list,total);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult(0,"",null,null);
         }
+
     }
 
 }

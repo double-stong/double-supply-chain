@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface AccountingDocumentAuditingSellDataMapper {
     //查询总条数  分页
-    Long getTotal_DAS(AccountingDocumentAuditingSellData_vo adasd);
+    //Long getTotal_DAS(AccountingDocumentAuditingSellData_vo adasd);
     //查询所有 销售入账详细信息
     List<AccountingDocumentAuditingSellData_vo> selectAll_DAS(AccountingDocumentAuditingSellData_vo adasd);
 

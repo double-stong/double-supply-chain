@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public interface AccountBankSellInfoDataMapper {
     //查询总条数  分页
-    Long getTotal_BSI(AccountBankSellInfoData_vo abpidv);
+    //Long getTotal_BSI(AccountBankSellInfoData_vo abpidv);
     //查询所有 销售入账详细信息
     List<AccountBankSellInfoData_vo> selectAll_BSI(AccountBankSellInfoData_vo absid);
 

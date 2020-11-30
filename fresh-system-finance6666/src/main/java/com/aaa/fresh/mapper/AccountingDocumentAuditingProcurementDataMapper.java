@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface AccountingDocumentAuditingProcurementDataMapper {
     //查询总条数  分页
-    Long getTotal_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
+    //Long getTotal_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
     //查询所有 采购状态信息
     List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
 

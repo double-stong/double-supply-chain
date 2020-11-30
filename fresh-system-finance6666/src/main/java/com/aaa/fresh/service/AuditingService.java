@@ -21,12 +21,12 @@ public interface AuditingService {
     int update_DAS(AccountingDocumentAuditingSellData record);
 
     //查询总条数  分页
-    Long getTotal_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
+    //Long getTotal_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
     //查询所有 采购状态信息
     List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
 
     //查询总条数  分页
-    Long getTotal_DAS(AccountingDocumentAuditingSellData_vo adasd);
+    //Long getTotal_DAS(AccountingDocumentAuditingSellData_vo adasd);
     //查询所有 销售入账详细信息
     List<AccountingDocumentAuditingSellData_vo> selectAll_DAS(AccountingDocumentAuditingSellData_vo adasd);
 

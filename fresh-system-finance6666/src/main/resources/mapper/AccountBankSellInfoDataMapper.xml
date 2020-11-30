@@ -14,7 +14,7 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
 
   </resultMap>
-  <select id="getTotal_BSI" resultType="java.lang.Long">
+  <!--<select id="getTotal_BSI" resultType="java.lang.Long">
     select count(*) from account_bank_sell_info_data
     <trim prefix=" where " prefixOverrides="and">
       <if test="changedate != null">
@@ -33,7 +33,7 @@
         and VERSION = #{version}
       </if>
     </trim>
-  </select>
+  </select>-->
   <select id="selectAll_BSI" resultType="com.aaa.fresh.pojo.AccountBankSellInfoData_vo">
 
   </select>

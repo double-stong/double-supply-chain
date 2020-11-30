@@ -48,18 +48,8 @@ public class AuditingServiceImpl implements AuditingService {
     }
 
     @Override
-    public Long getTotal_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {
-        return accountingDocumentAuditingProcurementDataMapper.getTotal_DAP(adapdv);
-    }
-
-    @Override
     public List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {
         return accountingDocumentAuditingProcurementDataMapper.selectAll_DAP(adapdv);
-    }
-
-    @Override
-    public Long getTotal_DAS(AccountingDocumentAuditingSellData_vo adasd) {
-        return accountingDocumentAuditingSellDataMapper.getTotal_DAS(adasd);
     }
 
     @Override

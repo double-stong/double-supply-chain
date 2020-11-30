@@ -16,7 +16,7 @@
       <id column="ID" jdbcType="VARCHAR" property="id" />
     </association>
   </resultMap>
-  <select id="getTotal_DAP" resultType="java.lang.Long">
+  <!--<select id="getTotal_DAP" resultType="java.lang.Long">
     select count(*) from accounting_document_auditing_procurement_data
     <trim prefix=" where " prefixOverrides="and">
       <if test="who != null">
@@ -35,13 +35,13 @@
         and VERSION = #{version,jdbcType=INTEGER}
       </if>
     </trim>
-  </select>
+  </select>-->
   <select id="selectAll_DAP" resultMap="DAP_All_Info">
     select dap.*,pr.*
     from accounting_document_auditing_procurement_data dap,
     procurement_requirement_data pr
     where dap.poid = pr.ID
-    limit #{page},#{size}
+
   </select>
 
   <sql id="Base_Column_List">

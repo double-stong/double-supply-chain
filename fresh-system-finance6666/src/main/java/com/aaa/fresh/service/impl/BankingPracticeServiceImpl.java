@@ -60,18 +60,8 @@ public class BankingPracticeServiceImpl implements BankingPracticeService {
     }
 
     @Override
-    public Long getTotal_BPI(AccountBankProcurementInfoData_vo abpidv) {
-        return accountBankProcurementInfoDataMapper.getTotal_BPI(abpidv);
-    }
-
-    @Override
     public List<AccountBankProcurementInfoData_vo> selectAll_BPI(AccountBankProcurementInfoData_vo abpidv) {
         return accountBankProcurementInfoDataMapper.selectAll_BPI(abpidv);
-    }
-
-    @Override
-    public Long getTotal_BSI(AccountBankSellInfoData_vo abpidv) {
-        return accountBankSellInfoDataMapper.getTotal_BSI(abpidv);
     }
 
     @Override

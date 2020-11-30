@@ -53,5 +53,5 @@ public class AccountBankProcurementInfoData_vo implements Serializable {
     private AccountingDocumentAuditingProcurementData adapd;//采购审核详细信息
 
     private Integer page; //页码
-    private Integer size; //大小
+    private Integer limit; //条数
 }

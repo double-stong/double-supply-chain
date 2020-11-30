@@ -54,6 +54,6 @@ public class AccountBankSellInfoData_vo implements Serializable {
     AccountingDocumentAuditingSellData adasd;
 
     private Integer page; //页码
-    private Integer size; //大小
+    private Integer limit; //条数
 
 }

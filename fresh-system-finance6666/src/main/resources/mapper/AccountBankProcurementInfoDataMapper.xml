@@ -22,7 +22,7 @@
       <id column="ID" jdbcType="VARCHAR" property="id" />
     </association>
   </resultMap>
-  <select id="getTotal_BPI" resultType="java.lang.Long">
+  <!--<select id="getTotal_BPI" resultType="java.lang.Long">
     select count(*) from account_bank_procurement_info_data
     <trim prefix=" where " prefixOverrides="and">
       <if test="changedate != null">
@@ -41,7 +41,7 @@
         and VERSION = #{version}
       </if>
     </trim>
-  </select>
+  </select>-->
   <select id="selectAll_BPI" resultMap="BPI_All_Info" parameterType="com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo">
     select bpi.*,ab.*,pr.*,dap.*
     from account_bank_procurement_info_data bpi,
@@ -51,7 +51,7 @@
     where bpi.bankId = ab.ID
       and bpi.poid = pr.ID
       and dap.poid = pr.ID
-    limit #{page},#{size}
+
   </select>
 
   <sql id="Base_Column_List">
