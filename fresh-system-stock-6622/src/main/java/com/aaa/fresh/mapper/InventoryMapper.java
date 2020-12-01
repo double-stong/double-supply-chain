@@ -1,6 +1,7 @@
 package com.aaa.fresh.mapper;
 
 import com.aaa.fresh.pojo.InventoryData;
+import com.aaa.fresh.pojo.StockChangeItemData;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -36,5 +37,8 @@ public interface InventoryMapper {
     int updInventByIds(InventoryData inventoryData);
     //添加库存
     int addUpdInventByIds(InventoryData inventoryData);
+
+    //添加出入库详情单
+    int addStockChangeItem(StockChangeItemData stockChangeItemData);
 
 }

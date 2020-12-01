@@ -2,12 +2,12 @@ package com.aaa.fresh.controller;
 
 
 import cn.hutool.core.util.IdUtil;
-import com.aaa.fresh.pojo.CommonResult;
-import com.aaa.fresh.pojo.StockChangeData;
-import com.aaa.fresh.pojo.StockChangeDirectionData;
-import com.aaa.fresh.pojo.StockChangeTypeData;
+import com.aaa.fresh.config.BaseController;
+import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.StockChangeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/stock")
 @RestController
-public class StockChangeController {
+public class StockChangeController extends BaseController {
 
     @Resource
     private StockChangeService stockChangeService;
@@ -137,6 +137,32 @@ public class StockChangeController {
         }else {
             return new CommonResult<>(444,"失败",null,null);
 
+        }
+    }
+
+    @GetMapping("/selChangeItemById/{Id}")
+    public CommonResult<StockChangeItemData> selChangeItemById(@PathVariable("Id") String Id){
+        StockChangeItemData res = stockChangeService.selChangeItemById(Id);
+        if (res!=null){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(444,"失败",null,null);
+        }
+    }
+
+    /**
+     * 修改出入库的状态 默认为0 为未领取  修改值为1 状态为 已领取 减少库存
+     * @param Id
+     * @param version
+     * @return
+     */
+    @PutMapping("/updChangeItemVersion")
+    public CommonResult<Integer> updChangeItemVersion(String Id, Integer version){
+        int res = stockChangeService.updChangeItemVersion(Id, version);
+        if (res>0){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 }

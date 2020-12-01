@@ -106,4 +106,17 @@
         DELETE FROM spplychain.destroyed_registration_data
         WHERE ID = #{id}
     </delete>
+
+    <!--添加损耗，减少修改库存-->
+    <update id="updDestroyById">
+        UPDATE spplychain.inventory_data
+        <set>
+            <if test="quantity != null and quantity != ''">
+                QUANTITY = QUANTITY-#{quantity},
+            </if>
+            LAST_UPDATE_TIME=NOW(),
+        </set>
+        WHERE  WAREHOUSE = #{warehouse}
+        AND PRODUCT = #{product}
+    </update>
 </mapper>

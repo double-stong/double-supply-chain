@@ -3,6 +3,7 @@ package com.aaa.fresh.service.impl;
 import com.aaa.fresh.mapper.StockChangeMapper;
 import com.aaa.fresh.pojo.StockChangeData;
 import com.aaa.fresh.pojo.StockChangeDirectionData;
+import com.aaa.fresh.pojo.StockChangeItemData;
 import com.aaa.fresh.pojo.StockChangeTypeData;
 import com.aaa.fresh.service.StockChangeService;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,15 @@ public class StockChangeServiceImpl implements StockChangeService {
     @Override
     public List<StockChangeTypeData> selAllChangeType() {
         return mapper.selAllChangeType();
+    }
+
+    @Override
+    public StockChangeItemData selChangeItemById(String Id) {
+        return mapper.selChangeItemById(Id);
+    }
+
+    @Override
+    public int updChangeItemVersion(String Id, Integer version) {
+        return mapper.updChangeItemVersion(Id,version);
     }
 }

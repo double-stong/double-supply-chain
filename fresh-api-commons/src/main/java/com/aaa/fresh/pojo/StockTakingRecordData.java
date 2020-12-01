@@ -1,6 +1,7 @@
 package com.aaa.fresh.pojo;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class StockTakingRecordData implements Serializable {
   private String stockTakingResult;
   private String operator;
   private String comment;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
   private String stockTaking;
   private Integer version;

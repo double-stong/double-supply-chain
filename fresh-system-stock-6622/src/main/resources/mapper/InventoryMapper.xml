@@ -13,6 +13,10 @@
         <result column="version" jdbcType="INTEGER" property="version" />
         <result column="productId" jdbcType="VARCHAR" property="productId"/>
         <result column="warehouseId" jdbcType="VARCHAR" property="warehouseId"/>
+        <result column="measure" jdbcType="VARCHAR" property="measure"/>
+        <result column="quanitys" jdbcType="INTEGER" property="quanitys"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="usable" jdbcType="INTEGER" property="usable"/>
     </resultMap>
 
     <!--查询总条数-->
@@ -32,7 +36,7 @@
     </select>
     <!--查询所有  查询产品，仓库-->
     <select id="selAllInventory" parameterType="InventoryData" resultMap="inventoryDataMap">
-        SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse, a.last_update_time
+        <!--SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse, a.last_update_time
         FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
         WHERE a.WAREHOUSE = b.ID AND a.PRODUCT = c.ID
         <if test="id != null and id != ''">
@@ -44,6 +48,81 @@
         <if test="warehouse != null and warehouse != ''">
             and a.WAREHOUSE = #{warehouse}
         </if>
+        <if test="page != null and size != null">
+            LIMIT #{page},#{size}
+        </if>-->
+        <!--select  distinct tb.* ,scd.QUANTITY quanitys ,tb.quantity-scd.QUANTITY usable from
+        (SELECT a.ID, a.QUANTITY quantity,  c.NAME product,  a.CREATE_TIME,  a.VERSION,
+                b.NAME warehouse, a.last_update_time,d.NAME unit,c.ID productId
+        FROM
+        spplychain.inventory_data a ,
+        spplychain.merchant_warehouse_data b,
+        spplychain.product_data c,
+        spplychain.measure_unit_data d
+        WHERE
+        a.WAREHOUSE = b.ID AND
+        a.PRODUCT = c.ID and
+        c.MEASURE_UNIT = d.ID
+        <if test="id != null and id != ''">
+            and a.ID = #{id}
+        </if>
+        <if test="product != null and product != ''">
+            and a.PRODUCT = #{product}
+        </if>
+        <if test="warehouse != null and warehouse != ''">
+            and a.WAREHOUSE = #{warehouse}
+        </if>) tb
+        left join
+        spplychain.stock_change_item_data scd on tb.productId = scd .PRODUCT
+        left join
+        spplychain.stock_change_data scd2 on scd2.REFERENCE_ID = scd .ID
+        <if test="page != null and size != null">
+            LIMIT #{page},#{size}
+        </if>-->
+        SELECT a.id id,a.quanity quantity,a.product product,a.warehouseId,b.warehouseId,
+               a.productId,b.productId,
+               b.sums quanitys,a.warehouse warehouse,a.create_time create_time,
+               a.unit unit,(a.quanity-b.sums) usable
+        FROM
+        (
+            SELECT a.ID id, a.QUANTITY quanity, pd.NAME product,
+                   a.WAREHOUSE warehouseId , mwd.NAME warehouse,
+                   a.VERSION, mud.NAME unit,a.PRODUCT productId,
+                   a.CREATE_TIME create_time
+            FROM
+                    spplychain.inventory_data a,
+                    spplychain.product_data pd ,
+                    spplychain.merchant_warehouse_data mwd ,
+                    spplychain.measure_unit_data mud
+            where
+                    a.PRODUCT = pd .ID and
+                  a.WAREHOUSE = mwd.ID and
+                  pd.MEASURE_UNIT = mud.ID
+                <if test="id != null and id != ''">
+                    and a.ID = #{id}
+                </if>
+                <if test="product != null and product != ''">
+                    and a.PRODUCT = #{product}
+                </if>
+                <if test="warehouse != null and warehouse != ''">
+                    and a.WAREHOUSE = #{warehouse}
+                </if>
+        ) a
+        LEFT JOIN
+        (
+            SElECT a.ID,  pd.NAME PRODUCT,a.VERSION,
+                   scd.WAREHOUSE warehouseId ,sum(a.QUANTITY) sums ,
+                   a.PRODUCT productId
+            FROM
+                    spplychain.stock_change_item_data a,
+                    spplychain.product_data pd ,
+                    spplychain.stock_change_data scd
+            WHERE
+                    a.PRODUCT  = pd.ID AND  scd.REFERENCE_ID = a.ID and a.VERSION = 0
+        GROUP BY productId
+        ) b
+        ON
+            a.warehouseId = b.warehouseId AND a.productId = b.productId
         <if test="page != null and size != null">
             LIMIT #{page},#{size}
         </if>
@@ -83,11 +162,15 @@
     <!--查询单个库存信息-->
     <select id="selOneInventory" parameterType="String" resultMap="inventoryDataMap">
         SELECT a.ID, a.QUANTITY,  c.NAME product,  a.CREATE_TIME,  a.VERSION, b.NAME warehouse,
-               a.last_update_time, c.ID productId,b.ID warehouseId
-        FROM spplychain.inventory_data a , spplychain.merchant_warehouse_data b,spplychain.product_data c
+               a.last_update_time, c.ID productId,b.ID warehouseId,d.name measure
+        FROM spplychain.inventory_data a ,
+             spplychain.merchant_warehouse_data b,
+             spplychain.product_data c,
+             spplychain.MEASURE_UNIT_DATA d
         WHERE
               a.WAREHOUSE = b.ID
           AND a.PRODUCT = c.ID
+          AND c.MEASURE_UNIT = d.id
           AND a.ID = #{id}
     </select>
 
@@ -123,5 +206,19 @@
         WHERE WAREHOUSE = #{warehouse}
         AND PRODUCT = #{product}
     </update>
+
+    <!--添加入库详情单-->
+    <insert id="addStockChangeItem" parameterType="StockChangeItemData">
+        INSERT INTO spplychain.stock_change_item_data
+        (ID, NAME, PRODUCT,  QUANTITY, VERSION)
+        VALUES(#{id}, #{name},  #{product}, #{quantity},
+               <choose>
+                   <when test="version != null and version != '' ">
+                       #{version}
+                   </when>
+                   <otherwise>0</otherwise>
+               </choose>
+               )
+    </insert>
 
 </mapper>

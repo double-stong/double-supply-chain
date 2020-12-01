@@ -1,6 +1,7 @@
 package com.aaa.fresh.pojo;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,9 @@ public class MerchantWarehouseData {
   private String name;
   private String address;
   private String merchant;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date lastUpdateTime;
   private Integer version;
   private Integer page; //页码

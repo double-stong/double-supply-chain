@@ -42,4 +42,9 @@ public class DestoryServiceImpl implements DestoryService {
     public int delDestroy(String Id) {
         return destroyedMapper.delDestroy(Id);
     }
+
+    @Override
+    public int updDestroyById(Integer quantity, String warehouse, String product) {
+        return destroyedMapper.updDestroyById(quantity, warehouse, product);
+    }
 }
