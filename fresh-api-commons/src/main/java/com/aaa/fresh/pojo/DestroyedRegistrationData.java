@@ -1,5 +1,6 @@
 package com.aaa.fresh.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class DestroyedRegistrationData {
   private double quantity;
   private double destroyedValue;
   private String registrationComment;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date registeredTime;
   private String warehouse;
   private String merchant;
