@@ -129,7 +129,6 @@ public class BankInfoController extends BaseController {
      * */
     @GetMapping("/selectAllBPI")
     public CommonResult selectAllBPI(AccountBankProcurementInfoData_vo abpi){
-
         //当前那一页
         int currentPage = abpi.getPage() == null ? 1:abpi.getPage();
         //当前页显示几条
@@ -145,7 +144,6 @@ public class BankInfoController extends BaseController {
         Long total = Long.valueOf(pageinfo.getTotal()+"");
         //获取当前页的数据
         List<AccountBankProcurementInfoData_vo> list = pageinfo.getList();
-
 
         if (bpi!=null){
             return new CommonResult(0,"",list,total);

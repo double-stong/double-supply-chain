@@ -12,36 +12,37 @@
 
   <resultMap id="DAP_All_Info" type="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="WHO" jdbcType="VARCHAR" property="who" />
+    <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+    <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
+    <result column="poid" jdbcType="VARCHAR" property="poid" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
     <association property="prd" javaType="com.aaa.fresh.pojo.ProcurementRequirementData">
       <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+      <result column="totalprice" jdbcType="DECIMAL" property="totalprice" />
+      <result column="requirement_status" jdbcType="VARCHAR" property="requirementStatus" />
+      <result column="create_time" jdbcType="DATE" property="createTime" />
+      <result column="end_time" jdbcType="DATE" property="endTime" />
+      <result column="approvalstatus" jdbcType="VARCHAR" property="approvalstatus" />
+      <result column="version" jdbcType="INTEGER" property="version" />
     </association>
   </resultMap>
-  <!--<select id="getTotal_DAP" resultType="java.lang.Long">
-    select count(*) from accounting_document_auditing_procurement_data
-    <trim prefix=" where " prefixOverrides="and">
-      <if test="who != null">
-        and WHO = #{who,jdbcType=VARCHAR}
-      </if>
-      <if test="comments != null">
-        and COMMENTS = #{comments,jdbcType=VARCHAR}
-      </if>
-      <if test="makeDate != null">
-        and MAKE_DATE = #{makeDate,jdbcType=TIMESTAMP}
-      </if>
-      <if test="poid != null">
-        and poid = #{poid,jdbcType=VARCHAR}
-      </if>
-      <if test="version != null">
-        and VERSION = #{version,jdbcType=INTEGER}
-      </if>
-    </trim>
-  </select>-->
   <select id="selectAll_DAP" resultMap="DAP_All_Info">
-    select dap.*,pr.*
+    select dap.*,prd.*
     from accounting_document_auditing_procurement_data dap,
-    procurement_requirement_data pr
-    where dap.poid = pr.ID
-
+    procurement_requirement_data prd
+    where dap.poid = prd.ID
+      <if test="id != null and id != '' ">
+        and dap.ID = #{id}
+      </if>
+      <if test="who != null and who !='' ">
+        and dap.WHO = #{who}
+      </if>
+      <if test="poid != null and poid !='' ">
+        and dap.poid = #{poid}
+      </if>
   </select>
 
   <sql id="Base_Column_List">

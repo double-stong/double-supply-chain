@@ -95,7 +95,6 @@ public class AuditingController extends BaseController {
      * */
     @GetMapping("/selectAllDAP")
     public CommonResult selectAllDAP(AccountingDocumentAuditingProcurementData_vo adapdv){
-
         //当前那一页
         int currentPage = adapdv.getPage() == null ? 1:adapdv.getPage();
         //当前页显示几条

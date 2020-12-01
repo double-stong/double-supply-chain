@@ -12,45 +12,51 @@
 
   <resultMap id="BPI_All_Info" type="com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <association property="abd" javaType="com.aaa.fresh.pojo.AccountBankData">
+    <result column="changeDate" jdbcType="TIMESTAMP" property="changedate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="bankId" jdbcType="VARCHAR" property="bankid" />
+    <result column="poid" jdbcType="VARCHAR" property="poid" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <association property="abd" column="id" javaType="com.aaa.fresh.pojo.AccountBankData">
       <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="OPENING_BANK" jdbcType="VARCHAR" property="openingBank" />
+      <result column="ACCOUNT_NUMBER" jdbcType="VARCHAR" property="accountNumber" />
+      <result column="property" jdbcType="TIMESTAMP" property="property" />
+      <result column="VERSION" jdbcType="TIMESTAMP" property="version" />
     </association>
-    <association property="prd" javaType="com.aaa.fresh.pojo.ProcurementRequirementData">
+    <association property="adapd" column="id" javaType="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData">
       <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="WHO" jdbcType="VARCHAR" property="who" />
+      <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+      <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
+      <result column="poid" jdbcType="VARCHAR" property="poid" />
+      <result column="VERSION" jdbcType="INTEGER" property="version" />
     </association>
-    <association property="adapd" javaType="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData">
+    <association property="prd" column="id" javaType="com.aaa.fresh.pojo.ProcurementRequirementData">
       <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+      <result column="requirement_status" jdbcType="VARCHAR" property="requirementStatus" />
+      <result column="create_time" jdbcType="DATE" property="createTime" />
+      <result column="end_time" jdbcType="DATE" property="endTime" />
+      <result column="version" jdbcType="INTEGER" property="version" />
     </association>
   </resultMap>
-  <!--<select id="getTotal_BPI" resultType="java.lang.Long">
-    select count(*) from account_bank_procurement_info_data
-    <trim prefix=" where " prefixOverrides="and">
-      <if test="changedate != null">
-        and changeDate = #{changedate}
-      </if>
-      <if test="remarks != null">
-        and remarks = #{remarks}
-      </if>
-      <if test="bankid != null">
-        and bankId = #{bankid}
-      </if>
-      <if test="poid != null">
-        and poid = #{poid}
-      </if>
-      <if test="version != null">
-        and VERSION = #{version}
-      </if>
-    </trim>
-  </select>-->
   <select id="selectAll_BPI" resultMap="BPI_All_Info" parameterType="com.aaa.fresh.pojo.AccountBankProcurementInfoData_vo">
-    select bpi.*,ab.*,pr.*,dap.*
+    select bpi.*,abd.*,adapd.*,prd.*
     from account_bank_procurement_info_data bpi,
-         account_bank_data ab,
-         procurement_requirement_data pr,
-         accounting_document_auditing_procurement_data dap
-    where bpi.bankId = ab.ID
-      and bpi.poid = pr.ID
-      and dap.poid = pr.ID
+         account_bank_data abd,
+         accounting_document_auditing_procurement_data adapd,
+         procurement_requirement_data prd
+    where bpi.bankId = abd.ID
+        and bpi.poid = prd.ID
+        and adapd.poid = prd.ID
+    <if test="id != null and id != '' ">
+      and bpi.ID = #{id}
+    </if>
+    <if test="changedate != null and changedate !='' ">
+      and bpi.changedate = #{changedate}
+    </if>
 
   </select>
 

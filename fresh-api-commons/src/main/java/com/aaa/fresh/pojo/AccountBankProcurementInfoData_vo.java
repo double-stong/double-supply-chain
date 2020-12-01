@@ -48,9 +48,9 @@ public class AccountBankProcurementInfoData_vo implements Serializable {
 
     private AccountBankData abd;//银行状态 钱
 
-    private ProcurementRequirementData prd;////采购订单信息
-
     private AccountingDocumentAuditingProcurementData adapd;//采购审核详细信息
+
+    private ProcurementRequirementData prd;////采购订单信息
 
     private Integer page; //页码
     private Integer limit; //条数

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * account_bank_procurement_info_data
- * @author 
+ * @author  采购转账实体类
  */
 @AllArgsConstructor
 @NoArgsConstructor
