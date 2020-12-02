@@ -50,7 +50,9 @@ public class AccountBankSellInfoData_vo implements Serializable {
 
     //银行状态 钱
     private AccountBankData abd;
+
     //销售订单详细信息
+    private ContractOrderData cod;
 
     //入账审核详细信息
     AccountingDocumentAuditingSellData adasd;

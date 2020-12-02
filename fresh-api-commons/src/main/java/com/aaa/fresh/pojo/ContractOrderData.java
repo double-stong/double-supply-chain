@@ -15,7 +15,7 @@ public class ContractOrderData implements Serializable {
     /**
      * ID
      */
-    private String id;
+    private String oid;
 
     /**
      * 标题

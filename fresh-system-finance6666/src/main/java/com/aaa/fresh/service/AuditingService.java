@@ -12,7 +12,6 @@ public interface AuditingService {
     // 同时   添加一个 采购审核信息
     int insert_DAP(AccountingDocumentAuditingProcurementData record);
 
-
     //查询一个进账审核信息
     AccountingDocumentAuditingSellData selectByPrimaryKey_DAS(String id);
     //添加一个 进账审核信息
@@ -20,7 +19,7 @@ public interface AuditingService {
     //修改 进账审核状态
     int update_DAS(AccountingDocumentAuditingSellData record);
 
-   //查询所有 采购状态信息
+    //查询所有 采购状态信息
     List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
 
     //查询所有 销售入账详细信息

@@ -7,36 +7,64 @@
 <body>
 <div id="detail" style="display: none;padding: 20px;" th:fragment="detail_common">
 <form class="layui-form">
-    <div class="layui-form-item" style="display: none;" id="fid">
-        <label class="layui-form-label">图书编号</label>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审批编号</label>
         <div class="layui-input-block">
-            <input id="dbookId" type="text" name="dbookId" readonly class="layui-input">
+            <input id="did" type="text" name="id" readonly class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">图书名称</label>
+        <label class="layui-form-label">审核人</label>
         <div class="layui-input-block">
-            <input type="text" id="dbookName" name="bookName"  readonly   class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">出版日期</label>
-        <div class="layui-input-block">
-            <input type="text" id="dcreateDate" name="createDate" required readonly  lay-verify="required"  class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label" style="display: inline-block;">出版社</label>
-        <div class="layui-input-block">
-        <input type="text" id="dpublishId" name="publishId"  readonly  class="layui-input">
+            <input type="text" id="dwho" name="who"  readonly   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">宣传图片</label>
+        <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-            <img class="layui-upload-img" id="ddemo1" style="width:50px;height:50px;border-radius: 25px; text-align: center;">
+            <input type="text" id="dcomments" name="comments"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dmakeDate" name="makeDate" required readonly  lay-verify="required"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">销售订单</label>
+        <div class="layui-input-block">
+            <input type="text" id="dsoid" name="soid"  readonly   class="layui-input">
+        </div>
+    </div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label">买方</label>
+        <div class="layui-input-block">
+            <input type="text" id="dbuyer" name="buyer"  readonly   class="layui-input">
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dcreateTime" name="createTime"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">总价</label>
+        <div class="layui-input-block">
+            <input type="text" id="dtotalAmount" name="totalAmount"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结束日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dlastUpdateTime" name="lastUpdateTime"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核状态</label>
+        <div class="layui-input-block">
+            <input type="text" id="dstatus" name="status"  readonly   class="layui-input">
         </div>
     </div>
 </form>

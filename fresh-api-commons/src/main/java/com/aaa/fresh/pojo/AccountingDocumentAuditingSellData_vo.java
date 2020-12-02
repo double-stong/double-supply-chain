@@ -46,7 +46,7 @@ public class AccountingDocumentAuditingSellData_vo implements Serializable {
     private Integer version;
 
     //销售订单详细信息
-
+    private ContractOrderData cod;
 
     private Integer page; //页码
     private Integer limit; //条数
