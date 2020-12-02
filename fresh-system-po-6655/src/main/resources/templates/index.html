@@ -178,28 +178,21 @@
 
             });
         }
-        var content = "";
-        content += "<option value='审核完成'>"+审核完成+"</option>";
-        content += "<option value='未审核'>"+未审核+"</option>";
-
-        $("#publishId").append(content);
-        $("#spubid").append(content);
-        // //加载下拉列表框
-        // $.ajax({
-        //     url:'',
-        //     type:'GET',
-        //     dateType:'json',
-        //     success:function(res){
-        //         var content = "";
-        //             content += "<option value='审核完成'>"+审核完成+"</option>";
-        //         content += "<option value='未审核'>"+未审核+"</option>";
-        //
-        //         $("#publishId").append(content);
-        //         $("#spubid").append(content);
-        //         form.render('select','dataFrm');
-        //         form.render('select','searchFrm');
-        //     }
-        // });
+        //加载下拉列表框
+        $.ajax({
+            url:'[[@{/po/pros}]]',
+            type:'GET',
+            dateType:'json',
+            success:function(res){
+                var content = "";
+                    content += "<option value='审核完成'>"+审核完成+"</option>";
+                content += "<option value='未审核'>"+未审核+"</option>";
+                $("#spubid").append(content);
+                $("#publishId").append(content);
+                form.render('select','dataFrm');
+                form.render('select','searchFrm');
+            }
+        });
 
         //添加的操作
         function add(){
