@@ -2,9 +2,12 @@ package com.aaa.fresh.mapper;
 
 
 import com.aaa.fresh.pojo.EligibleVendorData;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Mapper
+@Component
 public interface EligibleVendorDataMapper {
     int deleteByPrimaryKey(String id);
 

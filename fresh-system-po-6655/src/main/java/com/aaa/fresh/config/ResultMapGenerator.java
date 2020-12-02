@@ -1,5 +1,6 @@
 package com.aaa.fresh.config;
 
+import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.pojo.ProcurementItemData;
 
 import java.lang.reflect.Field;
@@ -85,6 +86,7 @@ public class ResultMapGenerator {
     }
 
     public static void main(String[] args) {
+        System.out.println(IdUtil.objectId());
         String resultMap = ResultMapGenerator.generate(ProcurementItemData.class);
         System.out.println(resultMap);
 

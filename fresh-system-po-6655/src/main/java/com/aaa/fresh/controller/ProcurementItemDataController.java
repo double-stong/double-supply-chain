@@ -33,7 +33,7 @@ public class ProcurementItemDataController {
         Long total = procurementItemDataService.allTotal(item);
         System.out.println(prs);
         if (prs!=null){
-            return new CommonResult(200,"查询所有的采购项目",prs,total);
+            return new CommonResult(0,"查询到采购项目",prs,total);
         }else {
             return new CommonResult(444,"未查询到采购项目",null,null);
         }

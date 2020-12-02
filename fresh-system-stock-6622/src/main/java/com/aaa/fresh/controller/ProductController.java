@@ -1,5 +1,6 @@
 package com.aaa.fresh.controller;
 
+import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.ProductData;
 import com.aaa.fresh.service.ProductService;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/stock")
-public class ProductController {
+public class ProductController extends BaseController {
     @Resource
     private ProductService productService;
 

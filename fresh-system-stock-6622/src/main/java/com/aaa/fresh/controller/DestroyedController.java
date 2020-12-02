@@ -1,6 +1,7 @@
 package com.aaa.fresh.controller;
 
 import cn.hutool.core.util.IdUtil;
+import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.DestroyedRegistrationData;
 import com.aaa.fresh.service.DestoryService;
@@ -16,7 +17,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/stock")
-public class DestroyedController {
+public class DestroyedController extends BaseController {
     @Autowired
     private DestoryService destoryService;
     /**
@@ -25,9 +26,8 @@ public class DestroyedController {
      * @return
      */
     @GetMapping("/selAllDestroy")
-    public CommonResult selAllDestroy(DestroyedRegistrationData destData){
+    public CommonResult<List<DestroyedRegistrationData>> selAllDestroy(DestroyedRegistrationData destData){
         //查询总条数
-        System.out.println("获取到的数据"+destData);
         if (destData.getPage()!=null
                 && destData.getSize()!=null){
             destData.setPage((destData.getPage()-1)*
@@ -38,9 +38,9 @@ public class DestroyedController {
         List<DestroyedRegistrationData> res = destoryService.selAllDestroy(destData);
 
         if (res!=null){
-            return new CommonResult(200,"查询库存成功",res,total);
+            return new CommonResult<>(200,"查询库存成功",res,total);
         }else {
-            return new CommonResult(444,"查询库存失败",null,null);
+            return new CommonResult<>(444,"查询库存失败",null,null);
 
         }
     }
@@ -51,13 +51,13 @@ public class DestroyedController {
      * @return
      */
     @PostMapping("/addDestroy")
-    public CommonResult addDestroy(DestroyedRegistrationData destData){
+    public CommonResult<Integer> addDestroy(DestroyedRegistrationData destData){
         destData.setId(IdUtil.objectId());
         int res = destoryService.addDestroy(destData);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -67,12 +67,12 @@ public class DestroyedController {
      * @return
      */
     @PutMapping("/updDestroy")
-    public CommonResult updDestroy(DestroyedRegistrationData destData){
+    public CommonResult<Integer> updDestroy(DestroyedRegistrationData destData){
         int res = destoryService.updDestroy(destData);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -82,12 +82,12 @@ public class DestroyedController {
      * @return
      */
     @DeleteMapping("/delDestroy/{Id}")
-    public CommonResult delDestroy(@PathVariable("Id") String Id){
+    public CommonResult<Integer> delDestroy(@PathVariable("Id") String Id){
         int res = destoryService.delDestroy(Id);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult<>(200,"成功",res,null);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult<>(444,"失败",null,null);
         }
     }
 
@@ -97,12 +97,23 @@ public class DestroyedController {
      * @return
      */
     @GetMapping("/selOneDestroy/{Id}")
-    public CommonResult selOneDestroy(@PathVariable("Id") String Id){
+    public CommonResult<DestroyedRegistrationData> selOneDestroy(@PathVariable("Id") String Id){
         DestroyedRegistrationData inventoryData = destoryService.selOneDestroy(Id);
         if (inventoryData!= null){
-            return new CommonResult(200,"查询成功",inventoryData,null);
+            return new CommonResult<>(200,"查询成功",inventoryData,null);
         }else {
-            return new CommonResult(200,"查询成功",null,null);
+            return new CommonResult<>(200,"查询成功",null,null);
         }
+    }
+
+    @PutMapping("/updDestroyById")
+    public CommonResult<Integer> updDestroyById(Integer quantity, String warehouse, String product){
+        int res = destoryService.updDestroyById(quantity, warehouse, product);
+        if (res>0){
+            return new CommonResult<>(200,"查询成功",res,null);
+        }else {
+            return new CommonResult<>(200,"查询成功",null,null);
+        }
+
     }
 }

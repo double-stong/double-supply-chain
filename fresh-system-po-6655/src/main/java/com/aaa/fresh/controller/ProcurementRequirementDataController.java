@@ -1,23 +1,21 @@
 package com.aaa.fresh.controller;
 
-import com.aaa.fresh.pojo.CommonResult;
-import com.aaa.fresh.pojo.ProcurementItemData;
-import com.aaa.fresh.pojo.ProcurementRequirementData;
-import com.aaa.fresh.pojo.ProcurementRequirementDataVo;
+import cn.hutool.core.util.IdUtil;
+import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.ProcurementItemDataService;
 import com.aaa.fresh.service.ProcurementRequirementDataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 public class ProcurementRequirementDataController {
     @Autowired
     ProcurementRequirementDataService procurementRequirementDataService;
@@ -25,27 +23,25 @@ public class ProcurementRequirementDataController {
     ProcurementItemDataService procurementItemDataService;
 
 
-    @GetMapping("/po/items")
-    public CommonResult seleAllItems(ProcurementRequirementData pro){
-        if (pro.getPage()!=null && pro.getSize()!=null){
-            pro.setPage((pro.getPage()-1) * pro.getSize());
-        }
-        pro.setPage(1);
-        pro.setSize(3);
-
-        List<ProcurementRequirementData> prs= procurementRequirementDataService.selectAll(pro);
-        Long total = procurementRequirementDataService.allTotal(pro);
-        System.out.println(prs);
-        if (prs!=null){
-            return new CommonResult(200,"查询所有的采购订单",prs,total);
-        }else {
-            return new CommonResult(444,"未查询到采购订单",null,null);
-        }
+    @GetMapping("/po/pros")
+    public ReturnObj seleAllpros(ProcurementRequirementData pro ){
+        ReturnObj obj =  procurementRequirementDataService.selectAll(pro);
+        return obj;
+//        List<ProcurementRequirementData> prs= procurementRequirementDataService.selectAll(pro);
+//        Long total = procurementRequirementDataService.allTotal(pro);
+//        System.out.println(prs);
+//        model.addAttribute("prs",prs);
+//
+//        if (prs!=null){
+//            return new CommonResult(200,"查询到采购订单",prs,total);
+//        }else {
+//            return new CommonResult(444,"未查询到采购订单",null,null);
+//        }
     };
 
-    @PostMapping("/po/insitems")
-    public CommonResult addItems(ProcurementRequirementDataVo prvo){
-
+    @PostMapping("/po/addpo")
+    public CommonResult addProandItems(ProcurementRequirementDataVo prvo){
+        System.out.println(IdUtil.objectId());
         Double totalprice=10*100.00+100*100.00;
         List<ProcurementItemData> items=new ArrayList<>();
 
@@ -64,8 +60,8 @@ public class ProcurementRequirementDataController {
         }
     }
 
-    @PutMapping("/po/upditem")
-    public CommonResult updItem(ProcurementRequirementData pro){
+    @PutMapping("/po/updpro")
+    public CommonResult updpro(ProcurementRequirementData pro){
         Double totalprice=10*100.00+100*100.00;
         ProcurementRequirementData pro1= new ProcurementRequirementData("1000004","采购需求单4号","M000002","进行中",new Date(),null,totalprice,"审核完成",1,null,null);
 

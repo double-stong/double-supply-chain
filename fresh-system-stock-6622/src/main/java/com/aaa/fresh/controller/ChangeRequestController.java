@@ -1,5 +1,6 @@
 package com.aaa.fresh.controller;
 
+import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.ChangeRequestData;
 import com.aaa.fresh.pojo.ChangeRequestTypeData;
 import com.aaa.fresh.pojo.CommonResult;
@@ -13,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/stock")
-public class ChangeRequestController {
+public class ChangeRequestController extends BaseController {
 
     @Resource
     private ChangeRequestService requestService;

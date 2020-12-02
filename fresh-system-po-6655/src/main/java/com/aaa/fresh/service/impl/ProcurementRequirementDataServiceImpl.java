@@ -4,7 +4,10 @@ import com.aaa.fresh.mapper.ProcurementItemDataMapper;
 import com.aaa.fresh.mapper.ProcurementRequirementDataMapper;
 import com.aaa.fresh.pojo.ProcurementRequirementData;
 import com.aaa.fresh.pojo.ProcurementRequirementDataVo;
+import com.aaa.fresh.pojo.ReturnObj;
 import com.aaa.fresh.service.ProcurementRequirementDataService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +25,16 @@ public class ProcurementRequirementDataServiceImpl implements ProcurementRequire
     }
 
     @Override
-    public List<ProcurementRequirementData> selectAll(ProcurementRequirementData procurementRequirementData) {
-        return procurementRequirementDataMapper.selectAll(procurementRequirementData);
+    public ReturnObj selectAll(ProcurementRequirementData pro) {
+        int currentPage = pro.getPage() == null ? 1:pro.getPage();
+        int pageSize = pro.getSize() == null ? 3:pro.getSize();
+        PageHelper.startPage(currentPage,pageSize);
+        List<ProcurementRequirementData> ps = procurementRequirementDataMapper.selectAll(pro);
+        PageInfo<ProcurementRequirementData> pageinfo = new PageInfo<ProcurementRequirementData>(ps);
+        Integer total = Integer.valueOf(pageinfo.getTotal()+"");
+        List<ProcurementRequirementData> list = pageinfo.getList();
+        return new ReturnObj(0,"",total,list);
+
     }
 
     @Override
