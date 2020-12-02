@@ -40,13 +40,16 @@
         SELECT id,name,buyer,requirement_status,create_time,end_time,totalprice,approvalstatus,version
         FROM procurement_requirement_data
         <where>
-            <if test="name != null">
+            <if test="id != null and id !='' ">
+                and id = #{id }
+            </if>
+            <if test="name != null and name !='' ">
                 and name = #{name}
             </if>
             <if test="buyer != null">
                 and buyer = #{buyer}
             </if>
-            <if test="requirementStatus != null">
+            <if test="requirementStatus != null and requirementStatus != ''">
                 and requirement_status = #{requirementStatus}
             </if>
             <if test="createTime != null">

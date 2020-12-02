@@ -17,9 +17,9 @@ public class ProcurementRequirementData {
   private String name;
   private String buyer;
   private String requirementStatus;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="GMT+8")// 后台传数据到前台
   private Date   createTime;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="GMT+8")// 后台传数据到前台
   private Date   endTime;
 
   private Double totalprice;

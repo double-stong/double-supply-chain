@@ -36,9 +36,11 @@
       <id column="ID" jdbcType="VARCHAR" property="id" />
       <result column="name" jdbcType="VARCHAR" property="name" />
       <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+      <result column="totalprice" jdbcType="DECIMAL" property="totalprice" />
       <result column="requirement_status" jdbcType="VARCHAR" property="requirementStatus" />
       <result column="create_time" jdbcType="DATE" property="createTime" />
       <result column="end_time" jdbcType="DATE" property="endTime" />
+      <result column="approvalstatus" jdbcType="VARCHAR" property="approvalstatus" />
       <result column="version" jdbcType="INTEGER" property="version" />
     </association>
   </resultMap>
@@ -53,9 +55,6 @@
         and adapd.poid = prd.ID
     <if test="id != null and id != '' ">
       and bpi.ID = #{id}
-    </if>
-    <if test="changedate != null and changedate !='' ">
-      and bpi.changedate = #{changedate}
     </if>
 
   </select>

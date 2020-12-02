@@ -23,7 +23,7 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">查看</a>
 </script>
-<div th:replace="poDetail::detail_common"></div>
+<div th:replace="poInfoDetail::detail_common"></div>
 
 </body>
 </html>
@@ -66,31 +66,19 @@
             ,cols: [
                 [
                     {type:'checkbox'}
-                    ,{field:'id', title:'编号', width:200}
-                    ,{field:'changedate', title:'转账日期', width:215}
-                    ,{field:'remarks', title:'备注', width:350}
-                    ,{field:'abd', title:'账户名称', width:200,
+                    ,{field:'id', title:'编号', width:150}
+                    ,{field:'changedate', title:'转账日期', width:200}
+                    ,{field:'remarks', title:'备注', width:230}
+                    ,{field:'abd', title:'银行账户', width:150,
                         templet:"<div>{{d.abd.openingBank}}</div>"
-                    },{field:'abd', title:'卡号', width:200,
-                    templet:"<div>{{d.abd.accountNumber}}</div>"
-                    },{field:'abd', title:'账户总资产', width:200,
-                        templet:"<div>{{d.abd.property}}</div>"
-                    },{field:'adapd', title:'采购审核人', width:250,
-                        templet:"<div>{{d.adapd.who}}</div>"
-                    },{field:'adapd', title:'审核日期', width:250,
-                        templet:"<div>{{d.adapd.makeDate}}</div>"
                     },{field:'adapd', title:'采购订单号', width:250,
                         templet:"<div>{{d.adapd.poid}}</div>"
-                    },{field:'prd', title:'买方', width:250,
-                        templet:"<div>{{d.prd.buyer}}</div>"
-                    },{field:'prd', title:'订单总价', width:250,
+                    },{field:'prd', title:'订单总价', width:150,
                         templet:"<div>{{d.prd.totalprice}}</div>"
-                    },{field:'prd', title:'订单创建时间', width:250,
-                        templet:"<div>{{d.prd.createTime}}</div>"
-                    },{field:'prd', title:'审批状态', width:250,
+                    },{field:'prd', title:'审批状态', width:150,
                         templet:"<div>{{d.prd.approvalstatus}}</div>"
                     }
-                    ,{toolbar: '#barDemo',fixed:'right',title:'操作',width:250,align:'center'}
+                    ,{toolbar: '#barDemo',fixed:'right',title:'操作',width:200,align:'center'}
                 ]
             ]
 
@@ -108,11 +96,20 @@
                     ,area:['500px','400px']
                     ,success:function(){
                         console.log(row);
-                        $("#dbookId").val(row.bookId);
-                        $("#dbookName").val(row.bookName);
-                        $("#dpublishId").val(row.publish.pubName);
-                        $("#dcreateDate").val(row.createDate);
-                        $("#ddemo1").attr('src','/demo/upimg/'+row.pic);
+                        $("#did").val(row.id);
+                        $("#dchangedate").val(row.changedate);
+                        $("#dremarks").val(row.remarks);
+                        $("#dopeningBank").val(row.abd.openingBank);
+                        $("#dpoid").val(row.adapd.poid);
+                        $("#dtotalprice").val(row.adapd.totalprice);
+                        $("#dapprovalstatus").val(row.prd.approvalstatus);
+                        $("#daccountNumber").val(row.abd.accountNumber);
+                        $("#dproperty").val(row.abd.property);
+                        $("#dwho").val(row.adapd.who);
+                        $("#dmakeDate").val(row.adapd.makeDate);
+                        $("#dbuyer").val(row.prd.buyer);
+                        $("#dcreateTime").val(row.prd.createTime);
+                        $("#dendTime").val(row.prd.endTime);
                     }
                 });
 

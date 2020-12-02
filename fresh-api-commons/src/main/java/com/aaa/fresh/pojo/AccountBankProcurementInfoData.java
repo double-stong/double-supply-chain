@@ -3,6 +3,7 @@ package com.aaa.fresh.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class AccountBankProcurementInfoData implements Serializable {
     /**
      * 更改日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="GMT+8")// 后台传数据到前台
     private Date changedate;
 
     /**

@@ -186,8 +186,8 @@
             success:function(res){
                 var content = "";
                     content += "<option value='审核完成'>"+审核完成+"</option>";
-                content += "<option value='未审核'>"+未审核+"</option>";
-                $("#spubid").append(content);
+                    content += "<option value='未审核'>"+未审核+"</option>";
+                $("#status").append(content);
                 $("#publishId").append(content);
                 form.render('select','dataFrm');
                 form.render('select','searchFrm');
@@ -315,13 +315,13 @@
 
         //刷新多条件查询
         function refresh(){
-            var id = $("#id").val();
+            var sid = $("#sid").val();
             var name = $("#sname").val();
-            var requirementStatus = $("#requirementStatus").val();
+            var requirementStatus = $("#spubid").val();
             tableIndex.reload(//重载，where后面设置的是传给后台的参数
                 {
                     where:{
-                        id:id,
+                        id:sid,
                         name:name,
                         requirementStatus:requirementStatus
                     }

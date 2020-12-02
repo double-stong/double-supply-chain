@@ -8,33 +8,69 @@
 <div id="detail" style="display: none;padding: 20px;" th:fragment="detail_common">
 <form class="layui-form">
     <div class="layui-form-item">
-        <label class="layui-form-label">审批编号</label>
+        <label class="layui-form-label">转账编号</label>
         <div class="layui-input-block">
             <input id="did" type="text" name="id" readonly class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">审核人</label>
+        <label class="layui-form-label">转账日期</label>
         <div class="layui-input-block">
-            <input type="text" id="dwho" name="who"  readonly   class="layui-input">
+            <input type="text" id="dchangedate" name="changedate"  readonly   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-            <input type="text" id="dcomments" name="comments"  readonly   class="layui-input">
+            <input type="text" id="dremarks" name="remarks"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">银行账户</label>
+        <div class="layui-input-block">
+            <input type="text" id="dopeningBank" name="openingBank" required readonly  lay-verify="required"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购订单号</label>
+        <div class="layui-input-block">
+            <input type="text" id="dpoid" name="poid"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单总价</label>
+        <div class="layui-input-block">
+            <input type="text" id="dtotalprice" name="totalprice"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核状态</label>
+        <div class="layui-input-block">
+            <input type="text" id="dapprovalstatus" name="approvalstatus"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">卡号</label>
+        <div class="layui-input-block">
+            <input type="text" id="daccountNumber" name="accountNumber"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账户总资产</label>
+        <div class="layui-input-block">
+            <input type="text" id="dproperty" name="property"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购审核人</label>
+        <div class="layui-input-block">
+            <input type="text" id="dwho" name="who"  readonly   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">审核日期</label>
         <div class="layui-input-block">
-            <input type="text" id="dmakeDate" name="makeDate" required readonly  lay-verify="required"  class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">采购订单</label>
-        <div class="layui-input-block">
-            <input type="text" id="dpoid" name="poid"  readonly   class="layui-input">
+            <input type="text" id="dmakeDate" name="makeDate"  readonly   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -44,15 +80,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">采购日期</label>
+        <label class="layui-form-label">订单创建时间</label>
         <div class="layui-input-block">
             <input type="text" id="dcreateTime" name="createTime"  readonly   class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">总价</label>
-        <div class="layui-input-block">
-            <input type="text" id="dtotalprice" name="totalprice"  readonly   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -61,12 +91,7 @@
             <input type="text" id="dendTime" name="endTime"  readonly   class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">审核状态</label>
-        <div class="layui-input-block">
-            <input type="text" id="dapprovalstatus" name="approvalstatus"  readonly   class="layui-input">
-        </div>
-    </div>
+
 </form>
 </div>
 </body>
