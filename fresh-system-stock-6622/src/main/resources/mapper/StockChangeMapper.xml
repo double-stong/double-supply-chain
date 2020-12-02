@@ -13,6 +13,7 @@
         <result column="create_time" jdbcType="DATE" property="createTime" />
         <result column="owner" jdbcType="VARCHAR" property="owner" />
         <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="productId" jdbcType="VARCHAR" property="productId"/>
     </resultMap>
     <!--获取所有的条数-->
 
@@ -45,7 +46,7 @@
 
     <!--查询所有的-->
     <select id="selAllStockChange" parameterType="StockChangeData" resultMap="stockChangeDataMap">
-        SELECT a.ID, a.NAME, c.NAME STOCK_CHANGE_DIRECTION, b.NAME STOCK_CHANGE_TYPE, a.WAREHOUSE, a.OPERATOR, a.REFERENCE_ID, a.CHECK_IN_TIME, a.CREATE_TIME, a.OWNER, a.VERSION
+        SELECT a.ID, a.NAME, c.NAME STOCK_CHANGE_DIRECTION, b.NAME STOCK_CHANGE_TYPE, a.WAREHOUSE, a.OPERATOR, a.REFERENCE_ID, a.CHECK_IN_TIME, a.CREATE_TIME, a.OWNER `owner`, a.VERSION
         FROM spplychain.stock_change_data a,
              spplychain.stock_change_type_data b,
              spplychain.stock_change_direction_data c
@@ -59,9 +60,15 @@
 
     <!--查询单个-->
     <select id="selOneStockChange" parameterType="String" resultMap="stockChangeDataMap">
-        SELECT ID, NAME, STOCK_CHANGE_DIRECTION, STOCK_CHANGE_TYPE, WAREHOUSE, OPERATOR, REFERENCE_ID, CHECK_IN_TIME, CREATE_TIME, OWNER, VERSION
-        FROM spplychain.stock_change_data
-        WHERE ID = #{id}
+        SELECT a.ID, a.NAME, c.NAME STOCK_CHANGE_DIRECTION, b.NAME STOCK_CHANGE_TYPE, a.WAREHOUSE, a.OPERATOR, a.REFERENCE_ID, a.CHECK_IN_TIME, a.CREATE_TIME, a.OWNER, a.VERSION
+        FROM spplychain.stock_change_data a,
+             spplychain.stock_change_type_data b,
+             spplychain.stock_change_direction_data c
+        WHERE a.STOCK_CHANGE_DIRECTION = c.ID AND
+              a.STOCK_CHANGE_TYPE = b.ID and
+              a.ID = #{Id}
+
+
     </select>
 
     <!--修改-->
@@ -93,8 +100,8 @@
     <!--添加-->
     <insert id="addStockChange" parameterType="StockChangeData">
         INSERT INTO spplychain.stock_change_data
-        (ID, NAME, STOCK_CHANGE_DIRECTION, STOCK_CHANGE_TYPE, WAREHOUSE, OPERATOR, CHECK_IN_TIME, CREATE_TIME,  VERSION)
-        VALUES(#{id}, #{name}, #{stockChangeDirection}, #{stockChangeType}, #{warehouse}, #{operator},  NOW(), NOW(),  1)
+        (ID, NAME, STOCK_CHANGE_DIRECTION, STOCK_CHANGE_TYPE, WAREHOUSE, OPERATOR,REFERENCE_ID, CHECK_IN_TIME, CREATE_TIME, OWNER, VERSION)
+        VALUES(#{id}, #{name}, #{stockChangeDirection}, #{stockChangeType}, #{warehouse}, #{operator},#{referenceId},  NOW(), NOW(),#{owner},  1)
 
     </insert>
     
@@ -129,4 +136,33 @@
         SELECT ID, NAME, CODE, PLATFORM, VERSION
         FROM spplychain.stock_change_type_data
     </select>
+
+    <!--根据引用id查询详细的出入库信息-->
+    <resultMap id="stockChangeItemDataMap" type="StockChangeItemData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="product" jdbcType="VARCHAR" property="product" />
+        <result column="stock_lot_number" jdbcType="VARCHAR" property="stockLotNumber" />
+        <result column="quantity" jdbcType="DOUBLE" property="quantity" />
+        <result column="stock_check_in" jdbcType="VARCHAR" property="stockCheckIn" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="poductId" jdbcType="VARCHAR" property="poductId"/>
+    </resultMap>
+    <select id="selChangeItemById" parameterType="String" resultMap="stockChangeItemDataMap">
+        SELECT a.ID, a.NAME, b.name PRODUCT, a.STOCK_LOT_NUMBER,
+               a.QUANTITY, a.STOCK_CHECK_IN, a.VERSION,
+               a.PRODUCT productId,c.name unit, a.PRODUCT poductId
+        FROM spplychain.stock_change_item_data a,
+             spplychain.product_data b,
+             spplychain.MEASURE_UNIT_DATA c
+        WHERE a.ID = #{Id} and a.product = b.id and b.MEASURE_UNIT = c.ID
+    </select>
+
+    <!--修改出入库的状态 默认为0 为未领取  修改值为1 状态为 已领取 减少库存-->
+    <update id="updChangeItemVersion" >
+        UPDATE spplychain.stock_change_item_data
+        SET  VERSION = #{version}
+        WHERE ID = #{Id}
+    </update>
 </mapper>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页</title>
+</head>
+<body>
+<div id="detail" style="display: none;padding: 20px;" th:fragment="detail_common">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">审批编号</label>
+        <div class="layui-input-block">
+            <input id="did" type="text" name="id" readonly class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核人</label>
+        <div class="layui-input-block">
+            <input type="text" id="dwho" name="who"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" id="dcomments" name="comments"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dmakeDate" name="makeDate" required readonly  lay-verify="required"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购订单</label>
+        <div class="layui-input-block">
+            <input type="text" id="dpoid" name="poid"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">买方</label>
+        <div class="layui-input-block">
+            <input type="text" id="dbuyer" name="buyer"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dcreateTime" name="createTime"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">总价</label>
+        <div class="layui-input-block">
+            <input type="text" id="dtotalprice" name="totalprice"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结束日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dendTime" name="endTime"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核状态</label>
+        <div class="layui-input-block">
+            <input type="text" id="dapprovalstatus" name="approvalstatus"  readonly   class="layui-input">
+        </div>
+    </div>
+</form>
+</div>
+</body>
+</html>

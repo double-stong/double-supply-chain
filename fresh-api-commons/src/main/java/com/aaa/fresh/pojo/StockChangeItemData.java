@@ -21,4 +21,8 @@ public class StockChangeItemData {
   private Integer version;
 
 
+  private String poductId;
+  private String unit;
+
+
 }

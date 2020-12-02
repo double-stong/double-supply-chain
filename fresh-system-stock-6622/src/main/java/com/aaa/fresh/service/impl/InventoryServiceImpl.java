@@ -2,6 +2,7 @@ package com.aaa.fresh.service.impl;
 
 import com.aaa.fresh.mapper.InventoryMapper;
 import com.aaa.fresh.pojo.InventoryData;
+import com.aaa.fresh.pojo.StockChangeItemData;
 import com.aaa.fresh.service.InventoryService;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,10 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public int addUpdInventByIds(InventoryData inventoryData) {
         return inventoryMapper.addUpdInventByIds(inventoryData);
+    }
+
+    @Override
+    public int addStockChangeItem(StockChangeItemData stockChangeItemData) {
+        return inventoryMapper.addStockChangeItem(stockChangeItemData);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-public class FinanceMainRun6666 {
+public class  FinanceMainRun6666 {
     public static void main(String[] args) {
         SpringApplication.run(FinanceMainRun6666.class,args);
     }

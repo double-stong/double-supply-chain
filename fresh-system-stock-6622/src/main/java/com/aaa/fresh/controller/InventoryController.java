@@ -1,8 +1,10 @@
 package com.aaa.fresh.controller;
 
 import cn.hutool.core.util.IdUtil;
+import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.InventoryData;
+import com.aaa.fresh.pojo.StockChangeItemData;
 import com.aaa.fresh.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/stock")
-public class InventoryController {
+public class InventoryController extends BaseController {
     @Autowired
     private InventoryService inventoryService;
 
@@ -153,4 +155,20 @@ public class InventoryController {
         }
     }
 
+    /**
+     * 添加库存变化详细单
+     * @param stockChangeItemData
+     * @return
+     */
+    @PostMapping("/addStockChangeItem")
+    public CommonResult<Integer> addStockChangeItem(StockChangeItemData stockChangeItemData){
+        String Id = IdUtil.objectId();
+        stockChangeItemData.setId(Id);
+        int res = inventoryService.addStockChangeItem(stockChangeItemData);
+        if (res>0){
+            return new CommonResult<>(200,Id,res,null);
+        }else {
+            return new CommonResult<>(200,"成功",null,null);
+        }
+    }
 }

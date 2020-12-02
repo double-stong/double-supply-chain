@@ -47,5 +47,5 @@ public class AccountingDocumentAuditingSellData_vo implements Serializable {
 
 
     private Integer page; //页码
-    private Integer size; //大小
+    private Integer limit; //条数
 }

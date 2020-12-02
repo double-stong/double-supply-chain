@@ -13,26 +13,6 @@
   <resultMap id="DAS_All_Info" type="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData_vo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
   </resultMap>
-  <select id="getTotal_DAS" resultType="java.lang.Long">
-    select count(*) from accounting_document_auditing_sell_data
-    <trim prefix=" where " prefixOverrides="and">
-      <if test="who != null">
-        and WHO = #{who,jdbcType=VARCHAR}
-      </if>
-      <if test="comments != null">
-        and COMMENTS = #{comments,jdbcType=VARCHAR}
-      </if>
-      <if test="makeDate != null">
-        and MAKE_DATE = #{makeDate,jdbcType=TIMESTAMP}
-      </if>
-      <if test="soid != null">
-        and soid = #{soid,jdbcType=VARCHAR}
-      </if>
-      <if test="version != null">
-        and VERSION = #{version,jdbcType=INTEGER}
-      </if>
-    </trim>
-  </select>
   <select id="selectAll_DAS" resultType="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData_vo">
 
   </select>

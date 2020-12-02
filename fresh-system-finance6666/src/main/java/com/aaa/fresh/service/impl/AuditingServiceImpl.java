@@ -2,10 +2,7 @@ package com.aaa.fresh.service.impl;
 
 import com.aaa.fresh.mapper.AccountingDocumentAuditingProcurementDataMapper;
 import com.aaa.fresh.mapper.AccountingDocumentAuditingSellDataMapper;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData_vo;
+import com.aaa.fresh.pojo.*;
 import com.aaa.fresh.service.AuditingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +22,15 @@ public class AuditingServiceImpl implements AuditingService {
     }
 
     @Override
+    public int update_PRD(ProcurementRequirementData prd) {
+        return accountingDocumentAuditingProcurementDataMapper.update_PRD(prd);
+    }
+
+    @Override
     public int insert_DAP(AccountingDocumentAuditingProcurementData record) {
         return accountingDocumentAuditingProcurementDataMapper.insert_DAP(record);
     }
 
-    @Override
-    public int update_DAP(AccountingDocumentAuditingProcurementData record) {
-        return accountingDocumentAuditingProcurementDataMapper.update_DAP(record);
-    }
 
     @Override
     public AccountingDocumentAuditingSellData selectByPrimaryKey_DAS(String id) {
@@ -50,18 +48,8 @@ public class AuditingServiceImpl implements AuditingService {
     }
 
     @Override
-    public Long getTotal_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {
-        return accountingDocumentAuditingProcurementDataMapper.getTotal_DAP(adapdv);
-    }
-
-    @Override
     public List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {
         return accountingDocumentAuditingProcurementDataMapper.selectAll_DAP(adapdv);
-    }
-
-    @Override
-    public Long getTotal_DAS(AccountingDocumentAuditingSellData_vo adasd) {
-        return accountingDocumentAuditingSellDataMapper.getTotal_DAS(adasd);
     }
 
     @Override

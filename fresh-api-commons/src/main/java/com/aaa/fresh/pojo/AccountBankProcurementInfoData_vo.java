@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * account_bank_sell_info_data
- * @author  所有入账详细信息 实体类
- */
+/*
+*       查询所有采购转账消费详细信息 实体类
+* */
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AccountBankSellInfoData_vo implements Serializable {
+public class AccountBankProcurementInfoData_vo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 主键
@@ -37,23 +37,21 @@ public class AccountBankSellInfoData_vo implements Serializable {
     private String bankid;
 
     /**
-     * 销售订单外键
+     * 采购订单外键
      */
-    private String soid;
+    private String poid;
 
     /**
      * 版本
      */
     private Integer version;
 
-    //银行状态 钱
-    private AccountBankData abd;
-    //销售订单详细信息
+    private AccountBankData abd;//银行状态 钱
 
-    //入账审核详细信息
-    AccountingDocumentAuditingSellData adasd;
+    private AccountingDocumentAuditingProcurementData adapd;//采购审核详细信息
+
+    private ProcurementRequirementData prd;////采购订单信息
 
     private Integer page; //页码
-    private Integer size; //大小
-
+    private Integer limit; //条数
 }

@@ -87,14 +87,8 @@ public class ResultMapGenerator {
     }
 
     public static void main(String[] args) {
-//        String resultMap = ResultMapGenerator.generate(ProductData.class);
-//        System.out.println(resultMap);
-        //参数1为终端ID
-        //参数2为数据中心ID
-        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
-        long id = snowflake.nextId();
-        String id2 = IdUtil.objectId();
-        System.out.println(id);
+        String resultMap = ResultMapGenerator.generate(StockChangeItemData.class);
+        System.out.println(resultMap);
 
 
     }

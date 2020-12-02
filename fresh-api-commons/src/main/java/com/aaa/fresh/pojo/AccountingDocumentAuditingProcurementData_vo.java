@@ -46,5 +46,5 @@ public class AccountingDocumentAuditingProcurementData_vo implements Serializabl
     private ProcurementRequirementData prd;//采购订单信息
 
     private Integer page; //页码
-    private Integer size; //大小
+    private Integer limit; //条数
 }

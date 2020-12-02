@@ -5,6 +5,8 @@ import com.aaa.fresh.pojo.*;
 
 import com.aaa.fresh.service.BankingPracticeService;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/bankInfoController")//出帐入账详情
+@RequestMapping("/bankInfoController")//出帐入账 详情
 public class BankInfoController extends BaseController {
     @Autowired
     BankingPracticeService bankingPracticeService;
@@ -25,7 +27,7 @@ public class BankInfoController extends BaseController {
     public CommonResult selectBank(@PathVariable("id")String id){
         AccountBankData accountBankData = bankingPracticeService.selectByPrimaryKey_Bank(id);
         if (accountBankData!=null){
-            return new CommonResult(200,"成功",accountBankData,null);
+            return new CommonResult(0,"成功",accountBankData,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -38,7 +40,7 @@ public class BankInfoController extends BaseController {
     public CommonResult updateBank(AccountBankData record){
         int res = bankingPracticeService.updateByPrimaryKey_Bank(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -51,7 +53,7 @@ public class BankInfoController extends BaseController {
     public CommonResult selectBPI(@PathVariable("id")String id){
         AccountBankProcurementInfoData bpi  = bankingPracticeService.selectByPrimaryKey_BPI(id);
         if (bpi!=null){
-            return new CommonResult(200,"成功",bpi,null);
+            return new CommonResult(0,"成功",bpi,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -64,7 +66,7 @@ public class BankInfoController extends BaseController {
     public CommonResult insertBPI(AccountBankProcurementInfoData record){
         int res = bankingPracticeService.insert_BPI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -77,7 +79,7 @@ public class BankInfoController extends BaseController {
     public CommonResult updateBPI(AccountBankProcurementInfoData record){
         int res = bankingPracticeService.updateByPrimaryKey_BPI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -90,7 +92,7 @@ public class BankInfoController extends BaseController {
     public CommonResult selectBSI(@PathVariable("id")String id){
         AccountBankSellInfoData bsi  = bankingPracticeService.selectByPrimaryKey_BSI(id);
         if (bsi!=null){
-            return new CommonResult(200,"成功",bsi,null);
+            return new CommonResult(0,"成功",bsi,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -103,7 +105,7 @@ public class BankInfoController extends BaseController {
     public CommonResult insertBSI(AccountBankSellInfoData record){
         int res = bankingPracticeService.insert_BSI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -116,7 +118,7 @@ public class BankInfoController extends BaseController {
     public CommonResult updateBSI(AccountBankSellInfoData record){
         int res = bankingPracticeService.updateByPrimaryKey_BSI(record);
         if (res>0){
-            return new CommonResult(200,"成功",res,null);
+            return new CommonResult(0,"成功",res,null);
         }else {
             return new CommonResult(444,"失败",null,null);
         }
@@ -127,19 +129,26 @@ public class BankInfoController extends BaseController {
      * */
     @GetMapping("/selectAllBPI")
     public CommonResult selectAllBPI(AccountBankProcurementInfoData_vo abpi){
-        //查询总条数
-        if (abpi.getPage()!=null
-                && abpi.getSize()!=null){
-            abpi.setPage((abpi.getPage()-1)*
-                    abpi.getSize());
-        }
-        Long total = bankingPracticeService.getTotal_BPI(abpi);
+        //当前那一页
+        int currentPage = abpi.getPage() == null ? 1:abpi.getPage();
+        //当前页显示几条
+        int pageSize = abpi.getLimit() == null ? 3:abpi.getLimit();
+        //当前页  条数
+        PageHelper.startPage(currentPage,pageSize);
 
         List<AccountBankProcurementInfoData_vo> bpi  = bankingPracticeService.selectAll_BPI(abpi);
+        //把查询的所有数据 放到这个里面  自动分页
+        PageInfo<AccountBankProcurementInfoData_vo> pageinfo = new PageInfo<AccountBankProcurementInfoData_vo>(bpi);
+
+        //总条数
+        Long total = Long.valueOf(pageinfo.getTotal()+"");
+        //获取当前页的数据
+        List<AccountBankProcurementInfoData_vo> list = pageinfo.getList();
+
         if (bpi!=null){
-            return new CommonResult(200,"成功",bpi,total);
+            return new CommonResult(0,"",list,total);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult(0,"",null,null);
         }
     }
 
@@ -148,19 +157,27 @@ public class BankInfoController extends BaseController {
      * */
     @GetMapping("/selectAllBSI")
     public CommonResult selectAllBSI(AccountBankSellInfoData_vo absi){
-        //查询总条数
-        if (absi.getPage()!=null
-                && absi.getSize()!=null){
-            absi.setPage((absi.getPage()-1)*
-                    absi.getSize());
-        }
-        Long total = bankingPracticeService.getTotal_BSI(absi);
+        //当前那一页
+        int currentPage = absi.getPage() == null ? 1:absi.getPage();
+        //当前页显示几条
+        int pageSize = absi.getLimit() == null ? 3:absi.getLimit();
+        //当前页  条数
+        PageHelper.startPage(currentPage,pageSize);
 
         List<AccountBankSellInfoData_vo> bsi  = bankingPracticeService.selectAll_BSI(absi);
+        //把查询的所有数据 放到这个里面  自动分页
+        PageInfo<AccountBankSellInfoData_vo> pageinfo = new PageInfo<AccountBankSellInfoData_vo>(bsi);
+
+        //总条数
+        Long total = Long.valueOf(pageinfo.getTotal()+"");
+        //获取当前页的数据
+        List<AccountBankSellInfoData_vo> list = pageinfo.getList();
+
+
         if (bsi!=null){
-            return new CommonResult(200,"成功",bsi,total);
+            return new CommonResult(0,"",list,total);
         }else {
-            return new CommonResult(444,"失败",null,null);
+            return new CommonResult(0,"",null,null);
         }
     }
 
