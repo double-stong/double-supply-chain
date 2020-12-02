@@ -120,7 +120,7 @@
         });
 
         //加载下拉列表框
-        /*$.ajax({
+        $.ajax({
             url:'[[@{/bs/pubs}]]',
             type:'GET',
             dateType:'json',
@@ -129,12 +129,12 @@
                 $.each(res,function(i,v){
                     content += "<option value='"+v.pubId+"'>"+v.pubName+"</option>";
                 });
-                $("#publishId").append(content);
-                $("#spubid").append(content);
+                $("#poid").append(content);
+                $("#spoid").append(content);
                 form.render('select','dataFrm');
                 form.render('select','searchFrm');
             }
-        });*/
+        });
 
         //刷新多条件查询
         function refresh(){
