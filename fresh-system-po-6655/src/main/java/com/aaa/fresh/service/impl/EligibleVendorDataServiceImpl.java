@@ -4,9 +4,10 @@ import com.aaa.fresh.mapper.EligibleVendorDataMapper;
 import com.aaa.fresh.pojo.EligibleVendorData;
 import com.aaa.fresh.service.EligibleVendorDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class EligibleVendorDataServiceImpl  implements EligibleVendorDataService {
     @Autowired
     EligibleVendorDataMapper eligibleVendorDataMapper;

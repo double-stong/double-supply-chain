@@ -65,7 +65,6 @@
                 and version = #{version}
             </if>
         </where>
-        LIMIT #{page},#{size}
     </select>
 
     <insert id="insert" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
