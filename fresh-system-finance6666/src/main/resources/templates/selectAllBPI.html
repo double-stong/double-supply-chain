@@ -116,23 +116,6 @@
             }
         });
 
-        //加载下拉列表框
-        $.ajax({
-            url:'[[@{/bs/pubs}]]',
-            type:'GET',
-            dateType:'json',
-            success:function(res){
-                var content = "";
-                $.each(res,function(i,v){
-                    content += "<option value='"+v.pubId+"'>"+v.pubName+"</option>";
-                });
-                $("#poid").append(content);
-                $("#spoid").append(content);
-                form.render('select','dataFrm');
-                form.render('select','searchFrm');
-            }
-        });
-
         //刷新多条件查询
         function refresh(){
             var sid = $("#sid").val();
@@ -141,9 +124,7 @@
             tableIndex.reload(//重载，where后面设置的是传给后台的参数
                 {
                     where:{
-                        id:sid,
-                        who:swho,
-                        changedate:schangedate
+                        id:sid
                     }
                     ,page:{
                         page:1,
