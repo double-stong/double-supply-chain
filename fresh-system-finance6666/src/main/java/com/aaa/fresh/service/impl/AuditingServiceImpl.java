@@ -43,9 +43,10 @@ public class AuditingServiceImpl implements AuditingService {
     }
 
     @Override
-    public int update_DAS(AccountingDocumentAuditingSellData record) {
-        return accountingDocumentAuditingSellDataMapper.update_DAS(record);
+    public int update_COD(ContractOrderData cod) {
+        return accountingDocumentAuditingSellDataMapper.update_COD(cod);
     }
+
 
     @Override
     public List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {

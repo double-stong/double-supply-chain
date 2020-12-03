@@ -101,26 +101,12 @@
     </trim>
   </insert>
 
-  <update id="update_DAS" parameterType="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData">
-    update accounting_document_auditing_sell_data
-    <set>
-      <if test="who != null">
-        WHO = #{who,jdbcType=VARCHAR},
-      </if>
-      <if test="comments != null">
-        COMMENTS = #{comments,jdbcType=VARCHAR},
-      </if>
-      <if test="makeDate != null">
-        MAKE_DATE = #{makeDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="soid != null">
-        soid = #{soid,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null">
-        VERSION = #{version,jdbcType=INTEGER},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
+  <update id="update_COD" parameterType="com.aaa.fresh.pojo.ContractOrderData">
+    update contract_order_data set
+    <if test="STATUS != null">
+      STATUS = #{STATUS}
+    </if>
+    where oid = #{oid}
   </update>
 
 </mapper>

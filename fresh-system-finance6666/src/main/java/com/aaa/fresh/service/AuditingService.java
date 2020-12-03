@@ -17,7 +17,7 @@ public interface AuditingService {
     //添加一个 进账审核信息
     int insert_DAS(AccountingDocumentAuditingSellData record);
     //修改 进账审核状态
-    int update_DAS(AccountingDocumentAuditingSellData record);
+    int update_COD(ContractOrderData cod);
 
     //查询所有 采购状态信息
     List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);

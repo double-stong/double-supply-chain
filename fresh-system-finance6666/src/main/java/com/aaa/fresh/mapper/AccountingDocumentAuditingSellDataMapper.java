@@ -3,6 +3,7 @@ package com.aaa.fresh.mapper;
 import com.aaa.fresh.pojo.AccountBankSellInfoData_vo;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData;
 import com.aaa.fresh.pojo.AccountingDocumentAuditingSellData_vo;
+import com.aaa.fresh.pojo.ContractOrderData;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ public interface AccountingDocumentAuditingSellDataMapper {
     AccountingDocumentAuditingSellData selectByPrimaryKey_DAS(String id);
     //添加一个 进账审核信息
     int insert_DAS(AccountingDocumentAuditingSellData record);
-    //修改 进账审核状态
-    int update_DAS(AccountingDocumentAuditingSellData record);
+    //修改 进账审核状态 同时添加
+    int update_COD(ContractOrderData cod);
 
 }

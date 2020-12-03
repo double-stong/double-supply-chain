@@ -36,18 +36,18 @@ public class AuditingController extends BaseController {
     /*
      * 修改采购订单状态 同时  添加 采购审批信息
      * */
-    @PutMapping("/insertDAP")
-    public CommonResult insertDAP(ProcurementRequirementData prd,AccountingDocumentAuditingProcurementData record){
+    @PutMapping("/updatePRD")
+    public CommonResult updatePRD(ProcurementRequirementData prd,AccountingDocumentAuditingProcurementData record){
         int result = auditingService.update_PRD(prd);
         if(result>0){
             int res = auditingService.insert_DAP(record);
             if (res>0){
                 return new CommonResult(0,"成功",res,null);
             }else {
-                return new CommonResult(444,"失败",null,null);
+                return new CommonResult(0,"失败",null,null);
             }
         }
-        return new CommonResult(444,"失败",null,null);
+        return new CommonResult(0,"失败",null,null);
     }
 
 
@@ -65,29 +65,20 @@ public class AuditingController extends BaseController {
     }
 
     /*
-     *   添加 进账审批 信息
+     * 修改销售订单状态 同时   添加 进账审批 信息
      * */
-    @PutMapping("/insertDAS")
-    public CommonResult insertDAS(AccountingDocumentAuditingSellData record){
-        int res = auditingService.insert_DAS(record);
-        if (res>0){
-            return new CommonResult(0,"成功",res,null);
-        }else {
-            return new CommonResult(444,"失败",null,null);
+    @PutMapping("/updateCOD")
+    public CommonResult updateCOD(ContractOrderData cod,AccountingDocumentAuditingSellData record){
+        int result = auditingService.update_COD(cod);
+        if(result>0){
+            int res = auditingService.insert_DAS(record);
+            if (res>0){
+                return new CommonResult(0,"成功",res,null);
+            }else {
+                return new CommonResult(0,"失败",null,null);
+            }
         }
-    }
-
-    /*
-     *   修改 进账审批状态
-     * */
-    @PostMapping("/updateDAS")
-    public CommonResult updateDAS(AccountingDocumentAuditingSellData record){
-        int res = auditingService.update_DAS(record);
-        if (res>0){
-            return new CommonResult(0,"成功",res,null);
-        }else {
-            return new CommonResult(444,"失败",null,null);
-        }
+        return new CommonResult(0,"失败",null,null);
     }
 
     /*
