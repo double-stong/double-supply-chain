@@ -12,10 +12,55 @@
 
   <resultMap id="BSI_All_Info" type="com.aaa.fresh.pojo.AccountBankSellInfoData_vo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-
+    <result column="changeDate" jdbcType="TIMESTAMP" property="changedate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="bankId" jdbcType="VARCHAR" property="bankid" />
+    <result column="soid" jdbcType="VARCHAR" property="soid" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <association column="id" property="abd" javaType="com.aaa.fresh.pojo.AccountBankData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="OPENING_BANK" jdbcType="VARCHAR" property="openingBank" />
+      <result column="ACCOUNT_NUMBER" jdbcType="VARCHAR" property="accountNumber" />
+      <result column="property" jdbcType="TIMESTAMP" property="property" />
+      <result column="VERSION" jdbcType="TIMESTAMP" property="version" />
+    </association>
+    <association column="oid" property="cod" javaType="com.aaa.fresh.pojo.ContractOrderData">
+      <id column="OID" jdbcType="VARCHAR" property="oid" />
+      <result column="TITLE" jdbcType="VARCHAR" property="title" />
+      <result column="BUYER" jdbcType="VARCHAR" property="buyer" />
+      <result column="SELLER" jdbcType="VARCHAR" property="seller" />
+      <result column="STATUS" jdbcType="VARCHAR" property="status" />
+      <result column="TOTAL_AMOUNT" jdbcType="TIMESTAMP" property="totalAmount" />
+      <result column="CONTRACT" jdbcType="VARCHAR" property="contract" />
+      <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="LAST_UPDATE_TIME" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+      <result column="PLATFORM" jdbcType="VARCHAR" property="platform" />
+      <result column="VERSION" jdbcType="INTEGER" property="version" />
+    </association>
+    <association column="id" property="adasd" javaType="com.aaa.fresh.pojo.AccountingDocumentAuditingSellData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="WHO" jdbcType="VARCHAR" property="who" />
+      <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+      <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
+      <result column="soid" jdbcType="VARCHAR" property="soid" />
+      <result column="VERSION" jdbcType="INTEGER" property="version" />
+    </association>
   </resultMap>
-  <select id="selectAll_BSI" resultType="com.aaa.fresh.pojo.AccountBankSellInfoData_vo">
-
+  <select id="selectAll_BSI" resultMap="BSI_All_Info">
+    select bsi.*,abd.* ,adasd.*,cod.*
+    from account_bank_sell_info_data bsi,
+    account_bank_data abd,
+    accounting_document_auditing_sell_data adasd,
+    contract_order_data cod
+    where bsi.soid = cod.OID
+        and bsi.bankId = abd.ID
+        and	adasd.soid = cod.OID
+    <if test="id != null and id != ''">
+      and bsi.ID = #{id}
+    </if>
+    <!--<if test="adasd.who != null and adasd.who != ''">
+      and adasd.who = #{who}
+    </if>-->
   </select>
 
   <sql id="Base_Column_List">

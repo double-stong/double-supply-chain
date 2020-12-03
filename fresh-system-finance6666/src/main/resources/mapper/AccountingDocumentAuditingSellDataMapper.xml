@@ -17,7 +17,7 @@
     <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
     <result column="soid" jdbcType="VARCHAR" property="soid" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
-    <association column="" property="cod" javaType="com.aaa.fresh.pojo.ContractOrderData">
+    <association column="oid" property="cod" javaType="com.aaa.fresh.pojo.ContractOrderData">
       <id column="OID" jdbcType="VARCHAR" property="oid" />
       <result column="TITLE" jdbcType="VARCHAR" property="title" />
       <result column="BUYER" jdbcType="VARCHAR" property="buyer" />

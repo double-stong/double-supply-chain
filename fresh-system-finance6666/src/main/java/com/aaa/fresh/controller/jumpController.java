@@ -11,19 +11,25 @@ public class jumpController extends BaseController {
     /* 查询所有 采购审核页面*/
     @GetMapping("/selectAllDAP")
     public String selectAllDAP(){
-        return "procurement/selectAllDAP";
+        return "/procurement/selectAllDAP";
     }
 
     /* 查询所有 采购总账页面*/
     @GetMapping("/selectAllBPI")
     public String selectAllBPI(){
-        return "procurement/selectAllBPI";
+        return "/procurement/selectAllBPI";
     }
 
     /* 查询所有 销售审核页面*/
     @GetMapping("/selectAllDAS")
     public String selectAllDAS(){
         return "selectAllDAS";
+    }
+
+    /* 查询所有 销售入账页面*/
+    @GetMapping("/selectAllBSI")
+    public String selectAllBSI(){
+        return "selectAllBSI";
     }
 
 }

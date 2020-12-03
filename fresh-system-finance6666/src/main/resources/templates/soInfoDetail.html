@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页</title>
+</head>
+<body>
+<div id="detail" style="display: none;padding: 20px;" th:fragment="detail_common">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">转账编号</label>
+        <div class="layui-input-block">
+            <input id="did" type="text" name="id" readonly class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">转账日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dchangedate" name="changedate"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" id="dremarks" name="remarks"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">销售订单号</label>
+        <div class="layui-input-block">
+            <input type="text" id="dsoid" name="soid"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单创建时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="dcreateTime" name="createTime"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">银行账户</label>
+        <div class="layui-input-block">
+            <input type="text" id="dopeningBank" name="openingBank" required readonly  lay-verify="required"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">卡号</label>
+        <div class="layui-input-block">
+            <input type="text" id="daccountNumber" name="accountNumber"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单总价</label>
+        <div class="layui-input-block">
+            <input type="text" id="dtotalAmount" name="totalAmount"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账户总资产</label>
+        <div class="layui-input-block">
+            <input type="text" id="dproperty" name="property"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">销售审核人</label>
+        <div class="layui-input-block">
+            <input type="text" id="dwho" name="who"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dmakeDate" name="makeDate"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核状态</label>
+        <div class="layui-input-block">
+            <input type="text" id="dstatus" name="status"  readonly   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结束日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="dlastUpdateTime" name="lastUpdateTime"  readonly   class="layui-input">
+        </div>
+    </div>
+
+</form>
+</div>
+</body>
+</html>
