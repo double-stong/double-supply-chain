@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -11,18 +12,19 @@ import java.util.List;
 @AllArgsConstructor
 public class ProcurementRequirementDataVo {
     private ProcurementRequirementData pro;
-//    private String id;
-//    private String name;
-//    private String buyer;
-//    private String requirementStatus;
-//    private Date createTime;
-//    private Date endTime;
-//
-//    private Double totalprice;
-//    private String approvalstatus;
-//    private Integer version;
+    private String id;
+    private String name;
+    private String buyer;
+    private String requirementStatus;
+    private Date createTime;
+    private Date endTime;
+
+    private Double totalprice;
+    private String approvalstatus;
+    private Integer version;
+
     private List<ProcurementItemData> items;
 
     private Integer page; //页码
-    private Integer size; //大小
+    private Integer limit; //大小
 }

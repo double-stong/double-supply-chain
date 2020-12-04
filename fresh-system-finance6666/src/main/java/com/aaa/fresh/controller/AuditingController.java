@@ -65,6 +65,57 @@ public class AuditingController extends BaseController {
     }
 
     /*
+    *   查询所有采购审批订单
+    * */
+    @GetMapping("/selectAllPRD")
+    public CommonResult selectAllPRD(ProcurementRequirementData prd){
+        //当前那一页
+        int currentPage = prd.getPage() == null ? 1:prd.getPage();
+        //当前页显示几条
+        int pageSize = prd.getLimit() == null ? 3:prd.getLimit();
+        //当前页  条数
+        PageHelper.startPage(currentPage,pageSize);
+
+        List<ProcurementRequirementData> prds = auditingService.selectAll_PRD(prd);
+        //把查询的所有数据 放到这个里面  插件自动分页
+        PageInfo<ProcurementRequirementData> pageinfo = new PageInfo<ProcurementRequirementData>(prds);
+        //总条数
+        Long total = Long.valueOf(pageinfo.getTotal()+"");
+        //获取当前页的数据
+        List<ProcurementRequirementData> list = pageinfo.getList();
+
+        if (prd!=null){
+            return new CommonResult(0,"",list,total);
+        }else {
+            return new CommonResult(0,"",null,null);
+        }
+    }
+    /* 查询所有订单商品信息*/
+    @GetMapping("/selectAllPID")
+    public CommonResult selectAllPID(ProcurementItemData pid){
+        //当前那一页
+        int currentPage = pid.getPage() == null ? 1:pid.getPage();
+        //当前页显示几条
+        int pageSize = pid.getLimit() == null ? 3:pid.getLimit();
+        //当前页  条数
+        PageHelper.startPage(currentPage,pageSize);
+
+        List<ProcurementItemData> prds = auditingService.selectAll_PID(pid);
+        //把查询的所有数据 放到这个里面  插件自动分页
+        PageInfo<ProcurementItemData> pageinfo = new PageInfo<ProcurementItemData>(prds);
+        //总条数
+        Long total = Long.valueOf(pageinfo.getTotal()+"");
+        //获取当前页的数据
+        List<ProcurementItemData> list = pageinfo.getList();
+
+        if (pid!=null){
+            return new CommonResult(0,"",list,total);
+        }else {
+            return new CommonResult(0,"",null,null);
+        }
+    }
+
+    /*
      * 修改销售订单状态 同时   添加 进账审批 信息
      * */
     @PutMapping("/updateCOD")

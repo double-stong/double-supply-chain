@@ -8,6 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/jumpController")
 public class jumpController extends BaseController {
+    /* 主页*/
+    @GetMapping("/toHome")
+    public String toHome(){
+        return "home";
+    }
+
+    /* 查询所有 采购订单审核页面*/
+    @GetMapping("/selectAllPRD")
+    public String selectAllPRD(){
+        return "selectAllPRD";
+    }
+
     /* 查询所有 采购审核页面*/
     @GetMapping("/selectAllDAP")
     public String selectAllDAP(){
@@ -23,13 +35,13 @@ public class jumpController extends BaseController {
     /* 查询所有 销售审核页面*/
     @GetMapping("/selectAllDAS")
     public String selectAllDAS(){
-        return "selectAllDAS";
+        return "/sell/selectAllDAS";
     }
 
     /* 查询所有 销售入账页面*/
     @GetMapping("/selectAllBSI")
     public String selectAllBSI(){
-        return "selectAllBSI";
+        return "/sell/selectAllBSI";
     }
 
 }

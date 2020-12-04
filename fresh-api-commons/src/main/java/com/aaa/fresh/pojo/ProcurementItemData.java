@@ -12,15 +12,16 @@ public class ProcurementItemData {
   private String id;
   private String name;
   private String product;
-  //数量
-  private Integer quatity;
   //单价
   private Double unitprice;
+  //数量
+  private Integer quatity;
+  //订单号
   private String procurementRequirement;
   private String status;
   private Integer version;
   private String eid;
   private Integer page; //页码
-  private Integer size; //大小
+  private Integer limit; //大小
 
 }

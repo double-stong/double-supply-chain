@@ -19,7 +19,12 @@ public interface AuditingService {
     //修改 进账审核状态
     int update_COD(ContractOrderData cod);
 
-    //查询所有 采购状态信息
+    //查询所有采购订单
+    List<ProcurementRequirementData> selectAll_PRD(ProcurementRequirementData prd);
+    //查询所有订单商品信息
+    List<ProcurementItemData> selectAll_PID(ProcurementItemData pid);
+
+    //查询所有 采购审批状态信息
     List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
 
     //查询所有 销售入账详细信息

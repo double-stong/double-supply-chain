@@ -47,6 +47,15 @@ public class AuditingServiceImpl implements AuditingService {
         return accountingDocumentAuditingSellDataMapper.update_COD(cod);
     }
 
+    @Override
+    public List<ProcurementRequirementData> selectAll_PRD(ProcurementRequirementData prd) {
+        return accountingDocumentAuditingProcurementDataMapper.selectAll_PRD(prd);
+    }
+
+    @Override
+    public List<ProcurementItemData> selectAll_PID(ProcurementItemData pid) {
+        return accountingDocumentAuditingProcurementDataMapper.selectAll_PID(pid);
+    }
 
     @Override
     public List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv) {

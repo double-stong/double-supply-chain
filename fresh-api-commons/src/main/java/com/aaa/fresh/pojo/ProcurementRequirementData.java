@@ -27,7 +27,7 @@ public class ProcurementRequirementData {
   private Integer version;
 
   private Integer page; //页码
-  private Integer size; //大小
+  private Integer limit; //大小
 
 
 }

@@ -1,8 +1,6 @@
 package com.aaa.fresh.mapper;
 
-import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData;
-import com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo;
-import com.aaa.fresh.pojo.ProcurementRequirementData;
+import com.aaa.fresh.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +9,11 @@ import java.util.List;
 @Mapper
 @Component
 public interface AccountingDocumentAuditingProcurementDataMapper {
+    //查询所有采购订单
+    List<ProcurementRequirementData> selectAll_PRD(ProcurementRequirementData prd);
+    //查询所有订单商品信息
+    List<ProcurementItemData> selectAll_PID(ProcurementItemData pid);
+
     //查询所有 采购状态信息
     List<AccountingDocumentAuditingProcurementData_vo> selectAll_DAP(AccountingDocumentAuditingProcurementData_vo adapdv);
 

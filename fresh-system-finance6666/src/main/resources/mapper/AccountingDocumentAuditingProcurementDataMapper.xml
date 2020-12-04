@@ -10,6 +10,95 @@
     <result column="VERSION" jdbcType="INTEGER" property="version" />
   </resultMap>
 
+  <!--查询所有 采购订单审核信息-->
+  <resultMap id="PRD_All_Info" type="com.aaa.fresh.pojo.ProcurementRequirementData">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+    <result column="totalprice" jdbcType="DECIMAL" property="totalprice" />
+    <result column="requirement_status" jdbcType="VARCHAR" property="requirementStatus" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="end_time" jdbcType="DATE" property="endTime" />
+    <result column="approvalstatus" jdbcType="VARCHAR" property="approvalstatus" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+  <select id="selectAll_PRD" resultMap="PRD_All_Info">
+    select id,name,buyer,requirement_status,create_time,end_time,totalprice,approvalstatus,version
+    from procurement_requirement_data
+    <trim prefix=" where" prefixOverrides="and">
+      <if test="id != null and id !='' ">
+        and id = #{id}
+      </if>
+      <if test="name != null and name !='' ">
+        and name = #{name}
+      </if>
+      <if test="buyer != null">
+        and buyer = #{buyer}
+      </if>
+      <if test="requirementStatus != null and requirementStatus != ''">
+        and requirement_status = #{requirementStatus}
+      </if>
+      <if test="createTime != null">
+        and create_time = #{createTime}
+      </if>
+      <if test="endTime != null">
+        and end_time = #{endTime}
+      </if>
+      <if test="totalprice != null">
+        and totalprice = #{totalprice}
+      </if>
+      <if test="approvalstatus != null">
+        and approvalstatus = #{approvalstatus}
+      </if>
+      <if test="version != null">
+        and version = #{version}
+      </if>
+    </trim>
+  </select>
+  <!--查询所有 采购订单商品信息-->
+  <resultMap id="PID_All_Info" type="com.aaa.fresh.pojo.ProcurementItemData">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="product" jdbcType="VARCHAR" property="product" />
+    <result column="quatity" jdbcType="INTEGER" property="quatity" />
+    <result column="unitprice" jdbcType="DOUBLE" property="unitprice" />
+    <result column="procurement_requirement" jdbcType="VARCHAR" property="procurementRequirement" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="eid" jdbcType="VARCHAR" property="eid" />
+  </resultMap>
+  <select id="selectAll_PID" resultMap="PID_All_Info">
+    select id,name,product,quatity,procurement_requirement,status,version,eid
+    from procurement_item_data
+    <where>
+      <if test="name != null">
+        and NAME = #{name}
+      </if>
+      <if test="product != null">
+        and product = #{product}
+      </if>
+      <if test="quatity != null">
+        and quatity = #{quatity}
+      </if>
+      <if test="unitprice != null">
+        and unitprice = #{unitprice}
+      </if>
+      <if test="procurementRequirement != null">
+        and procurement_requirement = #{procurementRequirement}
+      </if>
+      <if test="status != null">
+        and status = #{status}
+      </if>
+      <if test="version != null">
+        and version = #{version}
+      </if>
+      <if test="eid != null">
+        and eid = #{eid}
+      </if>
+    </where>
+  </select>
+
+  <!-- 查询所有 采购审核信息-->
   <resultMap id="DAP_All_Info" type="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="WHO" jdbcType="VARCHAR" property="who" />
@@ -98,8 +187,6 @@
       </if>
     </trim>
   </insert>
-
-
 
   <resultMap id="procurementItemDataMap" type="com.aaa.fresh.pojo.ProcurementItemData">
     <result column="id" jdbcType="VARCHAR" property="id" />
