@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.EligibleVendorDataMapper">
+  <resultMap id="BaseResultMap" type="com.aaa.fresh.pojo.EligibleVendorData">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="VENDOR" jdbcType="VARCHAR" property="vendor" />
+    <result column="BUYER" jdbcType="VARCHAR" property="buyer" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, `NAME`, VENDOR, BUYER, CREATE_TIME, VERSION
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from eligible_vendor_data
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from eligible_vendor_data
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from eligible_vendor_data
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.EligibleVendorData" useGeneratedKeys="true">
+    insert into eligible_vendor_data (`NAME`, VENDOR, BUYER, 
+      CREATE_TIME, VERSION)
+    values (#{name,jdbcType=VARCHAR}, #{vendor,jdbcType=VARCHAR}, #{buyer,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.EligibleVendorData" useGeneratedKeys="true">
+    insert into eligible_vendor_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `NAME`,
+      </if>
+      <if test="vendor != null">
+        VENDOR,
+      </if>
+      <if test="buyer != null">
+        BUYER,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null">
+        #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer != null">
+        #{buyer,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aaa.fresh.pojo.EligibleVendorData">
+    update eligible_vendor_data
+    <set>
+      <if test="name != null">
+        `NAME` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null">
+        VENDOR = #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer != null">
+        BUYER = #{buyer,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aaa.fresh.pojo.EligibleVendorData">
+    update eligible_vendor_data
+    set `NAME` = #{name,jdbcType=VARCHAR},
+      VENDOR = #{vendor,jdbcType=VARCHAR},
+      BUYER = #{buyer,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -30,4 +30,6 @@ public interface StockChangeService {
     StockChangeItemData selChangeItemById(String Id);
     //修改出入库的状态 默认为0 为未领取  修改值为1 状态为 已领取 减少库存
     int updChangeItemVersion(@Param("Id") String Id, @Param("version") Integer version);
+    //管理员审批修改
+    int updChangeVersion(@Param("Id") String Id,@Param("version") Integer version);
 }

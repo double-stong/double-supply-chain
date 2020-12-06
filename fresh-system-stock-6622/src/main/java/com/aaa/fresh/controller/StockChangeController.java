@@ -165,4 +165,20 @@ public class StockChangeController extends BaseController {
             return new CommonResult<>(444,"失败",null,null);
         }
     }
+
+    /**
+     * 管理员修改出库的状态
+     * @param Id
+     * @param version
+     * @return
+     */
+    @PutMapping("/updChangeVersion")
+    public CommonResult<Integer> updChangeVersion(String Id,Integer version){
+        int res = stockChangeService.updChangeVersion(Id,version);
+        if (res>0){
+            return new CommonResult<>(200,"成功",res,null);
+        }else {
+            return new CommonResult<>(444,"失败",null,null);
+        }
+    }
 }

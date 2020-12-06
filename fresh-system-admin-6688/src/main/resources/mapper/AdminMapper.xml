@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.AdminMapper">
+
+    <resultMap id="loginUserMap" type="LoginUserVo">
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+        <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
+        <result column="user_real_name" jdbcType="VARCHAR" property="userRealName" />
+        <result column="user_state" jdbcType="INTEGER" property="userState" />
+        <result column="user_pic" jdbcType="VARCHAR" property="userPic" />
+
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_des" jdbcType="VARCHAR" property="roleDes" />
+        <result column="role_state" jdbcType="INTEGER" property="roleState" />
+        <result column="click" jdbcType="VARCHAR" property="click"/>
+
+        <collection property="tbRolesList" ofType="TbRoles" >
+            <result column="role_id" jdbcType="INTEGER" property="roleId" />
+            <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+            <result column="role_des" jdbcType="VARCHAR" property="roleDes" />
+            <result column="role_state" jdbcType="INTEGER" property="roleState" />
+            <result column="click" jdbcType="VARCHAR" property="click"/>
+        </collection>
+    </resultMap>
+
+    <select id="loginUser" resultMap="loginUserMap">
+        SELECT user_id, login_name, login_pwd, user_real_name, user_state, user_pic
+        FROM supplychain.login_user
+        WHERE login_name = #{user} AND
+            login_pwd = #{password}
+    </select>
+    <!--根据用户名查询用户的原来的密码-->
+    <select id="selOldPasswprld" resultType="String" parameterType="String">
+        SELECT login_pwd
+        FROM supplychain.login_user
+        WHERE login_name = #{loginUser}
+    </select>
+
+    <!--修改用户的密码-->
+    <update id="updPassworld" >
+        UPDATE supplychain.login_user
+        SET  login_pwd = #{newPassworld}
+        WHERE login_name = #{loginUser}
+    </update>
+
+
+    <!--根据登陆的账户查询出用户的角色-->
+    <resultMap id="tbRolesMap" type="com.aaa.fresh.pojo.TbRoles">
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_des" jdbcType="VARCHAR" property="roleDes" />
+        <result column="role_state" jdbcType="INTEGER" property="roleState" />
+        <result column="click" jdbcType="VARCHAR" property="click"/>
+        <result column="user_role_id" jdbcType="INTEGER" property="userRoleId"/>
+    </resultMap>
+    <select id="selAllRoles" parameterType="Integer" resultMap="tbRolesMap">
+        SELECT tr.*,ur.user_role_id
+        FROM
+            supplychain.user_role ur ,
+            supplychain.tb_roles tr
+        WHERE
+              ur.user_id = #{userId} AND
+              ur.role_id = tr.role_id
+    </select>
+
+    <!--根据用户的角色查询用户的功能-->
+    <resultMap id="tbResourcesMap" type="TbRolesVo">
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_des" jdbcType="VARCHAR" property="roleDes" />
+        <result column="role_state" jdbcType="INTEGER" property="roleState" />
+        <result column="click" jdbcType="VARCHAR" property="click" />
+        <result column="ids" jdbcType="INTEGER" property="id"/>
+        <collection property="tbResourcesList" ofType="TbResources">
+            <result column="id" jdbcType="INTEGER" property="id" />
+            <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+            <result column="menus" jdbcType="VARCHAR" property="roleName"/>
+            <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
+            <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+            <result column="type" jdbcType="INTEGER" property="type" />
+            <result column="remark" jdbcType="VARCHAR" property="remark" />
+            <result column="state" jdbcType="INTEGER" property="state" />
+            <result column="children_id" jdbcType="VARCHAR" property="childrenId" />
+
+            <result column="resource_role_id" jdbcType="INTEGER" property="resourceRoleId" />
+            <result column="role_id" jdbcType="INTEGER" property="roleId" />
+            <result column="resources_id" jdbcType="INTEGER" property="resourcesId" />
+        </collection>
+    </resultMap>
+    <select id="selAllResources" parameterType="Integer" resultMap="tbResourcesMap">
+        SELECT
+            a.*,b.*
+        FROM
+            tb_roles a,tb_resources b,resource_role c
+        WHERE
+            a.role_id  = #{roleId} AND
+            c.role_id = a.role_id AND
+            c.resources_id = b.id
+    </select>
+
+
+    <!--查询总条数-->
+    <sql id="sel">
+        <if test="loginName != null and loginName != ''">
+            AND login_name = #{loginName}
+        </if>
+        <if test="userRealName != null and userRealName != ''">
+            AND user_real_name = #{userRealName}
+        </if>
+    </sql>
+    <select id="selCountUser" resultType="Long" parameterType="LoginUser">
+        SELECT COUNT(*) from supplychain.login_user
+        <where>
+            <include refid="sel"/>
+        </where>
+
+    </select>
+
+    <select id="selAllLoginUser" parameterType="LoginUser" resultMap="loginUserMap">
+        SELECT
+            lu.*,tr.*
+        FROM
+             supplychain.user_role ur,
+             supplychain.tb_roles tr,
+             supplychain.login_user lu
+        WHERE
+        ur .role_id  = tr.role_id AND
+        ur.user_id != 1 AND
+        ur .user_id = lu .user_id
+        <include refid="sel"/>
+        <if test="page != null and page != '' and size != null and size != ''">
+            LIMIT #{page},#{size}
+        </if>
+    </select>
+
+    <!--修改账户状态-->
+    <update id="updUserState" >
+        UPDATE supplychain.login_user
+        SET user_state = #{userState}
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="selAllResourceRole" resultMap="tbResourcesMap">
+        SELECT  tr.role_id ids,tr.role_name ,
+                rr.resource_role_id,
+                tr2.id ,tr2.menu_name menus
+        FROM
+             supplychain.tb_roles tr
+        LEFT JOIN
+             supplychain.resource_role rr
+        on
+            rr .role_id = tr.role_id
+        LEFT JOIN
+             supplychain.tb_resources tr2
+        on
+            tr2.id = rr.resources_id
+    </select>
+
+    <!--查询出某个用户的功能以及权限-->
+    <select id="selOneResourceRole" resultMap="tbResourcesMap">
+        SELECT
+            b.*
+        FROM (
+             SELECT
+                 ur.role_id
+             FROM
+                 supplychain.login_user lu ,
+                 supplychain.user_role ur
+             where
+                 lu .login_name = #{loginName} AND
+                 lu .user_id = ur .user_id
+              ) a,
+             (SELECT
+                  tr.role_id ids,tr.role_name ,
+                  rr.resource_role_id,rr.resources_id ,
+                  tr2.id,tr2.menu_name menus
+              FROM
+                  supplychain.tb_roles tr
+                      LEFT JOIN
+                  supplychain.resource_role rr
+                  on
+                      rr .role_id = tr.role_id
+                      LEFT JOIN
+                  supplychain.tb_resources tr2
+                  on
+                      tr2.id = rr .resources_id
+              )b
+        WHERE
+            b.ids in (a.role_id)
+    </select>
+  <!--  //删除角色功能中间表
+    int delResourceRole(Integer ResourceRoleId);
+    //删除用户功能中间表
+    int delUserRole(Integer userRoleId);
+    //添加用户角色中间表
+    int addUSerRole(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
+    //添加用户角色功能中间表
+    int addResourceRole(@Param("roleId") Integer roleId,@Param("resourceId") Integer resourceId);-->
+    <!--删除角色功能中间表-->
+    <delete id="delResourceRole" parameterType="Integer">
+        DELETE
+        FROM
+            supplychain.resource_role
+        WHERE
+              resource_role_id = #{resourceRoleId}
+    </delete>
+    <!--删除用户功能中间表-->
+    <delete id="delUserRole" parameterType="Integer">
+        DELETE
+        FROM supplychain.user_role
+        WHERE user_role_id = #{userRoleId}
+    </delete>
+    <!--添加用户角色中间表-->
+    <insert id="addUSerRole" >
+        INSERT INTO
+            supplychain.user_role(user_id, role_id)
+        VALUES
+               (#{userId},#{roleId})
+    </insert>
+    <!--添加用户角色功能中间表-->
+    <insert id="addResourceRole">
+        INSERT INTO
+            supplychain.resource_role(role_id, resources_id)
+        VALUES (#{roleId},#{resourceId})
+    </insert>
+
+</mapper>

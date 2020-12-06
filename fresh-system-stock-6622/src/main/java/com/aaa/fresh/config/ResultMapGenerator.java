@@ -87,7 +87,7 @@ public class ResultMapGenerator {
     }
 
     public static void main(String[] args) {
-        String resultMap = ResultMapGenerator.generate(StockChangeItemData.class);
+        String resultMap = ResultMapGenerator.generate(ResourceRole.class);
         System.out.println(resultMap);
 
 

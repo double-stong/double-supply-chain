@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.ProcurementRequirementDataMapper">
+    <resultMap id="procurementRequirementDataMap" type="com.aaa.fresh.pojo.ProcurementRequirementData">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+        <result column="requirement_status" jdbcType="VARCHAR" property="requirementStatus" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="end_time" jdbcType="DATE" property="endTime" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+    </resultMap>
+    <!--查询总条数-->
+    <select id="allTotal" resultType="Long" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
+        select count(*) from procurement_requirement_data
+        <where>
+            <if test="name != null">
+                and NAME = #{name}
+            </if>
+            <if test="buyer != null">
+                and buyer = #{buyer}
+            </if>
+            <if test="requirementStatus != null">
+                and requirement_status = #{requirementStatus}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectAll" resultMap="procurementRequirementDataMap" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
+        SELECT id,name,buyer,requirement_status,create_time,end_time,totalprice,approvalstatus,version
+        FROM procurement_requirement_data
+        <where>
+            <if test="id != null and id !='' ">
+                and id = #{id }
+            </if>
+            <if test="name != null and name !='' ">
+                and name = #{name}
+            </if>
+            <if test="buyer != null">
+                and buyer = #{buyer}
+            </if>
+            <if test="requirementStatus != null and requirementStatus != ''">
+                and requirement_status = #{requirementStatus}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="totalprice != null">
+                and totalprice = #{totalprice}
+            </if>
+            <if test="approvalstatus != null">
+                and approvalstatus = #{approvalstatus}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
+    insert into procurement_requirement_data (id,name,buyer,requirement_status,
+    create_time,totalprice,approvalstatus,version)
+    values (#{id},#{name},#{buyer},#{requirementStatus},#{createTime},#{totalprice},#{approvalstatus},#{version})
+  </insert>
+    <update id="update" parameterType="com.aaa.fresh.pojo.ProcurementRequirementData">
+    update procurement_requirement_data set name = #{name},buyer = #{buyer},
+    requirement_status = #{requirementStatus},create_time=#{createTime},end_time=#{endTime},totalprice=#{totalprice},
+    approvalstatus=#{approvalstatus},version=#{version}
+    where id = #{id}
+  </update>
+
+</mapper>

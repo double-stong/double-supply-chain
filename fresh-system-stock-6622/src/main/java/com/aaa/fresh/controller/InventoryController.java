@@ -4,11 +4,14 @@ import cn.hutool.core.util.IdUtil;
 import com.aaa.fresh.config.BaseController;
 import com.aaa.fresh.pojo.CommonResult;
 import com.aaa.fresh.pojo.InventoryData;
+import com.aaa.fresh.pojo.ProcurementRequirementDataVo;
 import com.aaa.fresh.pojo.StockChangeItemData;
 import com.aaa.fresh.service.InventoryService;
+import com.aaa.fresh.service.Po6655;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,6 +22,10 @@ import java.util.List;
 public class InventoryController extends BaseController {
     @Autowired
     private InventoryService inventoryService;
+
+//    @Resource
+//    private Po6655 po6655;
+
 
     /**
      * 查询所有的
@@ -171,4 +178,14 @@ public class InventoryController extends BaseController {
             return new CommonResult<>(200,"成功",null,null);
         }
     }
+
+//    @GetMapping("/consumer/po/insitems")
+//    public CommonResult<Integer> addItems(ProcurementRequirementDataVo prvo){
+//        int res = po6655.addItems(prvo);
+//        if (res>0){
+//            return new CommonResult<>(200,"成功",res,null);
+//        }else {
+//            return new CommonResult<>(200,"成功",null,null);
+//        }
+//    }
 }

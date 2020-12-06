@@ -66,4 +66,9 @@ public class StockChangeServiceImpl implements StockChangeService {
     public int updChangeItemVersion(String Id, Integer version) {
         return mapper.updChangeItemVersion(Id,version);
     }
+
+    @Override
+    public int updChangeVersion(String Id, Integer version) {
+        return mapper.updChangeVersion(Id, version);
+    }
 }

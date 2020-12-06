@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.fresh.mapper.AccountingDocumentAuditingProcurementDataMapper">
+  <resultMap id="BaseResultMap" type="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="WHO" jdbcType="VARCHAR" property="who" />
+    <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+    <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
+    <result column="poid" jdbcType="VARCHAR" property="poid" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+  <resultMap id="DAP_All_Info" type="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData_vo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="WHO" jdbcType="VARCHAR" property="who" />
+    <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+    <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
+    <result column="poid" jdbcType="VARCHAR" property="poid" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <association property="prd" javaType="com.aaa.fresh.pojo.ProcurementRequirementData">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+      <result column="totalprice" jdbcType="DECIMAL" property="totalprice" />
+      <result column="requirement_status" jdbcType="VARCHAR" property="requirementStatus" />
+      <result column="create_time" jdbcType="DATE" property="createTime" />
+      <result column="end_time" jdbcType="DATE" property="endTime" />
+      <result column="approvalstatus" jdbcType="VARCHAR" property="approvalstatus" />
+      <result column="version" jdbcType="INTEGER" property="version" />
+    </association>
+  </resultMap>
+  <select id="selectAll_DAP" resultMap="DAP_All_Info">
+    select dap.*,prd.*
+    from accounting_document_auditing_procurement_data dap,
+    procurement_requirement_data prd
+    where dap.poid = prd.ID
+      <if test="id != null and id != '' ">
+        and dap.ID = #{id}
+      </if>
+      <if test="who != null and who !='' ">
+        and dap.WHO = #{who}
+      </if>
+      <if test="poid != null and poid !='' ">
+        and dap.poid = #{poid}
+      </if>
+  </select>
+
+  <sql id="Base_Column_List">
+    ID, WHO, COMMENTS, MAKE_DATE, poid, VERSION
+  </sql>
+  <select id="selectByPrimaryKey_DAP" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from accounting_document_auditing_procurement_data
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insert_DAP" keyColumn="ID" keyProperty="id" parameterType="com.aaa.fresh.pojo.AccountingDocumentAuditingProcurementData" useGeneratedKeys="true">
+    insert into accounting_document_auditing_procurement_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="who != null">
+        WHO,
+      </if>
+      <if test="comments != null">
+        COMMENTS,
+      </if>
+      <if test="makeDate != null">
+        MAKE_DATE,
+      </if>
+      <if test="poid != null">
+        poid,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="who != null">
+        #{who,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null">
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="makeDate != null">
+        #{makeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poid != null">
+        #{poid,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <resultMap id="procurementItemDataMap" type="com.aaa.fresh.pojo.ProcurementItemData">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="product" jdbcType="VARCHAR" property="product" />
+    <result column="quatity" jdbcType="INTEGER" property="quatity" />
+    <result column="unitprice" jdbcType="DOUBLE" property="unitprice" />
+    <result column="procurement_requirement" jdbcType="VARCHAR" property="procurementRequirement" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="eid" jdbcType="VARCHAR" property="eid" />
+  </resultMap>
+  <update id="update_PRD">
+    update procurement_item_data
+    set name = #{name},product = #{product},quatity = #{quatity},unitprice=#{unitprice}
+        procurement_requirement=#{procurement_requirement},status=#{status},version=#{version},eid=#{eid}
+    where id = #{id}
+  </update>
+
+</mapper>
